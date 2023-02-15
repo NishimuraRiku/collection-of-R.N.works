@@ -1,0 +1,460 @@
+#========================================
+#
+# OBJ:ステージ[00] の種類毎の情報
+#
+# Author: 西村 吏功
+#
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#00
+TYPE
+	CORE_SET_POS:	0 0 -72
+	SWITCH_SET_POS:	0 0 -48
+	
+	GATESET	#ゲート設定情報
+		GATE	#00 左
+			POS:		-172 0 0
+			BOSS_POINT:	-144 0 0
+			SETROT:		0 0.5 0
+			WIDTH:		0
+			DEPTH:		16
+		GATE_END
+		GATE	#01 上
+			POS:		0 0 172
+			BOSS_POINT:	0 0 144
+			SETROT:		0 1.0 0
+			WIDTH:		16
+			DEPTH:		0
+		GATE_END
+		GATE	#02 右
+			POS:		172 0 0
+			BOSS_POINT:	144 0 0
+			SETROT:		0 -0.5 0
+			WIDTH:		0
+			DEPTH:		16
+		GATE_END
+	GATESET_END
+	
+	ATTENTIONMARKSET	#注意マーク設定情報
+		ATTENTIONMARK	#00 左
+			POS:	-108 0 0
+			ROT:	0 -0.5 0
+		ATTENTIONMARK_END
+		ATTENTIONMARK	#01 上
+			POS:	0 0 108
+			ROT:	0 0 0
+		ATTENTIONMARK_END
+		ATTENTIONMARK	#02 右
+			POS:	108 0 0
+			ROT:	0 0.5 0
+		ATTENTIONMARK_END
+	ATTENTIONMARKSET_END
+	
+	WAVESET	#ウェーブ設定情報
+		LOOP_POINT:	4
+		
+		WAVE	#00
+			INTERVAL_TIME:			90
+			INTERVAL_BGM:			0
+			RAID_BGM:				20
+			INTERVAL_GROUND_COLOR:	0 105 41 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		29 29 29 255
+			RAID_SKY_COLOR:			36 36 56 255
+			WARNING_TEXT:			0
+			MAIN_COUNT:				0
+			
+			ENEMYSET
+				SET:	0	1	0
+				SET:	1	1	0
+				SET:	2	1	2
+				SET:	3	1	0
+				SET:	4	1	2
+				SET:	5	1	2
+				SET:	6	1	0
+				SET:	7	1	0
+			ENEMYSET_END
+		WAVE_END
+		
+		WAVE	#01
+			INTERVAL_TIME:			30
+			INTERVAL_BGM:			0
+			RAID_BGM:				20
+			INTERVAL_GROUND_COLOR:	0 105 41 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		29 29 29 255
+			RAID_SKY_COLOR:			36 36 56 255
+			WARNING_TEXT:			0
+			MAIN_COUNT:				0
+			
+			ENEMYSET
+				SET:	0	0	2
+				SET:	1	1	0
+				SET:	2	0	2
+				SET:	3	1	0
+				SET:	4	0	2
+				SET:	5	1	2
+				SET:	6	0	0
+				SET:	7	1	0
+				SET:	8	0	2
+				SET:	9	1	0
+				SET:	10	0	0
+				SET:	11	1	1
+			ENEMYSET_END
+		WAVE_END
+		
+		WAVE	#02
+			INTERVAL_TIME:			30
+			INTERVAL_BGM:			0
+			RAID_BGM:				20
+			INTERVAL_GROUND_COLOR:	0 105 41 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		29 29 29 255
+			RAID_SKY_COLOR:			36 36 56 255
+			WARNING_TEXT:			0
+			MAIN_COUNT:				0
+			
+			ENEMYSET
+				SET:	0	2	0
+				SET:	1	1	0
+				SET:	2	2	1
+				SET:	3	1	2
+				SET:	4	2	0
+				SET:	5	2	0
+				SET:	6	1	0
+				SET:	7	2	1
+				SET:	8	1	2
+				SET:	9	2	0
+				SET:	10	2	2
+				SET:	11	1	0
+				SET:	12	2	1
+				SET:	13	1	0
+			ENEMYSET_END
+		WAVE_END
+		
+		WAVE	#03
+			INTERVAL_TIME:			60
+			INTERVAL_BGM:			0
+			RAID_BGM:				22
+			INTERVAL_GROUND_COLOR:	0 105 41 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		80 35 80 255
+			RAID_SKY_COLOR:			126 10 0 255
+			WARNING_TEXT:			1
+			MAIN_COUNT:				0
+			
+			ENEMYSET
+				SET:	0	1	9
+			ENEMYSET_END
+		WAVE_END
+		
+		WAVE	#04
+			INTERVAL_TIME:			30
+			INTERVAL_BGM:			35
+			RAID_BGM:				36
+			INTERVAL_GROUND_COLOR:	40 80 20 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		29 29 29 255
+			RAID_SKY_COLOR:			36 36 56 255
+			WARNING_TEXT:			0
+			MAIN_COUNT:				1
+			
+			ENEMYSET
+				SET:	0	1	12
+				SET:	1	1	12
+				SET:	2	1	8
+				SET:	3	1	1
+				SET:	4	1	12
+				SET:	5	1	12
+				SET:	6	1	8
+				SET:	7	1	1
+				SET:	8	1	12
+				SET:	9	1	12
+				SET:	10	1	1
+				SET:	11	1	12
+			ENEMYSET_END
+		WAVE_END
+		
+		
+		WAVE	#05
+			INTERVAL_TIME:			30
+			INTERVAL_BGM:			35
+			RAID_BGM:				36
+			INTERVAL_GROUND_COLOR:	40 80 20 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		29 29 29 255
+			RAID_SKY_COLOR:			36 36 56 255
+			WARNING_TEXT:			0
+			MAIN_COUNT:				0
+			
+			ENEMYSET
+				SET:	0	0	12
+				SET:	1	0	8
+				SET:	2	1	6
+				SET:	3	1	1
+				SET:	4	0	8
+				SET:	5	0	12
+				SET:	6	1	6
+				SET:	7	1	8
+				SET:	8	0	1
+				SET:	9	0	12
+				SET:	10	1	8
+				SET:	11	1	12
+				SET:	12	0	6
+				SET:	13	0	8
+			ENEMYSET_END
+		WAVE_END
+		
+		WAVE	#06
+			INTERVAL_TIME:			30
+			INTERVAL_BGM:			35
+			RAID_BGM:				36
+			INTERVAL_GROUND_COLOR:	40 80 20 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		29 29 29 255
+			RAID_SKY_COLOR:			36 36 56 255
+			WARNING_TEXT:			0
+			MAIN_COUNT:				0
+			
+			ENEMYSET
+				SET:	0	0	12
+				SET:	1	0	8
+				SET:	2	2	6
+				SET:	3	2	1
+				SET:	4	0	6
+				SET:	5	0	12
+				SET:	6	2	12
+				SET:	7	2	8
+				SET:	8	0	1
+				SET:	9	0	6
+				SET:	10	2	8
+				SET:	11	2	12
+				SET:	12	0	6
+				SET:	13	0	8
+				SET:	14	2	1
+				SET:	15	2	6
+			ENEMYSET_END
+		WAVE_END
+		
+		WAVE	#07
+			INTERVAL_TIME:			60
+			INTERVAL_BGM:			35
+			RAID_BGM:				37
+			INTERVAL_GROUND_COLOR:	40 80 20 255
+			INTERVAL_SKY_COLOR:		36 36 56 255
+			RAID_GROUND_COLOR:		80 26 26 255
+			RAID_SKY_COLOR:			126 10 0 255
+			WARNING_TEXT:			1
+			MAIN_COUNT:				0
+			
+			ENEMYSET
+				SET:	0	0	4
+			ENEMYSET_END
+		WAVE_END
+		
+	WAVESET_END
+	
+	PEDESTALSET	#台座設定情報
+		#==========
+		PEDESTAL	#00
+			POS:	-24 0 -56
+			TYPE:	0
+		PEDESTAL_END
+		PEDESTAL	#01
+			POS:	-24 0 -72
+			TYPE:	0
+		PEDESTAL_END
+		PEDESTAL	#02
+			POS:	-24 0 -88
+			TYPE:	0
+		PEDESTAL_END
+		#==========
+		PEDESTAL	#03
+			POS:	24 0 -56
+			TYPE:	0
+		PEDESTAL_END
+		PEDESTAL	#04
+			POS:	24 0 -72
+			TYPE:	0
+		PEDESTAL_END
+		PEDESTAL	#05
+			POS:	24 0 -88
+			TYPE:	0
+		PEDESTAL_END
+	PEDESTALSET_END
+	
+	ITEMSSET	#品揃え設定情報
+		ITEMS 1 0 3 5 7 6
+		ITEMS 2 0 1 4 7 6
+		ITEMS 1 2 3 5 7 6
+		ITEMS 2 0 3 4 7 6
+	ITEMSSET_END
+	
+	HITTESTSET	#当たり判定設定情報
+		ALL_SCALE:	0.125
+		
+		HITTEST	#00 通常
+			#==========
+			HITTEST_PARTS	#00
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	72 0 144
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#01
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	144 0 72
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#02
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			144
+				RELATIVE_POS:	144 0 -108
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#03
+				TYPE:			1
+				WIDTH:			216
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	0 0 -216
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#05
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			144
+				RELATIVE_POS:	-144 0 -108
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#06
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	-144 0 72
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#07
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	-72 0 144
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			#==========00扉周辺
+			HITTEST_PARTS	#08
+				TYPE:			1
+				WIDTH:			8
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	-184 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			#==========01扉周辺
+			HITTEST_PARTS	#09
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			8
+				RELATIVE_POS:	0 0 184
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			#==========02扉周辺
+			HITTEST_PARTS	#10
+				TYPE:			1
+				WIDTH:			8
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	184 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+		HITTEST_END
+		
+		HITTEST	#01 With設定位置
+			
+			HITTEST_PARTS	#00 00扉前
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	-144 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#01 01扉前
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	0 0 144
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#02 02扉前
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	144 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS	#03 コア周辺
+				TYPE:			1
+				WIDTH:			72
+				HEIGHT:			0
+				DEPTH:			72
+				RELATIVE_POS:	0 0 -72
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+	PARTSSET	#部品設定情報
+	
+		PARTS	#00 基盤
+			MODEL_PATH:			data\\MODEL\\Stage\\stg_base_000\\base_x0.1.x
+			PARENT:				-1
+			RELATIVE_POS:		0.0 0.0 0.0
+			RELATIVE_ROT:		0.0 0.0 0.0
+			ROT_RELATIVE_ROT:	0.0 0.0 0,0
+		PARTS_END
+		
+		PARTS	#01 地面
+			MODEL_PATH:			data\\MODEL\\Stage\\stg_base_000\\ground_x0.1.x
+			PARENT:				0
+			RELATIVE_POS:		0.0 0.0 0.0
+			RELATIVE_ROT:		0.0 0.0 0.0
+			ROT_RELATIVE_ROT:	0.0 0.0 0,0
+		PARTS_END
+		
+	PARTSSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#========================================
+
+END

@@ -1,0 +1,38 @@
+#========================================
+#
+# OBJ:É^ÉåÉbÉg[00] ÇÃéÌóﬁñàÇÃèÓïÒ
+#
+# Author: êºë∫ óôå˜
+#
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#00
+TYPE
+	HIT_POINT:		40
+	BULLET_TYPE:	3
+	SHOT_TIME:		20
+	RIGOR_TIME:		40
+	SEARCH_RANGE:	120.0
+	MODEL_PATH:		data\\MODEL\\Object\\obj_turret_000\\Model\\body_x0.1.x
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			1
+				WIDTH:			8
+				HEIGHT:			0
+				DEPTH:			8
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#========================================
+
+END

@@ -1,0 +1,37 @@
+#========================================
+#
+# OBJ:ï˙ìdëïíu[00] ÇÃéÌóﬁñàÇÃèÓïÒ
+#
+# Author: êºë∫ óôå˜
+#
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#00
+TYPE
+	HIT_POINT:		50
+	BULLET_TYPE:	1
+	SHOT_NUM:		4
+	SHOT_TIME:		150
+	MODEL_PATH:		data\\MODEL\\Object\\obj_discharger_000\\Model\\body_x0.1.x
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			1
+				WIDTH:			8
+				HEIGHT:			0
+				DEPTH:			8
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#========================================
+
+END

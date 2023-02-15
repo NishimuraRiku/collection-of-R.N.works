@@ -1,0 +1,96 @@
+#========================================
+#
+# OBJ:スイッチ[00] の種類毎の情報
+#
+# Author: 西村 吏功
+#
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#00
+TYPE
+	HITTESTSET	#当たり判定設定情報
+	
+		HITTEST	#00 通常
+			HITTEST_PARTS
+				TYPE:			1
+				WIDTH:			6
+				HEIGHT:			0
+				DEPTH:			6
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+	
+	HITTESTSET_END
+	
+	PARTSSET	#部品設定情報
+	
+		PARTS	#00 本体
+			MODEL_PATH:			data\\MODEL\\Object\\obj_switch_000\\body_x0.1.x
+			PARENT:				-1
+			RELATIVE_POS:		0.0 0.0 0.0
+			RELATIVE_ROT:		0.0 0.0 0.0
+			ROT_RELATIVE_ROT:	0.0 0.0 0,0
+		PARTS_END
+		
+		PARTS	#01 スイッチ
+			MODEL_PATH:			data\\MODEL\\Object\\obj_switch_000\\switch_x0.1.x
+			PARENT:				0
+			RELATIVE_POS:		0.0 3.0 0.0
+			RELATIVE_ROT:		0.0 0.0 0.0
+			ROT_RELATIVE_ROT:	0.0 0.0 0,0
+		PARTS_END
+		
+	PARTSSET_END
+	
+	MOTIONSET	#モーション設定情報
+		MOTION	#00==========待機==========
+			LOOP_TIME:	60
+			LOOP:		1
+			
+			PARTS	#00 本体
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#01 スイッチ
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+				ROTATION_ANIM_END
+			PARTS_END
+		MOTION_END
+		
+		MOTION	#01==========押下==========
+			LOOP_TIME:	10
+			LOOP:		0
+			
+			SOUND_ANIM
+				TIME 0	27
+			SOUND_ANIM_END
+			
+			PARTS	#00 本体
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#01 スイッチ
+				POSITION_ANIM
+					TIME 0 0.0 -1.5 0.0 0
+					TIME 0 0.0 0.0 0.0 10
+				POSITION_ANIM_END
+				ROTATION_ANIM
+				ROTATION_ANIM_END
+			PARTS_END
+		MOTION_END
+	MOTIONSET_END
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#========================================
+
+END

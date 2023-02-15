@@ -1,0 +1,196 @@
+#========================================
+#
+# ATK:íe[00] ÇÃéÌóﬁñàÇÃèÓïÒ
+#
+# Author: êºë∫ óôå˜
+#
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#00
+TYPE
+	LIFE:			60
+	MOVE_FORCE:		4.0
+	DAMAGE:			10
+	ELEM:			0
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_shot_000.png
+	PTN_WIDTH:		2
+	PTN_HEIGHT:		1
+	PTN_MAX:		1
+	ANIM_TIME:		3
+	SHADOW_RADIUS:	5.0
+	EXPLOSION_TYPE:	0
+	LIGHT_TYPE:		0
+	PARTICLE_TYPE:	0
+	SET_SE:			4
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			3
+				WIDTH:			4
+				HEIGHT:			0
+				DEPTH:			4
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#01
+TYPE
+	LIFE:			90
+	MOVE_FORCE:		2.0
+	DAMAGE:			5
+	ELEM:			1
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_shot_001.png
+	PTN_WIDTH:		2
+	PTN_HEIGHT:		1
+	PTN_MAX:		1
+	ANIM_TIME:		3
+	SHADOW_RADIUS:	5.0
+	EXPLOSION_TYPE:	0
+	LIGHT_TYPE:		2
+	PARTICLE_TYPE:	1
+	SET_SE:			6
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			3
+				WIDTH:			4
+				HEIGHT:			0
+				DEPTH:			4
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#02
+TYPE
+	LIFE:			120
+	MOVE_FORCE:		2.0
+	DAMAGE:			20
+	ELEM:			0
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_shot_002.png
+	PTN_WIDTH:		2
+	PTN_HEIGHT:		1
+	PTN_MAX:		1
+	ANIM_TIME:		3
+	SHADOW_RADIUS:	5.0
+	EXPLOSION_TYPE:	0
+	LIGHT_TYPE:		4
+	PARTICLE_TYPE:	2
+	SET_SE:			5
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			3
+				WIDTH:			4
+				HEIGHT:			0
+				DEPTH:			4
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#03
+TYPE
+	LIFE:			60
+	MOVE_FORCE:		4.0
+	DAMAGE:			10
+	ELEM:			0
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_shot_000.png
+	PTN_WIDTH:		2
+	PTN_HEIGHT:		1
+	PTN_MAX:		1
+	ANIM_TIME:		3
+	SHADOW_RADIUS:	5.0
+	EXPLOSION_TYPE:	0
+	LIGHT_TYPE:		0
+	PARTICLE_TYPE:	0
+	SET_SE:			5
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			3
+				WIDTH:			4
+				HEIGHT:			0
+				DEPTH:			4
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#04
+TYPE
+	LIFE:			300
+	MOVE_FORCE:		0.5
+	DAMAGE:			15
+	ELEM:			0
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_shot_003.png
+	PTN_WIDTH:		2
+	PTN_HEIGHT:		1
+	PTN_MAX:		1
+	ANIM_TIME:		3
+	SHADOW_RADIUS:	5.0
+	EXPLOSION_TYPE:	0
+	LIGHT_TYPE:		4
+	PARTICLE_TYPE:	2
+	SET_SE:			24
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			3
+				WIDTH:			4
+				HEIGHT:			0
+				DEPTH:			4
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#========================================
+
+END

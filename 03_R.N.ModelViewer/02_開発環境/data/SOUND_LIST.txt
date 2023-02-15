@@ -1,0 +1,6 @@
+#ファイル名/ループカウント(-1でループ)/音量/種類(0:BGM1:SE)
+
+SOUND data\SOUND\SE\seadenden\walk2_0.wav 0 1.0 1	#[000]足音SE0
+SOUND data\SOUND\SE\seadenden\walk2_1.wav 0 1.0 1	#[001]足音SE1
+
+END

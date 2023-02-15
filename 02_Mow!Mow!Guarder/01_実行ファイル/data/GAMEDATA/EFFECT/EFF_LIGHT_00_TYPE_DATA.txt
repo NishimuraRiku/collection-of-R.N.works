@@ -1,0 +1,95 @@
+#========================================
+#
+# EFF:åı[00] ÇÃéÌóﬁñàÇÃèÓïÒ
+#
+# Author: êºë∫ óôå˜
+#
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#00
+TYPE
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_circle_000.jpg
+	PTN_WIDTH:		1
+	PTN_HEIGHT:		1
+	PTN_MAX:		0
+	ANIM_TIME:		-1
+	LIFE:			12
+	COLOR:			35 59 255 100
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#01
+TYPE
+	WIDTH:			1.5
+	HEIGHT:			1.5
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_circle_000.jpg
+	PTN_WIDTH:		1
+	PTN_HEIGHT:		1
+	PTN_MAX:		0
+	ANIM_TIME:		-1
+	LIFE:			12
+	COLOR:			35 59 255 255
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#02
+TYPE
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_circle_000.jpg
+	PTN_WIDTH:		1
+	PTN_HEIGHT:		1
+	PTN_MAX:		0
+	ANIM_TIME:		-1
+	LIFE:			12
+	COLOR:			243 191 63 100
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#03
+TYPE
+	WIDTH:			1.5
+	HEIGHT:			1.5
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_circle_000.jpg
+	PTN_WIDTH:		1
+	PTN_HEIGHT:		1
+	PTN_MAX:		0
+	ANIM_TIME:		-1
+	LIFE:			12
+	COLOR:			243 191 63 255
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#04
+TYPE
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_circle_000.jpg
+	PTN_WIDTH:		1
+	PTN_HEIGHT:		1
+	PTN_MAX:		0
+	ANIM_TIME:		-1
+	LIFE:			12
+	COLOR:			219 43 0 100
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#05
+TYPE
+	WIDTH:			1.5
+	HEIGHT:			1.5
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_circle_000.jpg
+	PTN_WIDTH:		1
+	PTN_HEIGHT:		1
+	PTN_MAX:		0
+	ANIM_TIME:		-1
+	LIFE:			12
+	COLOR:			219 43 0 255
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#========================================
+
+END
