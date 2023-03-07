@@ -858,6 +858,6 @@ void SetTexturePos2DCut(VERTEX_2D *pVtx, Scale cutScale, D3DXVECTOR3 pos)
 void MatchPosition(D3DXVECTOR3 *pDrawPos, D3DXVECTOR3 basePos)
 {
 	// ˆÊ’u‚ðŠî€‚ÌˆÊ’u‚É‡‚í‚¹‚é
-	pDrawPos->x = pDrawPos->x - basePos.x + (SCREEN_WIDTH * 0.5f);
-	pDrawPos->y = pDrawPos->y - basePos.y + (SCREEN_HEIGHT * 0.5f);
+	pDrawPos->x = pDrawPos->x - basePos.x + (BUFFER_WIDTH * 0.5f);
+	pDrawPos->y = pDrawPos->y - basePos.y + (BUFFER_HEIGHT * 0.5f);
 }

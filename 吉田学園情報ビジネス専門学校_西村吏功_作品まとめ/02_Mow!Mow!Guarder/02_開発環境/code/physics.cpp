@@ -429,9 +429,9 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 	CollisionInfo pairCollInfo, HitTestParts pairHitTestParts,
 	bool bRflc, bool bSlip)
 {
-	float fMyScale	= (myHitTestParts.fWidth * myHitTestParts.fDepth) * 0.5f;	// 自身の大きさ
-	float fWidth	= pairHitTestParts.fWidth + (fMyScale * 0.5f);				// 幅
-	float fDepth	= pairHitTestParts.fDepth + (fMyScale * 0.5f);				// 奥行き
+	float fMyScale = (myHitTestParts.fWidth * myHitTestParts.fDepth) * 0.5f;	// 自身の大きさ
+	float fWidth = pairHitTestParts.fWidth + (fMyScale * 0.5f);				// 幅
+	float fDepth = pairHitTestParts.fDepth + (fMyScale * 0.5f);				// 奥行き
 
 	D3DXVECTOR3 pos0, pos1, pos2, pos3;	// 時計回りに見て右下からの4頂点の位置(相手)
 	pos0.x = (pairHitTestParts.fixedRelativePos.x + pairCollInfo.pPos->x) + (sinf(pairCollInfo.pRot->y - (D3DX_PI * 0.5f)) * (fWidth * -0.5f)) + (sinf(pairCollInfo.pRot->y) * (fDepth * -0.5f));
@@ -456,7 +456,7 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 
 	// 奥辺
 	{
-		D3DXVECTOR3 vecToPos	= *myCollInfo.pPos - pos2;
+		D3DXVECTOR3 vecToPos = *myCollInfo.pPos - pos2;
 		D3DXVECTOR3 vecToPosOld = myCollInfo.posOld - posOld2;
 		D3DXVECTOR3 point =	// 交点の座標
 			FindIntersectionPointLookDown(myCollInfo.posOld, *myCollInfo.pPos, pos2, pos3);
@@ -475,20 +475,20 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 		{// 奥辺から当たっている時、
 			if (pCollision != NULL) {
 				pCollision->bHitDirection =	// 衝突フラグを真にする
-				pCollision->aHitDirection[HIT_DIRECTION_BACK] = true;
+					pCollision->aHitDirection[HIT_DIRECTION_BACK] = true;
 				pCollision->fLength	// めり込み距離を設定
 					= FindDistanceLookDown(point, *myCollInfo.pPos);
 
 				if (pairHitTestParts.aGhost[HIT_DIRECTION_BACK])
 				{// 相手のすり抜けフラグが真の時、
 					pCollision->bGhost =	// すり抜けフラグを真にする
-					pCollision->aGhost[HIT_DIRECTION_BACK] = true;
+						pCollision->aGhost[HIT_DIRECTION_BACK] = true;
 					return;
 				}
 				else
 				{// 相手のすり抜けフラグが偽の時、
 					pCollision->bHit =	// 当たりフラグを真にする
-					pCollision->aHit[HIT_DIRECTION_BACK] = true;
+						pCollision->aHit[HIT_DIRECTION_BACK] = true;
 				}
 			}
 
@@ -499,7 +499,7 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 				// 位置を更新
 				D3DXVECTOR3 pos = FindIntersectionPointLookDown(
 					*myCollInfo.pPos,
-					*myCollInfo.pPos + D3DXVECTOR3(sinf(fAngle),0.0f,cosf(fAngle)),
+					*myCollInfo.pPos + D3DXVECTOR3(sinf(fAngle), 0.0f, cosf(fAngle)),
 					pos3,
 					pos2);
 				myCollInfo.pPos->x = pos.x + sinf(fAngle) * 0.01f;
@@ -507,16 +507,16 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 			}
 			else
 			{// 滑りフラグが偽の時、
-				// 位置を更新
+			 // 位置を更新
 				myCollInfo.pPos->x = point.x;
 				myCollInfo.pPos->z = point.z;
 			}
 
 			if ((bRflc) && (myCollInfo.pRot != NULL))
 			{// 反射フラグが真 & 向きのポインタがNULLでない時、
-				// 向きを反射させる
+			 // 向きを反射させる
 				myCollInfo.pRot->y = FindReflectionAngleLookDown(point, myCollInfo.posOld, pos3, pos2);
-				
+
 				// 反射方向に微量加算(埋まり込み防止)
 				myCollInfo.pPos->x += sinf(myCollInfo.pRot->y);
 				myCollInfo.pPos->z += cosf(myCollInfo.pRot->y);
@@ -528,7 +528,7 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 
 	// 手前辺
 	{
-		D3DXVECTOR3 vecToPos	= *myCollInfo.pPos - pos0;
+		D3DXVECTOR3 vecToPos = *myCollInfo.pPos - pos0;
 		D3DXVECTOR3 vecToPosOld = myCollInfo.posOld - posOld0;
 		D3DXVECTOR3 point =	// 交点の座標
 			FindIntersectionPointLookDown(myCollInfo.posOld, *myCollInfo.pPos, pos0, pos1);
@@ -547,24 +547,24 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 		{// 手前辺から当たっている時、
 			if (pCollision != NULL) {
 				pCollision->bHitDirection =	// 衝突フラグを真にする
-				pCollision->aHitDirection[HIT_DIRECTION_FRONT] = true;
+					pCollision->aHitDirection[HIT_DIRECTION_FRONT] = true;
 				pCollision->fLength	// めり込み距離を設定
 					= FindDistanceLookDown(point, *myCollInfo.pPos);
 
 				if (pairHitTestParts.aGhost[HIT_DIRECTION_FRONT])
 				{// 相手のすり抜けフラグが真の時、
 					pCollision->bGhost =	// すり抜けフラグを真にする
-					pCollision->aGhost[HIT_DIRECTION_FRONT] = true;
+						pCollision->aGhost[HIT_DIRECTION_FRONT] = true;
 					return;
 				}
 				else
 				{// 相手のすり抜けフラグが偽の時、
 					pCollision->bHit =	// 当たりフラグを真にする
-					pCollision->aHit[HIT_DIRECTION_FRONT] = true;
+						pCollision->aHit[HIT_DIRECTION_FRONT] = true;
 				}
 			}
 
-			if(bSlip)
+			if (bSlip)
 			{// 滑りフラグが真の時、
 				float fAngle = FindAngleLookDown(pos0, pos1) - (D3DX_PI * 0.5f);	// 向き
 
@@ -579,14 +579,14 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 			}
 			else
 			{// 滑りフラグが偽の時、
-				// 位置を更新
+			 // 位置を更新
 				myCollInfo.pPos->x = point.x;
 				myCollInfo.pPos->z = point.z;
 			}
 
 			if ((bRflc) && (myCollInfo.pRot != NULL))
 			{// 反射フラグが真 & 向きのポインタがNULLでない時、
-				// 向きを反射させる
+			 // 向きを反射させる
 				myCollInfo.pRot->y = FindReflectionAngleLookDown(point, myCollInfo.posOld, pos1, pos0);
 
 				// 反射方向に微量加算(埋まり込み防止)
@@ -600,10 +600,10 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 
 	// 左辺
 	{
-		D3DXVECTOR3 vecToPos	= *myCollInfo.pPos - pos1;
+		D3DXVECTOR3 vecToPos = *myCollInfo.pPos - pos1;
 		D3DXVECTOR3 vecToPosOld = myCollInfo.posOld - posOld1;
 		D3DXVECTOR3 point =	// 交点の座標
-					FindIntersectionPointLookDown(myCollInfo.posOld, *myCollInfo.pPos, pos1, pos2);
+			FindIntersectionPointLookDown(myCollInfo.posOld, *myCollInfo.pPos, pos1, pos2);
 		float	fDistance2toP = FindDistanceLookDown(pos2, point);	// 頂点2から交点までの距離
 		float	fDistance1toP = FindDistanceLookDown(pos1, point);	// 頂点1から交点までの距離
 		float	fDistance2to1 = FindDistanceLookDown(pos2, pos1);	// 頂点2から頂点1までの距離
@@ -619,20 +619,20 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 		{// 左辺から当たっている時、
 			if (pCollision != NULL) {
 				pCollision->bHitDirection =	// 衝突フラグを真にする
-				pCollision->aHitDirection[HIT_DIRECTION_LEFT] = true;
+					pCollision->aHitDirection[HIT_DIRECTION_LEFT] = true;
 				pCollision->fLength	// めり込み距離を設定
 					= FindDistanceLookDown(point, *myCollInfo.pPos);
 
 				if (pairHitTestParts.aGhost[HIT_DIRECTION_LEFT])
 				{// 相手のすり抜けフラグが真の時、
 					pCollision->bGhost =	// すり抜けフラグを真にする
-					pCollision->aGhost[HIT_DIRECTION_LEFT] = true;
+						pCollision->aGhost[HIT_DIRECTION_LEFT] = true;
 					return;
 				}
 				else
 				{// 相手のすり抜けフラグが偽の時、
 					pCollision->bHit =	// 当たりフラグを真にする
-					pCollision->aHit[HIT_DIRECTION_LEFT] = true;
+						pCollision->aHit[HIT_DIRECTION_LEFT] = true;
 				}
 			}
 
@@ -640,7 +640,7 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 			{// 滑りフラグが真の時、
 				float fAngle = FindAngleLookDown(pos1, pos2) - (D3DX_PI * 0.5f);	// 向き
 
-				// 位置を更新
+																					// 位置を更新
 				D3DXVECTOR3 pos = FindIntersectionPointLookDown(
 					*myCollInfo.pPos,
 					*myCollInfo.pPos + D3DXVECTOR3(sinf(fAngle), 0.0f, cosf(fAngle)),
@@ -651,14 +651,14 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 			}
 			else
 			{// 滑りフラグが偽の時、
-				// 位置を更新
+			 // 位置を更新
 				myCollInfo.pPos->x = point.x;
 				myCollInfo.pPos->z = point.z;
 			}
 
 			if ((bRflc) && (myCollInfo.pRot != NULL))
 			{// 反射フラグが真 & 向きのポインタがNULLでない時、
-				// 向きを反射させる
+			 // 向きを反射させる
 				myCollInfo.pRot->y = FindReflectionAngleLookDown(point, myCollInfo.posOld, pos2, pos1);
 
 				// 反射方向に微量加算(埋まり込み防止)
@@ -669,10 +669,10 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 			return;
 		}
 	}
-	
+
 	// 右辺
 	{
-		D3DXVECTOR3 vecToPos	= *myCollInfo.pPos - pos3;
+		D3DXVECTOR3 vecToPos = *myCollInfo.pPos - pos3;
 		D3DXVECTOR3 vecToPosOld = myCollInfo.posOld - posOld3;
 		D3DXVECTOR3 point =	// 交点の座標
 			FindIntersectionPointLookDown(myCollInfo.posOld, *myCollInfo.pPos, pos3, pos0);
@@ -691,20 +691,20 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 		{// 右辺から当たっている時、
 			if (pCollision != NULL) {
 				pCollision->bHitDirection =	// 衝突フラグを真にする
-				pCollision->aHitDirection[HIT_DIRECTION_RIGHT] = true;
+					pCollision->aHitDirection[HIT_DIRECTION_RIGHT] = true;
 				pCollision->fLength	// めり込み距離を設定
 					= FindDistanceLookDown(point, *myCollInfo.pPos);
-				
+
 				if (pairHitTestParts.aGhost[HIT_DIRECTION_RIGHT])
 				{// 相手のすり抜けフラグが真の時、
 					pCollision->bGhost =	// すり抜けフラグを真にする
-					pCollision->aGhost[HIT_DIRECTION_RIGHT] = true;
+						pCollision->aGhost[HIT_DIRECTION_RIGHT] = true;
 					return;
 				}
 				else
 				{// 相手のすり抜けフラグが偽の時、
 					pCollision->bHit =	// 当たりフラグを真にする
-					pCollision->aHit[HIT_DIRECTION_RIGHT] = true;
+						pCollision->aHit[HIT_DIRECTION_RIGHT] = true;
 				}
 			}
 
@@ -730,7 +730,7 @@ void PointSquareCollisionLookDown(VECTOR vector, Collision *pCollision,
 
 			if ((bRflc) && (myCollInfo.pRot != NULL))
 			{// 反射フラグが真 & 向きのポインタがNULLでない時、
-				// 向きを反射させる
+			 // 向きを反射させる
 				myCollInfo.pRot->y = FindReflectionAngleLookDown(point, myCollInfo.posOld, pos0, pos3);
 
 				// 反射方向に微量加算(埋まり込み防止)
@@ -1074,23 +1074,24 @@ float FindAngleLookDown(D3DXVECTOR3 pos, D3DXVECTOR3 targetPos)
 //========================================
 D3DXVECTOR3 FindIntersectionPointLookDown(D3DXVECTOR3 posA1, D3DXVECTOR3 posA2, D3DXVECTOR3 posB1, D3DXVECTOR3 posB2)
 {
-	float fVecA1 = FindDistanceLookDown(posA2, posA1);	// ベクトルa1
-	float fVecA2 = FindDistanceLookDown(posB1, posB2);	// ベクトルa2
-	float fVecB1 = FindDistanceLookDown(posA1, posB1);	// ベクトルb1
-	float fVecB2 = FindDistanceLookDown(posB2, posA1);	// ベクトルb2
+	D3DXVECTOR3 vB1B2 = posB2 - posB1;	// ベクトルB1⇒B2
+	D3DXVECTOR3 vA1A2 = posA2 - posA1;	// ベクトルA1⇒A2
+	D3DXVECTOR3 vA2B1 = posB1 - posA2;	// ベクトルA2⇒B1
+	D3DXVECTOR3 vB1A1 = posA1 - posB1;	// ベクトルB1⇒A1
 
-	float fAreaS1 = (	// 面積s1
-		((posA2.x - posA1.x) * (posB2.z - posA1.z)) -
-		((posA2.z - posA1.z) * (posB2.x - posA1.x))) * 0.5f;
-	float fAreaS2 = (	// 面積s2
-		((posA2.x - posA1.x) * (posA1.z - posB1.z)) -
-		((posA2.z - posA1.z) * (posA1.x - posB1.x))) * 0.5f;
+	// 面積S1
+	float fAreaS1 = ((vB1B2.x * vB1A1.z) - (vB1B2.z * vB1A1.x)) * 0.5f;
+	// 面積S2
+	float fAreaS2 = ((vB1B2.x * vA2B1.z) - (vB1B2.z * vA2B1.x)) * 0.5f;
+
+	// 面積S1の割合
+	float fRate = (fAreaS1 / (fAreaS1 + fAreaS2));
 
 	// 交点の座標を返す
 	return	D3DXVECTOR3(
-			posB2.x + (((posB1.x - posB2.x) * fAreaS1) / (fAreaS1 + fAreaS2)),
-			0.0f,
-			posB2.z + (((posB1.z - posB2.z) * fAreaS1) / (fAreaS1 + fAreaS2)));
+		posA1.x + (vA1A2.x * fRate),
+		0.0f,
+		posA1.z + (vA1A2.z * fRate));
 }
 
 //========================================

@@ -74,8 +74,6 @@ typedef enum
 	MD_GAME_00_STATE_CLEAR,								// クリア演出
 	MD_GAME_00_STATE_RANKING,							// ランキング
 	MD_GAME_00_STATE_RESULT,							// リザルト
-	MD_GAME_00_STATE_TIPS_WAIT,							// TIPS待ち
-	MD_GAME_00_STATE_TIPS_00,							// TIPS[00]
 	MD_GAME_00_STATE_TUTORIAL_00,						// チュートリアル[00]
 	MD_GAME_00_STATE_TUTORIAL_01,						// チュートリアル[01]
 	MD_GAME_00_STATE_BOSS_POP_MOVIE_VIEWPOINT_MOVE,		// ボス出現ムービー(視点移動)

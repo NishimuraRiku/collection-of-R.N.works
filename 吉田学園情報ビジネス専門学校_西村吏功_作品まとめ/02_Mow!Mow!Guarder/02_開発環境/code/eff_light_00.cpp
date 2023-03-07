@@ -394,7 +394,7 @@ void DrawEff_light_00(void)
 //========================================
 // SetEff_light_00関数 - EFF:光[00] の設定処理 -
 //========================================
-void SetEff_light_00(D3DXVECTOR3 pos,int nType)
+void SetEff_light_00(D3DXVECTOR3 pos,int nType,float fScale)
 {
 	if (nType == -1)
 	{// 種類が-1の時、
@@ -427,10 +427,10 @@ void SetEff_light_00(D3DXVECTOR3 pos,int nType)
 		pEff->nLife = pType->nLife;	// 寿命を設定する
 
 		// 頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-(pType->fWidth * 0.5f),  (pType->fHeight * 0.5f), 0.0f);
-		pVtx[1].pos = D3DXVECTOR3( (pType->fWidth * 0.5f),  (pType->fHeight * 0.5f), 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(-(pType->fWidth * 0.5f), -(pType->fHeight * 0.5f), 0.0f);
-		pVtx[3].pos = D3DXVECTOR3( (pType->fWidth * 0.5f), -(pType->fHeight * 0.5f), 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(-(pType->fWidth * 0.5f * fScale),  (pType->fHeight * 0.5f * fScale), 0.0f);
+		pVtx[1].pos = D3DXVECTOR3( (pType->fWidth * 0.5f * fScale),  (pType->fHeight * 0.5f * fScale), 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(-(pType->fWidth * 0.5f * fScale), -(pType->fHeight * 0.5f * fScale), 0.0f);
+		pVtx[3].pos = D3DXVECTOR3( (pType->fWidth * 0.5f * fScale), -(pType->fHeight * 0.5f * fScale), 0.0f);
 
 		// 頂点カラーの設定
 		SetVertexColor3D(pVtx, pType->col);

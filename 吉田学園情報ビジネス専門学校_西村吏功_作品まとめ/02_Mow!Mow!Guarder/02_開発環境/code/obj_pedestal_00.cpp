@@ -15,10 +15,11 @@
 #include "sound.h"
 #include "specific.h"
 #include "text.h"
-#include "obj_pedestal_00.h"	// OBJ:台座			[00]
-#include "chr_player_00.h"		// CHR:プレイヤー	[00]
-#include "md_game_00.h"			// MD :ゲーム画面	[00]
-#include "obj_stage_00.h"		// OBJ:ステージ		[00]
+#include "obj_pedestal_00.h"	// OBJ:台座					[00]
+#include "chr_player_00.h"		// CHR:プレイヤー			[00]
+#include "md_game_00.h"			// MD :ゲーム画面			[00]
+#include "md_tutorial_00.h"		// MD :チュートリアル画面	[00]
+#include "obj_stage_00.h"		// OBJ:ステージ				[00]
 #include <stdio.h>
 
 //****************************************
@@ -302,9 +303,12 @@ void UpdateObj_pedestal_00(void)
 	Obj_pedestal_00Control	*pObjCtl	// OBJ:台座[00] の管理情報のポインタ
 							= &g_obj_pedestal_00Control;
 
-	if ((GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL) ||
-		(GetMd_game_00()->state == MD_GAME_00_STATE_TIPS_WAIT))
-	{// MD:ゲーム画面[00] の状態が通常orTIPS待ちの時、
+	if (((GetMode() == MODE_GAME_00) &&
+		(GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL))
+		||
+		(GetMode() == MODE_TUTORIAL_00) &&
+		(GetMd_tutorial_00()->state == MD_TUTORIAL_00_STATE_NORMAL))
+	{// (MD:ゲーム画面[00] の状態が通常orTIPS待ち)or(チュートリアル画面の状態が通常)の時、
 		if (GetObj_stage_00()->state == OBJ_STAGE_00_STATE_INTERVAL)
 		{// OBJ:ステージ[00] の状態がインターバルの時、
 			pObjCtl->nCounterArrival++;	// 到着カウンターを加算
@@ -321,7 +325,7 @@ void UpdateObj_pedestal_00(void)
 	Obj_pedestal_00		*pObj	// OBJ:台座[00] の情報のポインタ
 						= g_aObj_pedestal_00;
 	Obj_stage_00Items	*pItems	// OBJ:ステージ[00] の品揃え情報のポインタ
-						= &GetObj_stage_00Type()->itemsSet.aItems[pObjCtl->nCntItems];
+						= &GetObj_stage_00Type()[GetObj_stage_00()->nType].itemsSet.aItems[pObjCtl->nCntItems];
 
 	for (int nCntObj = 0; nCntObj < OBJ_PEDESTAL_00_MAX; nCntObj++, pObj++)
 	{
@@ -515,7 +519,7 @@ bool PurchaseObj_pedestal_00(void)
 	Obj_pedestal_00Control		*pObjCtl	// OBJ:台座[00] の管理情報のポインタ
 								= &g_obj_pedestal_00Control;
 	Obj_stage_00Items			*pItems		// OBJ:ステージ[00] の品揃え情報のポインタ
-								= &GetObj_stage_00Type()->itemsSet.aItems[pObjCtl->nCntItems];
+								= &GetObj_stage_00Type()[GetObj_stage_00()->nType].itemsSet.aItems[pObjCtl->nCntItems];
 	OBJ_PEDESTAL_00_ITEM		itm			// 該当する商品番号
 								= pItems->aItem[pChr->nPedestalIndex];
 
@@ -550,11 +554,13 @@ bool PurchaseObj_pedestal_00(void)
 //========================================
 void ItemsChangeObj_pedestal_00(void)
 {
+	Obj_pedestal_00			*pObj	// OBJ:台座[00] の情報のポインタ
+							= g_aObj_pedestal_00;
 	Obj_pedestal_00Control	*pObjCtl	// OBJ:台座[00] の管理情報のポインタ
 							= &g_obj_pedestal_00Control;
 
 	// 品揃え番号を加算し上限で剰余算
-	++pObjCtl->nCntItems %= GetObj_stage_00Type()->itemsSet.nItemsNum;
+	++pObjCtl->nCntItems %= GetObj_stage_00Type()[GetObj_stage_00()->nType].itemsSet.nItemsNum;
 }
 
 //========================================

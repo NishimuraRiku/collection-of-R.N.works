@@ -19,8 +19,8 @@
 // EFF:スクリーン[00] の幅
 // EFF:スクリーン[00] の高さ
 #define EFF_SCREEN_00_TEXTURE_PATH	"data\\TEXTURE\\Effect\\eff_screen_000.png"
-#define EFF_SCREEN_00_WIDTH			(960)
-#define EFF_SCREEN_00_HEIGHT		(720)
+#define EFF_SCREEN_00_WIDTH			(960*2)
+#define EFF_SCREEN_00_HEIGHT		(720*2)
 
 //****************************************
 // 構造体の定義
@@ -101,7 +101,7 @@ void InitEff_screen_00(void)
 
 	// 頂点座標を設定
 	SetVertexPos2D(pVtx,
-		D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f),
+		D3DXVECTOR3(BUFFER_WIDTH * 0.5f, BUFFER_HEIGHT * 0.5f, 0.0f),
 		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 		false,
 		EFF_SCREEN_00_WIDTH,

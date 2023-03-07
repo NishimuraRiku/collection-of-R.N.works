@@ -15,16 +15,18 @@
 #include "polygon3D.h"
 #include "sound.h"
 #include "text.h"
-#include "chr_enemy_00.h"			// CHR:敵			[00]
-#include "chr_player_00.h"			// CHR:プレイヤー	[00]
-#include "eff_shadow_00.h"			// EFF:影			[00]
-#include "obj_core_00.h"			// OBJ:コア			[00]
-#include "obj_pedestal_00.h"		// OBJ:台座			[00]
-#include "obj_stage_00.h"			// OBJ:ステージ		[00]
-#include "obj_switch_00.h"			// OBJ:スイッチ		[00]
-#include "md_game_00.h"				// MD :ゲーム		[00]
-#include "md_title_00.h"			// MD :タイトル		[00]
-#include "ui_attention-mark_00.h"	// UI :注意マーク	[00]
+#include "chr_enemy_00.h"			// CHR:敵				[00]
+#include "chr_player_00.h"			// CHR:プレイヤー		[00]
+#include "eff_shadow_00.h"			// EFF:影				[00]
+#include "obj_core_00.h"			// OBJ:コア				[00]
+#include "obj_pedestal_00.h"		// OBJ:台座				[00]
+#include "obj_stage_00.h"			// OBJ:ステージ			[00]
+#include "obj_switch_00.h"			// OBJ:スイッチ			[00]
+#include "obj_signboard_00.h"		// OBJ:看板				[00]
+#include "md_game_00.h"				// MD :ゲーム			[00]
+#include "md_title_00.h"			// MD :タイトル			[00]
+#include "md_tutorial_00.h"			// MD :チュートリアル	[00]
+#include "ui_attention-mark_00.h"	// UI :注意マーク		[00]
 #include <stdio.h>
 
 //****************************************
@@ -34,7 +36,7 @@
 #define OBJ_STAGE_00_TYPE_DATA_FILE_PATH	"data\\GAMEDATA\\OBJECT\\OBJ_STAGE_00_TYPE_DATA.txt"
 
 // OBJ:ステージ[00] の種類の数
-#define OBJ_STAGE_00_TYPE_NUM	(1)
+#define OBJ_STAGE_00_TYPE_NUM	(2)
 
 // OBJ:ステージ[00] の初期状態
 #define OBJ_STAGE_00_INIT_STATE	(OBJ_STAGE_00_STATE_INTERVAL)
@@ -44,8 +46,8 @@
 // OBJ:ステージ[00] のテキストの現れるのにかかる時間
 // OBJ:ステージ[00] のテキストの消えるのにかかる時間
 // OBJ:ステージ[00] のテキストのクリア時の色
-#define OBJ_STAGE_00_TEXT_START_POS			D3DXVECTOR3(SCREEN_WIDTH*0.5f,(SCREEN_HEIGHT*0.5f)+160.0f,0.0f)
-#define OBJ_STAGE_00_TEXT_END_POS			D3DXVECTOR3(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT*0.5f,0.0f)
+#define OBJ_STAGE_00_TEXT_START_POS			D3DXVECTOR3(BUFFER_WIDTH*0.5f,(BUFFER_HEIGHT*0.5f)+160.0f,0.0f)
+#define OBJ_STAGE_00_TEXT_END_POS			D3DXVECTOR3(BUFFER_WIDTH*0.5f,BUFFER_HEIGHT*0.5f,0.0f)
 #define OBJ_STAGE_00_TEXT_SCALE				(2.0f)
 #define OBJ_STAGE_00_TEXT_APPEAR_TIME		(40)
 #define OBJ_STAGE_00_TEXT_DISAPPEAR_TIME	(80)
@@ -73,8 +75,8 @@
 // OBJ:ステージ[00] のタイムボーナステキストの消え始める時間
 // OBJ:ステージ[00] のタイムボーナステキストの色
 // OBJ:ステージ[00] のタイムボーナステキストの点滅色
-#define OBJ_STAGE_00_TIME_BONUS_TEXT_START_POS			D3DXVECTOR3(SCREEN_WIDTH+PIXEL* 61,PIXEL*35,0.0f)
-#define OBJ_STAGE_00_TIME_BONUS_TEXT_END_POS			D3DXVECTOR3(SCREEN_WIDTH+PIXEL*-61,PIXEL*35,0.0f)
+#define OBJ_STAGE_00_TIME_BONUS_TEXT_START_POS			D3DXVECTOR3(BUFFER_WIDTH+PIXEL* 61,PIXEL*35,0.0f)
+#define OBJ_STAGE_00_TIME_BONUS_TEXT_END_POS			D3DXVECTOR3(BUFFER_WIDTH+PIXEL*-61,PIXEL*35,0.0f)
 #define OBJ_STAGE_00_TIME_BONUS_TEXT_POP_TIME			(120)
 #define OBJ_STAGE_00_TIME_BONUS_TEXT_MOVE_TIME			(40)
 #define OBJ_STAGE_00_TIME_BONUS_TEXT_CLEAR_START_TIME	(80)
@@ -89,10 +91,10 @@
 // OBJ:ステージ[00] のネクストウェーブテキストの不透明度の上限
 // OBJ:ステージ[00] のネクストウェーブテキストの拡大倍率の下限
 // OBJ:ステージ[00] のネクストウェーブテキストの拡大倍率の上限
-#define OBJ_STAGE_00_NEXTWAVE_POS					D3DXVECTOR3(SCREEN_CENTER_X,PIXEL*48,0.0f)
-#define OBJ_STAGE_00_NEXTWAVE_TEXT_COLOR			Color{251,80,42,255}
+#define OBJ_STAGE_00_NEXTWAVE_POS					D3DXVECTOR3(SCREEN_CENTER_X,PIXEL*66,0.0f)
+#define OBJ_STAGE_00_NEXTWAVE_TEXT_COLOR			Color{219,43,0,255}
 #define OBJ_STAGE_00_NEXTWAVE_TEXT_WARNING_COLOR	Color{191,0,191,255}
-#define OBJ_STAGE_00_NEXTWAVE_ALPHA_MIN				(0.75f)
+#define OBJ_STAGE_00_NEXTWAVE_ALPHA_MIN				(1.0f)
 #define OBJ_STAGE_00_NEXTWAVE_ALPHA_MAX				(1.0f)
 #define OBJ_STAGE_00_NEXTWAVE_SCALE_MIN				(0.95f)
 #define OBJ_STAGE_00_NEXTWAVE_SCALE_MAX				(1.0f)
@@ -104,17 +106,19 @@
 // プロトタイプ宣言
 //****************************************
 // OBJ:ステージ[00] のパラメーターの初期化処理
-void InitParameterObj_stage_00(void);
+void InitParameterObj_stage_00(int nType);
 
 // OBJ:ステージ[00] のゲート設定情報の読み込み処理
-// OBJ:ステージ[00] の注意マーク設定情報の読み込み処理
-// OBJ:ステージ[00] の台座設定情報の読み込み処理
-// OBJ:ステージ[00] の品揃え設定情報の読み込み処理
-// OBJ:ステージ[00] のウェーブ設定情報の読み込み処理
 void LoadGateSetObj_stage_00(FILE *pFile, Obj_stage_00GateSet *pGateSet);
+// OBJ:ステージ[00] の注意マーク設定情報の読み込み処理
 void LoadAttentionMarkSetObj_stage_00(FILE *pFile, Obj_stage_00AttentionMarkSet *pAttentionMarkSet);
+// OBJ:ステージ[00] の台座設定情報の読み込み処理
 void LoadPedestalSetObj_stage_00(FILE *pFile, Obj_stage_00PedestalSet *pPedestalSet);
+// OBJ:ステージ[00] の看板設定情報の読み込み処理
+void LoadSignboardSetObj_stage_00(FILE *pFile, Obj_stage_00SignboardSet *pSignboardSet);
+// OBJ:ステージ[00] の品揃え設定情報の読み込み処理
 void LoadItemsSetObj_stage_00(FILE *pFile, Obj_stage_00ItemsSet *pItemsSet, Obj_stage_00Type *pObjType);
+// OBJ:ステージ[00] のウェーブ設定情報の読み込み処理
 void LoadWaveSetObj_stage_00(FILE *pFile, Obj_stage_00WaveSet *pWaveSet);
 
 // OBJ:ステージ[00] のセッティング処理
@@ -175,14 +179,14 @@ Obj_stage_00Type *GetObj_stage_00Type(void)
 //========================================
 // InitParameterObj_stage_00関数 - OBJ:ステージ[00] のパラメーターの初期化処理 -
 //========================================
-void InitParameterObj_stage_00(void) 
+void InitParameterObj_stage_00(int nType) 
 {
 	Obj_stage_00	*pObj	// OBJ:ステージ[00] の情報のポインタ
 					= &g_obj_stage_00;
 
 	pObj->pos					= D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 位置
 	pObj->rot					= D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 向き
-	pObj->nType					= 0;								// 種類
+	pObj->nType					= nType;							// 種類
 	pObj->hitTestInfo			= {};								// 当たり判定の管理情報
 	pObj->nCounter				= 0;								// カウンター
 	pObj->state					= OBJ_STAGE_00_STATE_NONE;			// 状態
@@ -332,7 +336,53 @@ void LoadPedestalSetObj_stage_00(FILE *pFile, Obj_stage_00PedestalSet *pPedestal
 					fscanf(pFile, "%f", &pPedestal->pos.y);	// Y
 					fscanf(pFile, "%f", &pPedestal->pos.z);	// Z
 				}
-				else if (!strcmp(aDataSearch, "TYPE:"))	{ fscanf(pFile, "%f", &pPedestal->nType); }	// 種類
+				else if (!strcmp(aDataSearch, "TYPE:"))	{ fscanf(pFile, "%d", &pPedestal->nType); }	// 種類
+			}
+		}
+	}
+}
+
+//========================================
+// LoadSignboardSetObj_stage_00関数 - OBJ:ステージ[00] の看板設定情報の読み込み処理 -
+//========================================
+void LoadSignboardSetObj_stage_00(FILE *pFile, Obj_stage_00SignboardSet *pSignboardSet)
+{
+	char	aDataSearch	// データ検索用
+			[TXT_MAX];
+
+	// 看板の数を初期化
+	pSignboardSet->nSignboardNum = 0;
+
+	// 当たり判定設定情報の読み込みを開始
+	while (1)
+	{
+		fscanf(pFile, "%s", aDataSearch); // 検索
+
+		if		(!strcmp(aDataSearch, "SIGNBOARDSET_END")) { break; }	// 読み込みを終了
+		else if (!strcmp(aDataSearch, "SIGNBOARD")) {
+			Obj_stage_00Signboard	*pSignboard	// 看板情報のポインタ
+				= &pSignboardSet->aSignboard[pSignboardSet->nSignboardNum];
+
+			while (1)
+			{
+				fscanf(pFile, "%s", aDataSearch); // 検索
+
+				if (!strcmp(aDataSearch, "SIGNBOARD_END")) {
+					pSignboardSet->nSignboardNum++;	// 看板の数を加算
+					break;							// 読み込みを終了
+				}
+				else if (!strcmp(aDataSearch, "POS:")) {		// 位置
+					fscanf(pFile, "%f", &pSignboard->pos.x);	// X
+					fscanf(pFile, "%f", &pSignboard->pos.y);	// Y
+					fscanf(pFile, "%f", &pSignboard->pos.z);	// Z
+				}
+				else if (!strcmp(aDataSearch, "ROT:")) {		// 向き
+					fscanf(pFile, "%f", &pSignboard->rot.x);	// X
+					fscanf(pFile, "%f", &pSignboard->rot.y);	// Y
+					fscanf(pFile, "%f", &pSignboard->rot.z);	// Z
+					pSignboard->rot *= D3DX_PI;					// 円周率補正
+				}
+				else if (!strcmp(aDataSearch, "TYPE:")) { fscanf(pFile, "%d", &pSignboard->nType); }	// 種類
 			}
 		}
 	}
@@ -443,30 +493,44 @@ void LoadItemsSetObj_stage_00(FILE *pFile, Obj_stage_00ItemsSet *pItemsSet, Obj_
 //========================================
 void SettingObj_stage_00(void) 
 {
-	Obj_stage_00Type	*pObjType	// OBJ:ステージ[00] の種類毎の情報
-						= g_aObj_stage_00Type;
+	// OBJ:ステージ[00] の情報のポインタ
+	Obj_stage_00 *pObj = &g_obj_stage_00;
+	// OBJ:ステージ[00] の種類毎の情報のポインタ
+	Obj_stage_00Type *pType = &g_aObj_stage_00Type[pObj->nType];
 
-	for (int nCntPedestal = 0; nCntPedestal < pObjType->pedestalSet.nPedestalNum; nCntPedestal++) 
+	for (int nCntPedestal = 0; nCntPedestal < pType->pedestalSet.nPedestalNum; nCntPedestal++) 
 	{
 		// OBJ:台座[00] の設定処理
 		SetObj_pedestal_00(
-			pObjType->pedestalSet.aPedestal[nCntPedestal].pos,
-			pObjType->pedestalSet.aPedestal[nCntPedestal].nType);
+			pType->pedestalSet.aPedestal[nCntPedestal].pos,
+			pType->pedestalSet.aPedestal[nCntPedestal].nType);
 	}
 
-	for (int nCntGate = 0; nCntGate < pObjType->gateSet.nGateNum; nCntGate++)
+	for (int nCntSignboard = 0; nCntSignboard < pType->signboardSet.nSignboardNum; nCntSignboard++)
+	{
+		// OBJ:台座[00] の設定処理
+		SetObj_signboard_00(
+			pType->signboardSet.aSignboard[nCntSignboard].pos,
+			pType->signboardSet.aSignboard[nCntSignboard].rot,
+			pType->signboardSet.aSignboard[nCntSignboard].nType);
+	}
+
+	for (int nCntGate = 0; nCntGate < pType->gateSet.nGateNum; nCntGate++)
 	{
 		// UI:注意マーク[00] の設定処理
 		SetUi_attentionMark_00(
-			pObjType->attentionMarkSet.aAttentionMark[nCntGate].pos,
-			pObjType->attentionMarkSet.aAttentionMark[nCntGate].rot);
+			pType->attentionMarkSet.aAttentionMark[nCntGate].pos,
+			pType->attentionMarkSet.aAttentionMark[nCntGate].rot);
 	}
 
 	// OBJ:コア[00] の位置を代入
-	GetObj_core_00()->pos = pObjType->coreSetPos;
+	GetObj_core_00()->pos = pType->coreSetPos;
 
 	// OBJ:スイッチ[00] の位置を代入
-	GetObj_switch_00()->pos = pObjType->switchSetPos;
+	GetObj_switch_00()->pos = pType->switchSetPos;
+
+	// CHR:プレイヤー[00] の位置を代入
+	GetChr_player_00()->pos = pType->playerInitPos;
 }
 
 //========================================
@@ -509,9 +573,11 @@ void StartStateObj_stage_00(void)
 		pObj->nCounterDiscoloration = 0;	// 変色カウンターを初期化
 		pObj->nCounterTimeBonusText = 0;	// タイムボーナステキストカウンターを初期化
 
-		// インターバルBGMを再生
-		PlaySound(pType->waveSet.aWave[pObj->nWave].intervalBGM);
-
+		if (GetMode() != MODE_TUTORIAL_00)
+		{// モードがチュートリアルでない時、
+			// インターバルBGMを再生
+			PlaySound(pType->waveSet.aWave[pObj->nWave].intervalBGM);
+		}
 		break;
 	}
 	case /*/ 襲撃 /*/OBJ_STAGE_00_STATE_RAID: {
@@ -523,9 +589,11 @@ void StartStateObj_stage_00(void)
 		pObj->nCounterTimeBonus								// タイムボーナスカウンターを設定
 			= OBJ_STAGE_00_TIME_BONUS_COUNTER_START;
 
-		// 襲撃BGMを再生
-		PlaySound(pType->waveSet.aWave[pObj->nWave].raidBGM);
-
+		if (GetMode() != MODE_TUTORIAL_00)
+		{// モードがチュートリアルでない時、
+			// 襲撃BGMを再生
+			PlaySound(pType->waveSet.aWave[pObj->nWave].raidBGM);
+		}
 		break;
 	}
 	case /*/ クリア /*/OBJ_STAGE_00_STATE_CLEAR: {
@@ -608,8 +676,12 @@ void UpdateStateObj_stage_00(void)
 		Obj_stage_00Wave	*pWave	// ウェーブの情報のポインタ
 							= &pType->waveSet.aWave[pObj->nWave];
 
-		if (GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL)
-		{// MD:ゲーム画面[00] の状態が通常の時、
+		if ((((GetMode() == MODE_GAME_00) &&
+			(GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL)))
+			||
+			((GetMode() == MODE_TUTORIAL_00) &&
+			(GetMd_tutorial_00()->state == MD_TUTORIAL_00_STATE_NORMAL)))
+		{// (MD:ゲーム画面[00] の状態が通常)or(チュートリアル画面の状態が通常)の時、
 			if (++pObj->nCounter >= pWave->nIntervalTime)
 			{// カウンターを加算した結果インターバルタイムに達した時、
 				SetStateObj_stage_00(OBJ_STAGE_00_STATE_RAID);	// 状態を襲撃に設定
@@ -675,14 +747,27 @@ void UpdateStateObj_stage_00(void)
 			// 過去のウェーブを保存
 			pObj->nWaveOld = pObj->nWave;
 
+			// ウェーブ設定フラグ
+			bool bWaveSet = true;
+
 			if (++pObj->nWave >= pType->waveSet.nWaveNum) 
 			{// ウェーブ番号を加算した結果ウェーブ数以上の時、
-				pObj->nWave--;	// ウェーブ番号を減算
-				SetStateObj_stage_00(OBJ_STAGE_00_STATE_CLEAR);	// 状態をクリアに設定
-				SetMd_game_00State(MD_GAME_00_STATE_CLEAR);		// MD:ゲーム画面[00] の状態をクリアに設定
+				if(pType->bWaveLoop)
+				{// ウェーブループフラグが真の時、
+					pObj->nWave = pType->waveSet.nLoopPoint;	// ウェーブ番号にループ番号を代入
+				}
+				else
+				{// ウェーブループフラグが偽の時、
+					pObj->nWave--;	// ウェーブ番号を減算
+					SetStateObj_stage_00(OBJ_STAGE_00_STATE_CLEAR);	// 状態をクリアに設定
+					SetMd_game_00State(MD_GAME_00_STATE_CLEAR);		// MD:ゲーム画面[00] の状態をクリアに設定
+					bWaveSet = false;								// ウェーブ設定フラグを偽にする
+				}
 			}
-			else 
-			{// ウェーブ番号を加算した結果ウェーブ数未満の時、
+
+
+			if(bWaveSet)
+			{
 				SetWarningObj_stage_00();		// 警告設定処理
 				ItemsChangeObj_pedestal_00();	// 品揃えを変更する
 
@@ -704,9 +789,16 @@ void UpdateStateObj_stage_00(void)
 
 		if (pObj->textState != OBJ_STAGE_00_TEXT_STATE_HIDE)
 		{// テキストが消えている状態でない時、
-			sprintf(aString, "WAVE %d-%d",	// 文字列を設定
-				pObj->nCntWaveMain + 1,
-				pObj->nCntWaveSub + 1);
+			if (GetMode() == MODE_TUTORIAL_00) 
+			{// 現在のモードがチュートリアルの時、
+				sprintf(aString, "WAVE ?-?");	// 文字列を設定
+			}
+			else
+			{// 現在のモードがチュートリアルでない時、
+				sprintf(aString, "WAVE %d-%d",	// 文字列を設定
+					pObj->nCntWaveMain + 1,
+					pObj->nCntWaveSub + 1);
+			}
 			setCol = { 255,255,255,255 };	// 設定色を設定
 		}
 
@@ -888,9 +980,16 @@ void LoadObj_stage_00(void)
 					fscanf(pFile, "%f", &pObjType->switchSetPos.y);	// Y
 					fscanf(pFile, "%f", &pObjType->switchSetPos.z);	// Z
 				}
+				else if (!strcmp(aDataSearch, "PLAYER_INIT_POS:")) {	// プレイヤー初期位置
+					fscanf(pFile, "%f", &pObjType->playerInitPos.x);	// X
+					fscanf(pFile, "%f", &pObjType->playerInitPos.y);	// Y
+					fscanf(pFile, "%f", &pObjType->playerInitPos.z);	// Z
+				}
+				else if (!strcmp(aDataSearch, "WAVE_LOOP:"))		{ fscanf(pFile, "%d", &pObjType->bWaveLoop); }								// ウェーブループフラグ
 				else if (!strcmp(aDataSearch, "GATESET"))			{ LoadGateSetObj_stage_00(pFile, &pObjType->gateSet); }						// ゲート設定情報
 				else if (!strcmp(aDataSearch, "ATTENTIONMARKSET"))	{ LoadAttentionMarkSetObj_stage_00(pFile, &pObjType->attentionMarkSet); }	// 注意マーク設定情報
 				else if (!strcmp(aDataSearch, "PEDESTALSET"))		{ LoadPedestalSetObj_stage_00(pFile, &pObjType->pedestalSet); }				// 台座設定情報
+				else if (!strcmp(aDataSearch, "SIGNBOARDSET"))		{ LoadSignboardSetObj_stage_00(pFile, &pObjType->signboardSet); }			// 看板設定情報
 				else if (!strcmp(aDataSearch, "ITEMSSET"))			{ LoadItemsSetObj_stage_00(pFile, &pObjType->itemsSet, pObjType); }			// 品揃え設定情報
 				else if (!strcmp(aDataSearch, "WAVESET"))			{ LoadWaveSetObj_stage_00(pFile, &pObjType->waveSet); }						// ウェーブ設定情報
 				else if (!strcmp(aDataSearch, "HITTESTSET"))		{ LoadHitTestSet(pFile, &pObjType->hitTestSet); }							// 当たり判定設定情報
@@ -903,8 +1002,14 @@ void LoadObj_stage_00(void)
 //========================================
 // InitObj_stage_00関数 - OBJ:ステージ[00] の初期化処理 -
 //========================================
-void InitObj_stage_00(void)
+void InitObj_stage_00(int nType)
 {
+	// OBJ:ステージ[00] の情報のポインタ
+	Obj_stage_00 *pObj = &g_obj_stage_00;
+
+	// パラメーターの初期化処理
+	InitParameterObj_stage_00(nType);
+
 	LPDIRECT3DDEVICE9	pDevice	// デバイス取得
 						= GetDevice();
 	D3DXMATERIAL		*pMat;	// マテリアルへのポインタ
@@ -944,19 +1049,14 @@ void InitObj_stage_00(void)
 		}
 	}
 
-	Obj_stage_00		*pObj	// OBJ:ステージ[00] の情報のポインタ
-						= &g_obj_stage_00;
 	Obj_stage_00Type	*pType	// OBJ:ステージ[00] の種類毎の情報のポインタ
 						= &g_aObj_stage_00Type[pObj->nType];
 
 	// 部品(3D)のトランスフォームを初期化
 	InitParts3DTransform(&pObj->partsInfo, &pType->partsSet);
 
-	// パラメーターの初期化処理
-	InitParameterObj_stage_00();
-
-	if (GetMode() == MODE_GAME_00)
-	{// モードがMD:ゲーム画面[00] の時、
+	if ((GetMode() == MODE_GAME_00) || (GetMode() == MODE_TUTORIAL_00))
+	{// モードがMD:ゲーム画面orチュートリアル画面の時、
 		// セッティング処理
 		SettingObj_stage_00();
 
@@ -1054,8 +1154,12 @@ void UpdateObj_stage_00(void)
 		pObj->nCounterDiscoloration++;	// 変色カウンターを加算
 	}
 
-	if (GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL)
-	{// MD:ゲーム画面[00] の状態が通常の時、
+	if ((((GetMode() == MODE_GAME_00) &&
+		(GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL)))
+		||
+		((GetMode() == MODE_TUTORIAL_00) &&
+		(GetMd_tutorial_00()->state == MD_TUTORIAL_00_STATE_NORMAL)))
+	{// (MD:ゲーム画面[00] の状態が通常)or(チュートリアル画面の状態が通常)の時、
 		if (pObj->state == OBJ_STAGE_00_STATE_INTERVAL)
 		{// OBJ:ステージ[00] の状態がインターバルの時、
 			// カウンターの進行率
@@ -1071,10 +1175,10 @@ void UpdateObj_stage_00(void)
 			float fScale = (OBJ_STAGE_00_NEXTWAVE_SCALE_MIN + ((OBJ_STAGE_00_NEXTWAVE_SCALE_MAX - OBJ_STAGE_00_NEXTWAVE_SCALE_MIN) * (1.0f - fRate)));
 
 			char aString[TXT_MAX];	// 文字列
-			sprintf(aString, "NEXT.%d", (GetObj_stage_00Type()->waveSet.aWave[pObj->nWave].nIntervalTime - pObj->nCounter - 1) / 60);
+			sprintf(aString, "NEXT,%d", (GetObj_stage_00Type()[pObj->nType].waveSet.aWave[pObj->nWave].nIntervalTime - pObj->nCounter - 1) / 60);
 			SetText2D(
 				aString,
-				FONT_003,
+				FONT_002,
 				DISPLAY_CENTER,
 				OBJ_STAGE_00_NEXTWAVE_POS,
 				col, fScale, fScale);

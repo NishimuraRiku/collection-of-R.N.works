@@ -25,7 +25,7 @@
 // UI:マップ[00] のテクスチャの位置変換値
 // UI:マップ[00] の位置変換値
 // UI:マップ[00] のマップの色
-#define UI_MAP_00_POS				D3DXVECTOR3(INSIDE_SCREEN_RIGHTMOST-(PIXEL*32),SCREEN_HEIGHT-(PIXEL*30),0.0f)
+#define UI_MAP_00_POS				D3DXVECTOR3(INSIDE_SCREEN_RIGHTMOST-(PIXEL*32),BUFFER_HEIGHT-(PIXEL*30),0.0f)
 #define UI_MAP_00_CUT_SCALE			Scale{0.5f,0.5f,0.0f}
 #define UI_MAP_00_TEXTURE_POS_CONV	(1.0f/8.0f/64.0f)
 #define UI_MAP_00_POS_CONV			((UI_MAP_00_TEXTURE_POS_CONV*PIXEL*48)/0.5f)
@@ -46,22 +46,38 @@ typedef enum
 	UI_MAP_00_POLYGON_MAX,
 }UI_MAP_00_POLYGON;
 
+// UI:マップ[00] の種類
+typedef enum
+{
+	UI_MAP_00_TYPE_GAME,		// ゲーム
+	UI_MAP_00_TYPE_TUTORIAL,	// チュートリアル
+	UI_MAP_00_TYPE_MAX,
+}UI_MAP_00_TYPE;
+
 //****************************************
 // グローバル宣言
 //****************************************
-LPDIRECT3DTEXTURE9		g_aTextureUi_map_00	// テクスチャへのポインタ
-						[UI_MAP_00_POLYGON_MAX]
-						= {};
-LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffUi_map_00	// 頂点バッファへのポインタ
-						= NULL;
+// テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 g_aTextureUi_map_00[UI_MAP_00_POLYGON_MAX] = {};
+// マップテクスチャへのポインタ
+LPDIRECT3DTEXTURE9 g_aMapTextureUi_map_00[UI_MAP_00_TYPE_MAX] = {};
+// 頂点バッファへのポインタ
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffUi_map_00 = NULL;
+
+// UI:マップ[00] のマップのテクスチャパス
+const char g_aTexPathUi_map_00[UI_MAP_00_TYPE_MAX][TXT_MAX] =
+{
+	"data\\TEXTURE\\UserInterface\\ui_stage-map_000\\game.png",
+	"data\\TEXTURE\\UserInterface\\ui_stage-map_000\\tutorial.png",
+};
 
 // UI:マップ[00] のポリゴン毎の情報
 const Polygon2D g_aUi_map_00Polygon[UI_MAP_00_POLYGON_MAX] = 
 {
-	{ "data\\TEXTURE\\UserInterface\\ui_stage-map_000.png"    ,PIXEL * 48,PIXEL * 48,1                     },
+	{ ""                                                      ,PIXEL * 48,PIXEL * 48,1                     },
 	{ "data\\TEXTURE\\UserInterface\\ui_icon_000\\core.png"   ,PIXEL * 4 ,PIXEL * 4 ,1                     },
 	{ "data\\TEXTURE\\UserInterface\\ui_icon_000\\enemy.png"  ,PIXEL * 2 ,PIXEL * 2 ,CHR_ENEMY_00_MAX      },
-	{ "data\\TEXTURE\\UserInterface\\ui_icon_000\\player.png" ,PIXEL * 4 ,PIXEL * 4 ,1                     },
+	{ "data\\TEXTURE\\UserInterface\\ui_icon_000\\player.png" ,PIXEL * 4 ,PIXEL * 8 ,1                     },
 	{ "data\\TEXTURE\\UserInterface\\ui_icon_000\\warning.png",PIXEL * 8 ,PIXEL * 8 ,OBJ_STAGE_00_GATE_MAX },
 	{ "data\\TEXTURE\\UserInterface\\ui_map-frame_000.png"    ,PIXEL * 64,PIXEL * 64,1                     },
 };
@@ -85,7 +101,13 @@ void InitUi_map_00(void)
 
 	// テクスチャの読み込み
 	LoadPolygon2DTexture(pDevice, g_aTextureUi_map_00, g_aUi_map_00Polygon, UI_MAP_00_POLYGON_MAX);
-	
+
+	// マップのテクスチャパス
+	for (int nCntType = 0; nCntType < UI_MAP_00_TYPE_MAX; nCntType++) 
+	{
+		D3DXCreateTextureFromFile(pDevice, g_aTexPathUi_map_00[nCntType], &g_aMapTextureUi_map_00[nCntType]);
+	}
+
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(
 		sizeof(VERTEX_2D) * 4 * GetPolygon2DNum(g_aUi_map_00Polygon, UI_MAP_00_POLYGON_MAX),
@@ -283,16 +305,36 @@ void DrawUi_map_00(void)
 		const Polygon2D *pPoly	// ポリゴン毎の情報
 			= &g_aUi_map_00Polygon[nCntPoly];
 
-		// テクスチャの設定
-		pDevice->SetTexture(0, g_aTextureUi_map_00[nCntPoly]);
+		if (nCntPoly == 0) 
+		{// カウントが0の時、
+			int nType;
+
+			// 現在のモードに応じて
+			if (GetMode() == MODE_GAME_00) 
+			{// 種類をゲームに設定
+				nType = UI_MAP_00_TYPE_GAME;
+			}
+			else if (GetMode() == MODE_TUTORIAL_00) 
+			{// 種類をチュートリアルに設定
+				nType = UI_MAP_00_TYPE_TUTORIAL;
+			}
+
+			// テクスチャの設定
+			pDevice->SetTexture(0, g_aMapTextureUi_map_00[nType]);
+		}
+		else
+		{// カウントが0でない時、
+			// テクスチャの設定
+			pDevice->SetTexture(0, g_aTextureUi_map_00[nCntPoly]);
+		}
 
 		for (int nCntPolyIdx = 0; nCntPolyIdx < pPoly->nMax; nCntPolyIdx++)
 		{
 			switch (nCntPoly)
 			{
 			case/*/ アイコン(敵) /*/ UI_MAP_00_POLYGON_ICON_ENEMY:
-				if (!GetChr_enemy_00()[nCntPolyIdx].bUse)
-				{// カウントのCHR:敵[00] が使用されていない状態の時、
+				if ((!GetChr_enemy_00()[nCntPolyIdx].bUse) || (GetChr_enemy_00()[nCntPolyIdx].bRecognitionOff))
+				{// カウントのCHR:敵[00] が使用されていない or 認識フラグが真の時、
 					continue;	// 繰り返し処理を折り返す
 				}
 				break;

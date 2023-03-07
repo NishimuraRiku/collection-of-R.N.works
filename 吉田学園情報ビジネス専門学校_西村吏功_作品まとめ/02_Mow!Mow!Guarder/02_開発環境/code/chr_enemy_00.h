@@ -65,40 +65,50 @@ typedef enum
 // CHR:敵[00] のコマンド
 typedef enum
 {
-	CHR_ENEMY_00_COMMAND_TORTUOUS_MOVE_START,		// 曲折式移動開始
-	CHR_ENEMY_00_COMMAND_TORTUOUS_MOVE_END,			// 曲折式移動終了
-	CHR_ENEMY_00_COMMAND_TURN_MOVE_START,			// 方向転換式移動開始
-	CHR_ENEMY_00_COMMAND_TURN_MOVE_END,				// 方向転換式移動終了
-	CHR_ENEMY_00_COMMAND_FORCE_MOVE_START,			// 推進式移動開始
-	CHR_ENEMY_00_COMMAND_FORCE_MOVE_END,			// 推進式移動終了
-	CHR_ENEMY_00_COMMAND_TURN_TO_TURN_POS_START,	// 振り向き位置に振り向き開始
-	CHR_ENEMY_00_COMMAND_TURN_TO_TURN_POS_END,		// 振り向き位置に振り向き終了
-	CHR_ENEMY_00_COMMAND_TURN_TO_MOVE_ROT_START,	// 移動向きに振り向き開始
-	CHR_ENEMY_00_COMMAND_TURN_TO_MOVE_ROT_END,		// 移動向きに振り向き終了
-	CHR_ENEMY_00_COMMAND_Z_LOCK,					// Z座標をロック
-	CHR_ENEMY_00_COMMAND_Z_UNLOCK,					// Z座標をアンロック
-	CHR_ENEMY_00_COMMAND_CHILD_SET,					// 子設定
-	CHR_ENEMY_00_COMMAND_CHILD_DEPENDENCY,			// 子依存
-	CHR_ENEMY_00_COMMAND_SPIN_START,				// 回転開始
-	CHR_ENEMY_00_COMMAND_SPIN_END,					// 回転終了
-	CHR_ENEMY_00_COMMAND_SHOT,						// 弾発射
-	CHR_ENEMY_00_COMMAND_PLAY_SOUND,				// サウンド再生
-	CHR_ENEMY_00_COMMAND_MOTION_SET,				// モーション設定
-	CHR_ENEMY_00_COMMAND_AUTO_SHOT_START,			// 自動ショット開始
-	CHR_ENEMY_00_COMMAND_AUTO_SHOT_END,				// 自動ショット終了
-	CHR_ENEMY_00_COMMAND_UNIT_IGNORED_START,		// ユニット無視開始
-	CHR_ENEMY_00_COMMAND_UNIT_IGNORED_END,			// ユニット無視終了
-	CHR_ENEMY_00_COMMAND_MOVE_START,				// 移動開始
-	CHR_ENEMY_00_COMMAND_MOVE_END,					// 移動終了
-	CHR_ENEMY_00_COMMAND_ALLY_SET,					// 味方設定
-	CHR_ENEMY_00_COMMAND_ATK_IMPACT,				// ATK:衝撃
-	CHR_ENEMY_00_COMMAND_EFF_SHOCKWAVE_00,			// EFF:衝撃波[00]
-	CHR_ENEMY_00_COMMAND_COLLISION_DAMAGE_CHANGE,	// 衝突ダメージ変更
-	CHR_ENEMY_00_COMMAND_COLLISION_DAMAGE_UNDO,		// 衝突ダメージを元に戻す
-	CHR_ENEMY_00_COMMAND_BOSS_DEPENDENCY,			// ボス依存
-	CHR_ENEMY_00_COMMAND_ALLY_SET_ABSOLUTE,			// 味方設定(絶対位置)
-	CHR_ENEMY_00_COMMAND_RECOGNITION_OFF,			// 認識OFF
-	CHR_ENEMY_00_COMMAND_TELEPORTATION,				// 瞬間移動
+	CHR_ENEMY_00_COMMAND_TORTUOUS_MOVE_START,			// 曲折式移動開始
+	CHR_ENEMY_00_COMMAND_TORTUOUS_MOVE_END,				// 曲折式移動終了
+	CHR_ENEMY_00_COMMAND_TURN_MOVE_START,				// 方向転換式移動開始
+	CHR_ENEMY_00_COMMAND_TURN_MOVE_END,					// 方向転換式移動終了
+	CHR_ENEMY_00_COMMAND_FORCE_MOVE_START,				// 推進式移動開始
+	CHR_ENEMY_00_COMMAND_FORCE_MOVE_END,				// 推進式移動終了
+	CHR_ENEMY_00_COMMAND_TURN_TO_TURN_POS_START,		// 振り向き位置に振り向き開始
+	CHR_ENEMY_00_COMMAND_TURN_TO_TURN_POS_END,			// 振り向き位置に振り向き終了
+	CHR_ENEMY_00_COMMAND_TURN_TO_MOVE_ROT_START,		// 移動向きに振り向き開始
+	CHR_ENEMY_00_COMMAND_TURN_TO_MOVE_ROT_END,			// 移動向きに振り向き終了
+	CHR_ENEMY_00_COMMAND_Z_LOCK,						// Z座標をロック
+	CHR_ENEMY_00_COMMAND_Z_UNLOCK,						// Z座標をアンロック
+	CHR_ENEMY_00_COMMAND_CHILD_SET,						// 子設定
+	CHR_ENEMY_00_COMMAND_CHILD_DEPENDENCY,				// 子依存
+	CHR_ENEMY_00_COMMAND_SPIN_START,					// 回転開始
+	CHR_ENEMY_00_COMMAND_SPIN_END,						// 回転終了
+	CHR_ENEMY_00_COMMAND_SHOT,							// 弾発射
+	CHR_ENEMY_00_COMMAND_PLAY_SOUND,					// サウンド再生
+	CHR_ENEMY_00_COMMAND_MOTION_SET,					// モーション設定
+	CHR_ENEMY_00_COMMAND_AUTO_SHOT_START,				// 自動ショット開始
+	CHR_ENEMY_00_COMMAND_AUTO_SHOT_END,					// 自動ショット終了
+	CHR_ENEMY_00_COMMAND_UNIT_IGNORED_START,			// ユニット無視開始
+	CHR_ENEMY_00_COMMAND_UNIT_IGNORED_END,				// ユニット無視終了
+	CHR_ENEMY_00_COMMAND_MOVE_START,					// 移動開始
+	CHR_ENEMY_00_COMMAND_MOVE_END,						// 移動終了
+	CHR_ENEMY_00_COMMAND_ALLY_SET,						// 味方設定
+	CHR_ENEMY_00_COMMAND_ATK_IMPACT,					// ATK:衝撃
+	CHR_ENEMY_00_COMMAND_EFF_SHOCKWAVE_00,				// EFF:衝撃波[00]
+	CHR_ENEMY_00_COMMAND_COLLISION_DAMAGE_CHANGE,		// 衝突ダメージ変更
+	CHR_ENEMY_00_COMMAND_COLLISION_DAMAGE_UNDO,			// 衝突ダメージを元に戻す
+	CHR_ENEMY_00_COMMAND_BOSS_DEPENDENCY,				// ボス依存
+	CHR_ENEMY_00_COMMAND_ALLY_SET_ABSOLUTE,				// 味方設定(絶対位置)
+	CHR_ENEMY_00_COMMAND_RECOGNITION_OFF,				// 認識OFF
+	CHR_ENEMY_00_COMMAND_TELEPORTATION,					// 瞬間移動
+	CHR_ENEMY_00_COMMAND_REFLECTION_START,				// 反射開始
+	CHR_ENEMY_00_COMMAND_REFLECTION_END,				// 反射終了
+	CHR_ENEMY_00_COMMAND_CHANGE_ACT_BY_HP,				// 残りHPに応じて行動パターンを変更
+	CHR_ENEMY_00_COMMAND_RELEASE_PARENT,				// 親離れ
+	CHR_ENEMY_00_COMMAND_CHANGE_POS,					// 座標変更
+	CHR_ENEMY_00_COMMAND_DESTRUCTION,					// 自己破壊
+	CHR_ENEMY_00_COMMAND_COUNT_SET,						// カウント設定
+	CHR_ENEMY_00_COMMAND_PARENT_COUNT_UPDATE_ON_DEATH,	// 死んだ時に親のカウント値を変動させる
+	CHR_ENEMY_00_COMMAND_CHANGE_ACT_BY_COUNT,			// カウントに応じて行動パターンを変更
+	CHR_ENEMY_00_COMMAND_EFF_EXPLOSION_00,				// EFF:爆発[00]
 	CHR_ENEMY_00_COMMAND_MAX,
 }CHR_ENEMY_00_COMMAND;
 
@@ -176,6 +186,7 @@ typedef struct
 	int					nCounterVib;		// 振動カウンター
 	D3DXVECTOR3			vibrationPos;		// 振動位置
 	int					nParentIdx;			// 親の番号
+	int					nParentIdxOld;		// 過去の親の番号
 	bool				bAutoShot;			// 自動ショットフラグ
 	int					nBulletType;		// 弾の種類
 	int					nShotTimeMin;		// 発射間隔の下限
@@ -185,6 +196,12 @@ typedef struct
 	int					nNewCollDamage;		// 新規衝突ダメージ
 	bool				bBossDependency;	// ボス依存フラグ
 	bool				bRecognitionOff;	// 認識OFFフラグ
+	bool				bReflection;		// 反射フラグ
+	int					nChangeActHP;		// 行動パターンを変更するHP
+	int					nCount;				// カウント
+	int			nParentCountUpdateOnDeath;	// 死んだ時の親のカウント値を変動値
+	int					nChangeActCount;	// 行動パターンを変更するカウント
+	int					nChangeAct;			// 変更する行動パターン
 
 	// 運動関連
 	HitTestInfo hitTestInfo;	// 当たり判定の管理情報

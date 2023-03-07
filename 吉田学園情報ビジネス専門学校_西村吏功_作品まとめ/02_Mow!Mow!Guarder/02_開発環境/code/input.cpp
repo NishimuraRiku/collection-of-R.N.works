@@ -142,8 +142,8 @@ D3DXVECTOR3 GetCursorPosOnScreen(void)
 	GetClientRect(*GetWindowHandle(), &rc);
 
 	return D3DXVECTOR3(
-		(cursorPos.x - GetWindowPos().x) * (SCREEN_WIDTH / (float)rc.right),
-		(cursorPos.y - GetWindowPos().y) * (SCREEN_HEIGHT / (float)rc.bottom),
+		(cursorPos.x - GetWindowPos().x) * (BUFFER_WIDTH / (float)rc.right),
+		(cursorPos.y - GetWindowPos().y) * (BUFFER_HEIGHT / (float)rc.bottom),
 		0.0f);
 }
 

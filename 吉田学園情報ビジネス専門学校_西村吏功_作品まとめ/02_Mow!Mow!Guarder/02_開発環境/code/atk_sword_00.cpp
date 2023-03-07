@@ -148,9 +148,12 @@ void UpdatePosAtk_sword_00(void)
 	Atk_sword_00Type	*pType	// ATK:Œ•[00] ‚ÌŽí—Þ–ˆ‚Ìî•ñ
 						= &g_aAtk_sword_00Type[pAtk->nType];
 
+	// Š„‡
+	float fRate = ((float)GetChr_player_00()->nCounterAttack / (float)CHR_PLAYER_00_SLASH_TIME);
+
 	pAtk->rot.y =
 		GetChr_player_00()->rot.y - (CHR_PLAYER_00_SLASH_INSIDE * 0.5f)
-		+ (CHR_PLAYER_00_SLASH_INSIDE * ((float)GetChr_player_00()->nCounterAttack / (float)CHR_PLAYER_00_SLASH_TIME));
+		+ (CHR_PLAYER_00_SLASH_INSIDE * fRate);
 	pAtk->pos = GetChr_player_00()->pos;
 	pAtk->pos.x += sinf(pAtk->rot.y) * ATK_SWORD_00_LENGTH_PLAYER;
 	pAtk->pos.z += cosf(pAtk->rot.y) * ATK_SWORD_00_LENGTH_PLAYER;
@@ -173,7 +176,7 @@ void UpdatePosAtk_sword_00(void)
 	CollisionProcessAtk_sword_00();
 
 	SetEff_light_00(pAtk->pos,		// EFF:Œõ[00] ‚ÌÝ’èˆ—
-		pType->nLightType);
+		pType->nLightType, fRate);
 }
 
 //========================================

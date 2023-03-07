@@ -31,7 +31,7 @@
 #define OBJ_CORE_00_TYPE_DATA_FILE_PATH	"data\\GAMEDATA\\OBJECT\\OBJ_CORE_00_TYPE_DATA.txt"
 
 // OBJ:コア[00] の種類の数
-#define OBJ_CORE_00_TYPE_NUM	(1)
+#define OBJ_CORE_00_TYPE_NUM	(2)
 
 // OBJ:コア[00] の無敵時間
 #define OBJ_CORE_00_INVINCIBLE_TIME	(10)
@@ -45,6 +45,11 @@
 #define OBJ_CORE_00_WARNING_DISTANCE	(40.0f)
 #define OBJ_CORE_00_WARNING_TIME		(40)
 #define OBJ_CORE_00_WARNING_SE			(SOUND_LABEL_SE_WARNING_000)
+
+// OBJ:コア[00] のゲーム時の種類
+#define OBJ_CORE_00_GAME_TYPE		(0)
+// OBJ:コア[00] のチュートリアル時の種類
+#define OBJ_CORE_00_TUTORIAL_TYPE	(1)
 
 //****************************************
 // 構造体の定義
@@ -113,7 +118,17 @@ void InitParameterObj_core_00(void)
 
 	pObj->pos					= D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 現在の位置
 	pObj->rot					= D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 向き
-	pObj->nType					= 0;								// 種類
+
+	// 現在のモードに応じて
+	if (GetMode() == MODE_GAME_00) 
+	{// 種類をゲーム時のものに設定
+		pObj->nType = OBJ_CORE_00_GAME_TYPE;
+	}
+	else if (GetMode() == MODE_TUTORIAL_00) 
+	{// 種類をチューとリアル時のものに設定
+		pObj->nType = OBJ_CORE_00_TUTORIAL_TYPE;
+	}
+
 	pObj->bUse					= true;								// 使用されているかフラグ
 	pObj->nHP					=									// HP
 	pObj->nHPMax				= 0;								// HPの上限
@@ -526,7 +541,7 @@ int CollisionObj_core_00(VECTOR vector, Collision *pObjCollision, Collision *pCm
 //========================================
 void DamageObj_core_00(int nDamage)
 {
-	if (GetObj_stage_00()->state == OBJ_STAGE_00_STATE_INTERVAL)
+	if ((GetObj_stage_00()->state == OBJ_STAGE_00_STATE_INTERVAL) || (nDamage == 0))
 	{// OBJ:ステージ[00] の状態がインターバルの時、
 		return;	// 処理を終了する
 	}

@@ -27,6 +27,21 @@
 //****************************************
 // 列挙型の定義
 //****************************************
+// タイトル画面[00] のメインメニュー
+typedef enum
+{
+	MD_TITLE_00_MAIN_MENU_START,	// 開始
+	MD_TITLE_00_MAIN_MENU_TUTORIAL,	// チュートリアル
+	MD_TITLE_00_MAIN_MENU_USERGUID,	// ユーザーガイド
+	MD_TITLE_00_MAIN_MENU_RANKING,	// ランキング
+	MD_TITLE_00_MAIN_MENU_SETTINGS,	// 設定
+	MD_TITLE_00_MAIN_MENU_EXIT,		// 終了
+	MD_TITLE_00_MAIN_MENU_MAX,
+}MD_TITLE_00_MAIN_MENU;
+
+//****************************************
+// 列挙型の定義
+//****************************************
 // MD:タイトル画面[00] の状態
 typedef enum 
 {

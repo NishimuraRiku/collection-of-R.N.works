@@ -20,7 +20,7 @@
 // マクロ定義
 //****************************************
 // UI:商品ガイド[00] の位置
-#define UI_ITEMGUID_00_POS	(D3DXVECTOR3(INSIDE_SCREEN_RIGHTMOST-(PIXEL*64),(SCREEN_HEIGHT*0.5f),0.0f))
+#define UI_ITEMGUID_00_POS	(D3DXVECTOR3(INSIDE_SCREEN_RIGHTMOST-(PIXEL*64),(BUFFER_HEIGHT*0.5f),0.0f))
 
 //****************************************
 // 列挙型の定義

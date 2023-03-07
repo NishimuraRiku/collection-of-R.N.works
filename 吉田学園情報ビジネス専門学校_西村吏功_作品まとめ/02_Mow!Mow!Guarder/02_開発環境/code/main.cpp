@@ -21,9 +21,10 @@
 #include "item.h"			// ITEM
 #include "system.h"			// SYSTEM
 #include "object.h"			// OBJECT
-#include "md_game_00.h"		// MD :ゲーム		[00]
-#include "md_title_00.h"	// MD :タイトル		[00]
-#include "ui_screen_00.h"	// UI :スクリーン	[00]
+#include "md_game_00.h"		// MD :ゲーム			[00]
+#include "md_title_00.h"	// MD :タイトル			[00]
+#include "md_tutorial_00.h"	// MD :チュートリアル	[00]
+#include "ui_screen_00.h"	// UI :スクリーン		[00]
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -163,8 +164,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR IpCmdLine
 		WS_SYSMENU | WS_MINIMIZEBOX,	// ウインドウスタイル
 		CW_USEDEFAULT,					// ウインドウの左上X座標
 		CW_USEDEFAULT,					// ウインドウの左上Y座標
-		SCREEN_WIDTH,					// ウインドウの幅
-		SCREEN_HEIGHT,					// ウインドウの高さ
+		BUFFER_WIDTH,					// ウインドウの幅
+		BUFFER_HEIGHT,					// ウインドウの高さ
 		NULL,							// 親ウインドウのハンドル
 		NULL,							// メニューハンドルまたは
 		hInstance,						// インスタンスハンドル
@@ -372,8 +373,8 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// デバイスのプレゼンテーションパラメータを設定
 	ZeroMemory(&d3dpp, sizeof(d3dpp)); // パラメータのゼロクリア
 
-	d3dpp.BackBufferWidth				= SCREEN_WIDTH;					// ゲームの画面サイズ(幅)
-	d3dpp.BackBufferHeight				= SCREEN_HEIGHT;				// ゲームの画面サイズ(高さ)
+	d3dpp.BackBufferWidth				= BUFFER_WIDTH;					// ゲームの画面サイズ(幅)
+	d3dpp.BackBufferHeight				= BUFFER_HEIGHT;				// ゲームの画面サイズ(高さ)
 	d3dpp.BackBufferFormat				= d3ddm.Format;					// バックバッファの形式
 	d3dpp.BackBufferCount				= 1;							// バックバッファの数
 	d3dpp.SwapEffect					= D3DSWAPEFFECT_DISCARD;		// ダブルバッファの切り替え
@@ -594,8 +595,9 @@ void ModeInit(MODE mode)
 {
 	switch (mode)
 	{
-	case MODE_GAME_00	:InitMd_game_00()	; break;	// MD:ゲーム画面	[00]
-	case MODE_TITLE_00	:InitMd_title_00()	; break;	// MD:タイトル画面	[00]
+	case MODE_GAME_00		:InitMd_game_00()		; break;	// MD:ゲーム画面			[00]
+	case MODE_TITLE_00		:InitMd_title_00()		; break;	// MD:タイトル画面			[00]
+	case MODE_TUTORIAL_00	:InitMd_tutorial_00()	; break;	// MD:チュートリアル画面	[00]
 	}
 }
 
@@ -606,8 +608,9 @@ void ModeUninit(MODE mode)
 {
 	switch (mode)
 	{
-	case MODE_GAME_00	:UninitMd_game_00()	; break;	// MD:ゲーム画面	[00]
-	case MODE_TITLE_00	:UninitMd_title_00(); break;	// MD:タイトル画面	[00]
+	case MODE_GAME_00		:UninitMd_game_00()		; break;	// MD:ゲーム画面			[00]
+	case MODE_TITLE_00		:UninitMd_title_00()	; break;	// MD:タイトル画面			[00]
+	case MODE_TUTORIAL_00	:UninitMd_tutorial_00()	; break;	// MD:チュートリアル画面	[00]
 	}
 }
 
@@ -618,8 +621,9 @@ void ModeUpdate(MODE mode)
 {
 	switch (mode)
 	{
-	case MODE_GAME_00	:UpdateMd_game_00()	; break;	// MD:ゲーム画面	[00]
-	case MODE_TITLE_00	:UpdateMd_title_00(); break;	// MD:タイトル画面	[00]
+	case MODE_GAME_00		:UpdateMd_game_00()		; break;	// MD:ゲーム画面			[00]
+	case MODE_TITLE_00		:UpdateMd_title_00()	; break;	// MD:タイトル画面			[00]
+	case MODE_TUTORIAL_00	:UpdateMd_tutorial_00()	; break;	// MD:チュートリアル画面	[00]
 	}
 }
 
@@ -630,8 +634,9 @@ void ModeDraw(MODE mode)
 {
 	switch (mode)
 	{
-	case MODE_GAME_00	:DrawMd_game_00()	; break;	// MD:ゲーム画面	[00]
-	case MODE_TITLE_00	:DrawMd_title_00()	; break;	// MD:タイトル画面	[00]
+	case MODE_GAME_00		:DrawMd_game_00()		; break;	// MD:ゲーム画面			[00]
+	case MODE_TITLE_00		:DrawMd_title_00()		; break;	// MD:タイトル画面			[00]
+	case MODE_TUTORIAL_00	:DrawMd_tutorial_00()	; break;	// MD:チュートリアル画面	[00]
 	}
 }
 

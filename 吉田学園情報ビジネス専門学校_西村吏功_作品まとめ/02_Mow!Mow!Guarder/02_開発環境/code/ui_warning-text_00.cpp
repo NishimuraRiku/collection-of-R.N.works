@@ -17,8 +17,8 @@
 //****************************************
 // UI:íçà”ÉeÉLÉXÉg[00] ÇÃà íu
 // UI:íçà”ÉeÉLÉXÉg[00] ÇÃÉeÉLÉXÉgÇÃëäëŒà íu
-#define UI_WARNINGTEXT_00_POS				(D3DXVECTOR3((SCREEN_WIDTH*0.5f),PIXEL*24,0.0f))
-#define UI_WARNINGTEXT_00_TEXT_RELATIVE_POS	(D3DXVECTOR3(0,PIXEL*-13,0.0f))
+#define UI_WARNINGTEXT_00_POS				(D3DXVECTOR3((BUFFER_WIDTH*0.5f),PIXEL*64,0.0f))
+#define UI_WARNINGTEXT_00_TEXT_RELATIVE_POS	(D3DXVECTOR3(0,PIXEL*-8,0.0f))
 
 // UI:íçà”ÉeÉLÉXÉg[00] ÇÃì_ñ≈Ç…Ç©Ç©ÇÈéûä‘
 #define UI_WARNINGTEXT_00_BRINK_TIME		(60)
@@ -32,7 +32,8 @@
 // UI:íçà”ÉeÉLÉXÉg[00] ÇÃïîïiî‘çÜ
 typedef enum
 {
-	UI_WARNINGTEXT_00_PARTS_WARNINGTEXT,	// íçà”ÉeÉLÉXÉg
+	UI_WARNINGTEXT_00_PARTS_CURTAIN,		// ÉJÅ[ÉeÉì
+	UI_WARNINGTEXT_00_PARTS_MARK,			// É}Å[ÉN
 	UI_WARNINGTEXT_00_PARTS_SHADOW,			// âe
 	UI_WARNINGTEXT_00_PARTS_MAX,
 }UI_WARNINGTEXT_00_PARTS;
@@ -40,6 +41,7 @@ typedef enum
 // UI:íçà”ÉeÉLÉXÉg[00] ÇÃÉeÉNÉXÉ`ÉÉî‘çÜ
 typedef enum 
 {
+	UI_WARNINGTEXT_00_TEXTURE_CURTAIN,	// ÉJÅ[ÉeÉì
 	UI_WARNINGTEXT_00_TEXTURE_NORMAL,	// í èÌ
 	UI_WARNINGTEXT_00_TEXTURE_WARNING,	// íçà”
 	UI_WARNINGTEXT_00_TEXTURE_MAX,
@@ -91,15 +93,17 @@ Ui_warningText_00Control	g_ui_warningTextControl;	// UI:íçà”ÉeÉLÉXÉg[00] ÇÃä«óùè
 // UI:íçà”ÉeÉLÉXÉg[00] ÇÃÉeÉNÉXÉ`ÉÉñàÇÃèÓïÒ
 const char c_aUi_warningText_00TexturePath[UI_WARNINGTEXT_00_TEXTURE_MAX][TXT_MAX] =
 {
-	"data\\TEXTURE\\UserInterface\\ui_monster-mark_000.png",	// í èÌ
+	"data\\TEXTURE\\UserInterface\\ui_curtain_000.png",			// ÉJÅ[ÉeÉì
+	"data\\TEXTURE\\UserInterface\\ui_monster-mark_000.png",	// É}Å[ÉN
 	"data\\TEXTURE\\UserInterface\\ui_boss-mark_000.png",		// íçà”
 };
 
 // UI:íçà”ÉeÉLÉXÉg[00] ÇÃïîïiñàÇÃèÓïÒ
 const Ui_warningText_00Parts c_aUi_warningText_00Parts[UI_WARNINGTEXT_00_PARTS_MAX] =
 {
-	{ PIXEL * 32, PIXEL * 32 },	// íçà”ÉeÉLÉXÉg
-	{ PIXEL * 32, PIXEL * 32 },	// âe
+	{ PIXEL * 64, PIXEL * 16 },	// ÉJÅ[ÉeÉì
+	{ PIXEL * 16, PIXEL * 16 },	// íçà”ÉeÉLÉXÉg
+	{ PIXEL * 16, PIXEL * 16 },	// âe
 };
 
 //================================================================================
@@ -129,7 +133,15 @@ void UpdatePartsUi_warningText_00(VERTEX_2D *pVtx, UI_WARNINGTEXT_00_PARTS parts
 
 	switch (parts)
 	{
-	case /*/ íçà”ÉeÉLÉXÉg /*/UI_WARNINGTEXT_00_PARTS_WARNINGTEXT: {
+	case /*/ É}Å[ÉN /*/UI_WARNINGTEXT_00_PARTS_MARK: {
+		// í∏ì_ç¿ïWÇê›íË
+		SetVertexPos2D(pVtx,
+			UI_WARNINGTEXT_00_POS + UI_WARNINGTEXT_00_TEXT_RELATIVE_POS,
+			D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+			false,
+			c_aUi_warningText_00Parts[parts].fWidth,
+			c_aUi_warningText_00Parts[parts].fHeight,
+			ANGLE_TYPE_FIXED);
 
 		break;
 	}
@@ -139,7 +151,7 @@ void UpdatePartsUi_warningText_00(VERTEX_2D *pVtx, UI_WARNINGTEXT_00_PARTS parts
 
 		// í∏ì_ç¿ïWÇê›íË
 		SetVertexPos2D(pVtx,
-			UI_WARNINGTEXT_00_POS,
+			UI_WARNINGTEXT_00_POS + UI_WARNINGTEXT_00_TEXT_RELATIVE_POS,
 			D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 			false,
 			c_aUi_warningText_00Parts[parts].fWidth * fScale,
@@ -293,11 +305,20 @@ void DrawUi_warningText_00(void)
 
 	for (int nCntParts = 0; nCntParts < UI_WARNINGTEXT_00_PARTS_MAX; nCntParts++)
 	{
+		UI_WARNINGTEXT_00_TEXTURE tex;
+
+		if (nCntParts != UI_WARNINGTEXT_00_PARTS_CURTAIN) 
+		{// ÉJÉEÉìÉgÇÃïîïiÇ™ÉJÅ[ÉeÉìÇ≈Ç»Ç¢éûÅA
+			tex = !GetObj_stage_00Type()->waveSet.aWave[GetObj_stage_00()->nWave].bWarningText ?
+				UI_WARNINGTEXT_00_TEXTURE_NORMAL : UI_WARNINGTEXT_00_TEXTURE_WARNING;
+		}
+		else 
+		{// ÉJÉEÉìÉgÇÃïîïiÇ™ÉJÅ[ÉeÉìÇÃéûÅA
+			tex = UI_WARNINGTEXT_00_TEXTURE_CURTAIN;
+		}
+
 		// ÉeÉNÉXÉ`ÉÉÇÃê›íË
-		pDevice->SetTexture(0,
-			g_aTextureUi_warningText_00[
-				!GetObj_stage_00Type()->waveSet.aWave[GetObj_stage_00()->nWave].bWarningText ?
-					UI_WARNINGTEXT_00_TEXTURE_NORMAL : UI_WARNINGTEXT_00_TEXTURE_WARNING]);
+		pDevice->SetTexture(0,g_aTextureUi_warningText_00[tex]);
 
 		// UI:íçà”ÉeÉLÉXÉg[00] ÇÃï`âÊ
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntParts * 4, 2);

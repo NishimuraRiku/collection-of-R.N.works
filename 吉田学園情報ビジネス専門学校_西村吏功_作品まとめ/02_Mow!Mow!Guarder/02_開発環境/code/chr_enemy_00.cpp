@@ -177,40 +177,51 @@ int					g_nChr_enemy_00TypeNum;	// CHR:敵[00] の種類数
 // CHR:敵[00] の行動の種類毎の情報構造体
 const Chr_enemy_00ActType g_aChr_enemy_00ActType[CHR_ENEMY_00_COMMAND_MAX] =
 {
-	{ "TORTUOUS_MOVE_START"    ,0  },	// 曲折式移動開始
-	{ "TORTUOUS_MOVE_END"      ,0  },	// 曲折式移動終了
-	{ "TURN_MOVE_START"        ,2  },	// 方向転換式移動開始
-	{ "TURN_MOVE_END"          ,0  },	// 方向転換式移動終了
-	{ "FORCE_MOVE_START"       ,1  },	// 推進式移動開始
-	{ "FORCE_MOVE_END"         ,0  },	// 推進式移動終了
-	{ "TURN_TO_TURN_POS_START" ,0  },	// 振り向き位置に振り向き開始
-	{ "TURN_TO_TURN_POS_END"   ,0  },	// 振り向き位置に振り向き終了
-	{ "TURN_TO_MOVE_ROT_START" ,0  },	// 移動向きに振り向き開始
-	{ "TURN_TO_MOVE_ROT_END"   ,0  },	// 移動向きに振り向き終了
-	{ "Z_LOCK"                 ,0  },	// Z座標をロック
-	{ "Z_UNLOCK"               ,0  },	// Z座標をアンロック
-	{ "CHILD_SET"              ,7  },	// 子設定
-	{ "CHILD_DEPENDENCY"       ,0  },	// 子依存
-	{ "SPIN_START"             ,3  },	// 回転開始
-	{ "SPIN_END"               ,0  },	// 回転終了
-	{ "SHOT"                   ,7  },	// 弾発射
-	{ "PLAY_SOUND"             ,1  },	// サウンド再生
-	{ "MOTION_SET"             ,1  },	// モーション設定
-	{ "AUTO_SHOT_START"        ,3  },	// 自動ショット開始
-	{ "AUTO_SHOT_END"          ,0  },	// 自動ショット終了
-	{ "UNIT_IGNORED_START"     ,0  },	// ユニット無視開始
-	{ "UNIT_IGNORED_END"       ,0  },	// ユニット無視終了
-	{ "MOVE_START"             ,3  },	// 移動開始
-	{ "MOVE_END"               ,0  },	// 移動終了
-	{ "ALLY_SET"               ,7  },	// 味方設定
-	{ "ATK_IMPACT"             ,7  },	// ATK:衝撃
-	{ "EFF_SHOCKWAVE_00"       ,18 },	// EFF:衝撃波[00]
-	{ "COLLISION_DAMAGE_CHANGE",1  },	// 衝突ダメージを変更
-	{ "COLLISION_DAMAGE_UNDO"  ,0  },	// 衝突ダメージを元に戻す
-	{ "BOSS_DEPENDENCY"        ,0  },	// ボス依存
-	{ "ALLY_SET_ABSOLUTE"      ,7  },	// 味方設定(絶対位置)
-	{ "RECOGNITION_OFF"        ,0  },	// 認識OFF
-	{ "TELEPORTATION"          ,3  },	// 瞬間移動
+	{ "TORTUOUS_MOVE_START"         ,0  },	// 曲折式移動開始
+	{ "TORTUOUS_MOVE_END"           ,0  },	// 曲折式移動終了
+	{ "TURN_MOVE_START"             ,2  },	// 方向転換式移動開始
+	{ "TURN_MOVE_END"               ,0  },	// 方向転換式移動終了
+	{ "FORCE_MOVE_START"            ,1  },	// 推進式移動開始
+	{ "FORCE_MOVE_END"              ,0  },	// 推進式移動終了
+	{ "TURN_TO_TURN_POS_START"      ,0  },	// 振り向き位置に振り向き開始
+	{ "TURN_TO_TURN_POS_END"        ,0  },	// 振り向き位置に振り向き終了
+	{ "TURN_TO_MOVE_ROT_START"      ,0  },	// 移動向きに振り向き開始
+	{ "TURN_TO_MOVE_ROT_END"        ,0  },	// 移動向きに振り向き終了
+	{ "Z_LOCK"                      ,0  },	// Z座標をロック
+	{ "Z_UNLOCK"                    ,0  },	// Z座標をアンロック
+	{ "CHILD_SET"                   ,7  },	// 子設定
+	{ "CHILD_DEPENDENCY"            ,0  },	// 子依存
+	{ "SPIN_START"                  ,3  },	// 回転開始
+	{ "SPIN_END"                    ,0  },	// 回転終了
+	{ "SHOT"                        ,7  },	// 弾発射
+	{ "PLAY_SOUND"                  ,1  },	// サウンド再生
+	{ "MOTION_SET"                  ,1  },	// モーション設定
+	{ "AUTO_SHOT_START"             ,3  },	// 自動ショット開始
+	{ "AUTO_SHOT_END"               ,0  },	// 自動ショット終了
+	{ "UNIT_IGNORED_START"          ,0  },	// ユニット無視開始
+	{ "UNIT_IGNORED_END"            ,0  },	// ユニット無視終了
+	{ "MOVE_START"                  ,3  },	// 移動開始
+	{ "MOVE_END"                    ,0  },	// 移動終了
+	{ "ALLY_SET"                    ,7  },	// 味方設定
+	{ "ATK_IMPACT"                  ,7  },	// ATK:衝撃
+	{ "EFF_SHOCKWAVE_00"            ,18 },	// EFF:衝撃波[00]
+	{ "COLLISION_DAMAGE_CHANGE"     ,1  },	// 衝突ダメージを変更
+	{ "COLLISION_DAMAGE_UNDO"       ,0  },	// 衝突ダメージを元に戻す
+	{ "BOSS_DEPENDENCY"             ,0  },	// ボス依存
+	{ "ALLY_SET_ABSOLUTE"           ,7  },	// 味方設定(絶対位置)
+	{ "RECOGNITION_OFF"             ,0  },	// 認識OFF
+	{ "TELEPORTATION"               ,3  },	// 瞬間移動
+	{ "REFLECTION_START"            ,0  },	// 反射開始
+	{ "REFLECTION_END"              ,0  },	// 反射終了
+	{ "CHANGE_ACT_BY_HP"            ,2  },	// 残りHPに応じて行動パターンを変更
+	{ "RELEASE_PARENT"              ,0  },	// 親離れ
+	{ "CHANGE_POS"                  ,3  },	// 位置変更
+	{ "DESTRUCTION"                 ,0  },	// 自己破壊
+	{ "COUNT_SET"                   ,1  },	// カウント設定
+	{ "PARENT_COUNT_UPDATE_ON_DEATH",1  },	// 死んだ時に親のカウント値を変動させる
+	{ "CHANGE_ACT_BY_COUNT"         ,2  },	// カウントに応じて行動パターンを変更
+	{ "EFF_EXPLOSION_00"            ,4 },	// EFF:爆発[00]
+
 };
 
 //========== *** CHR:敵[00] の情報を取得 ***
@@ -330,6 +341,7 @@ void InitParameterChr_enemy_00(Chr_enemy_00 *pChr)
 	pChr->nCounterVib			= 0;							// 振動カウンター
 	pChr->vibrationPos			= INITD3DXVECTOR3;				// 振動位置
 	pChr->nParentIdx			= -1;							// 親の番号
+	pChr->nParentIdxOld			= -1;							// 過去の親の番号
 	pChr->bAutoShot				= false;						// 自動ショットフラグ
 	pChr->nBulletType			= 0;							// 弾の種類
 	pChr->nShotTimeMin			= 0;							// 発射間隔の下限
@@ -339,6 +351,12 @@ void InitParameterChr_enemy_00(Chr_enemy_00 *pChr)
 	pChr->nNewCollDamage		= 0;							// 新規衝突ダメージ
 	pChr->bBossDependency		= false;						// ボス依存フラグ
 	pChr->bRecognitionOff		= false;						// 認識OFFフラグ
+	pChr->bReflection			= false;						// 反射フラグ
+	pChr->nChangeActHP			= 0;							// 行動パターンを変更するHP
+	pChr->nCount				= 0;							// カウント
+	pChr->nParentCountUpdateOnDeath = 0;						// 死んだ時の親のカウント値を変動値
+	pChr->nChangeActCount		= -1;							// 行動パターンを変更するカウント
+	pChr->nChangeAct			= 0;							// 変更する行動パターン
 	pChr->hitTestInfo			= {};							// 当たり判定の管理情報
 	pChr->cmnCollision			= {};							// 共通の衝突情報
 	for (int nCntHitObj			= 0; nCntHitObj < CHR_ENEMY_00_HITOBJ_MAX; nCntHitObj++)
@@ -378,6 +396,12 @@ void InitParameterSetChr_enemy_00(Chr_enemy_00 *pChr)
 	pChr->nNewCollDamage		= 0;							// 新規衝突ダメージ
 	pChr->bBossDependency		= false;						// ボス依存フラグ
 	pChr->bRecognitionOff		= false;						// 認識OFFフラグ
+	pChr->bReflection			= false;						// 反射フラグ
+	pChr->nChangeActHP			= 0;							// 行動パターンを変更するHP
+	pChr->nCount				= 0;							// カウント
+	pChr->nParentCountUpdateOnDeath = 0;						// 死んだ時の親のカウント値を変動値
+	pChr->nChangeActCount		= -1;							// 行動パターンを変更するカウント
+	pChr->nChangeAct			= 0;							// 変更する行動パターン
 	pChr->actInfo				= {};							// 行動管理情報
 	pChr->partsInfo				= {};							// 部品管理
 	pChr->nMotion				= 0;							// モーション
@@ -683,6 +707,72 @@ void ActLoadChr_enemy_00(Chr_enemy_00 *pChr)
 
 				// 過去の位置を設定する(衝突防止)
 				pChr->posOld = D3DXVECTOR3(pAct->aData[0], pAct->aData[1], pAct->aData[2]);
+				break;
+			case /*/ 反射開始 /*/CHR_ENEMY_00_COMMAND_REFLECTION_START:
+				// 反射フラグを真にする
+				pChr->bReflection = true;
+				break;
+			case /*/ 反射終了 /*/CHR_ENEMY_00_COMMAND_REFLECTION_END:
+				// 反射フラグを偽にする
+				pChr->bReflection = false;
+				break;
+			case /*/ 残りHPに応じて行動パターンを変更 /*/CHR_ENEMY_00_COMMAND_CHANGE_ACT_BY_HP:
+				// 行動パターンを変更するHPを設定
+				pChr->nChangeActHP = pAct->aData[0];
+				// 変更する行動パターンを設定
+				pChr->nChangeAct = pAct->aData[1];
+				break;
+			case /*/ 親離れ /*/CHR_ENEMY_00_COMMAND_RELEASE_PARENT:
+				// 親の番号を-1に設定
+				pChr->nParentIdx = -1;
+				break;
+			case /*/ 位置変更 /*/CHR_ENEMY_00_COMMAND_CHANGE_POS:
+				// 軸番号に応じた座標値を変更する
+				switch ((int)pAct->aData[0])
+				{
+				case 0:
+					pChr->pos.x = pAct->aData[1];
+					break;
+				case 1:
+					pChr->pos.y = pAct->aData[1];
+					break;
+				case 2:
+					pChr->pos.z = pAct->aData[1];
+					break;
+				}
+				
+				break;
+			case /*/ 自己破壊 /*/CHR_ENEMY_00_COMMAND_DESTRUCTION:
+				// 自身を破壊する
+				DestroyChr_enemy_00(pChr);
+				break;
+			case /*/ カウント設定 /*/CHR_ENEMY_00_COMMAND_COUNT_SET:
+				// カウントの値を代入
+				pChr->nCount = pAct->aData[0];
+				break;
+			case /*/ 死んだ時に親のカウント値を変動させる /*/CHR_ENEMY_00_COMMAND_PARENT_COUNT_UPDATE_ON_DEATH:
+				// 死んだ時の親のカウントの変動値を設定
+				pChr->nParentCountUpdateOnDeath = pAct->aData[0];
+				break;
+			case /*/ カウントに応じて行動パターンを変更 /*/CHR_ENEMY_00_COMMAND_CHANGE_ACT_BY_COUNT:
+				// 行動パターンを変更するカウントを設定
+				pChr->nChangeActCount = pAct->aData[0];
+				// 変更する行動パターンを設定
+				pChr->nChangeAct = pAct->aData[1];
+				break;
+			case /*/ EFF:爆発[00] /*/CHR_ENEMY_00_COMMAND_EFF_EXPLOSION_00:
+				D3DXVECTOR3 setPos = pChr->pos;	// 設定位置
+
+				// 設定位置を設定
+				setPos.y += pAct->aData[1];
+				setPos.x += (sinf(pChr->rot.y)*pAct->aData[2]) + (sinf(pChr->rot.y - (D3DX_PI*0.5f))*pAct->aData[0]);
+				setPos.z += (cosf(pChr->rot.y)*pAct->aData[2]) + (cosf(pChr->rot.y - (D3DX_PI*0.5f))*pAct->aData[0]);
+
+				// EFF:爆発[00] の設定処理
+				SetEff_explosion_00(
+					setPos,
+					pAct->aData[3]);
+
 				break;
 		}
 	}
@@ -1060,7 +1150,7 @@ void CollisionProcessChr_enemy_00(Chr_enemy_00 *pChr)
 }
 
 //========================================
-// DestroyChr_enemy_00関数 -CHR:敵[00] の破壊処理 -
+// DestroyChr_enemy_00関数 - CHR:敵[00] の破壊処理 -
 //========================================
 void DestroyChr_enemy_00(Chr_enemy_00 *pChr) 
 {
@@ -1076,7 +1166,7 @@ void DestroyChr_enemy_00(Chr_enemy_00 *pChr)
 	// ITM:コイン[00] の設定処理
 	SetItm_coin_00(pChr->pos, pType->nDropCoin);
 
-	if ((pChr->nParentIdx == -1) &&
+	if (((pChr->nParentIdx == -1) && (pChr->nParentIdxOld == -1)) &&
 		(pType->rank != CHR_ENEMY_00_RANK_ALLY))
 	{// 親が存在しない時、
 		GetObj_stage_00()->nKill++;	// OBJ:ステージ[00] のキル数を加算
@@ -1087,6 +1177,20 @@ void DestroyChr_enemy_00(Chr_enemy_00 *pChr)
 
 	// 子の破壊処理
 	ChildDestoryChr_enemy_00(pChr);
+
+	if (pChr->nParentCountUpdateOnDeath != 0) 
+	{// 新た時の親のカウントの変動値が0でない時、
+		if (pChr->nParentIdx != -1) 
+		{// 親番号が-1でない時、
+			// 親のカウントを更新
+			g_aChr_enemy_00[pChr->nParentIdx].nCount += pChr->nParentCountUpdateOnDeath;
+		}
+		else if (pChr->nParentIdxOld != -1) 
+		{// 過去の親番号が-1でない時、
+			// 過去の親のカウントを更新
+			g_aChr_enemy_00[pChr->nParentIdxOld].nCount += pChr->nParentCountUpdateOnDeath;
+		}
+	}
 }
 
 //========================================
@@ -1119,13 +1223,14 @@ void SetChildChr_enemy_00(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nType, int nPare
 			continue;
 		}
 
-		pChr->pos =						// 位置を代入
-		pChr->posOld = pos;				// 過去の位置を設定
-		pChr->rot =						// 向きを代入
-		pChr->rotOld = 					// 過去の向きを代入
-		pChr->moveRot = rot;			// 移動向きを代入
-		pChr->nType = nType;			// 種類を代入
-		pChr->nParentIdx = nParentIdx;	// 親の番号を代入
+		pChr->pos =							// 位置を代入
+		pChr->posOld = pos;					// 過去の位置を設定
+		pChr->rot =							// 向きを代入
+		pChr->rotOld = 						// 過去の向きを代入
+		pChr->moveRot = rot;				// 移動向きを代入
+		pChr->nType = nType;				// 種類を代入
+		pChr->nParentIdx = nParentIdx;		// 親の番号を代入
+		pChr->nParentIdxOld = nParentIdx;	// 過去の親の番号を設定
 
 		// 設定時のパラメーター初期化処理
 		InitParameterSetChr_enemy_00(pChr);
@@ -1284,9 +1389,9 @@ void ChildDestoryChr_enemy_00(Chr_enemy_00 *pChr)
 	{
 		if ((!pChildChr->bUse)
 			||
-			(pChildChr->nParentIdx != nParentIdx)
+			((pChildChr->nParentIdx != nParentIdx) && (pChildChr->nParentIdxOld != nParentIdx))
 			&&
-			(!((pChr->nParentIdx == nCntChr) && (pChildChr->actInfo.aAct[CHR_ENEMY_00_ACT_CHILD_DEPENDENCY]))))
+			(!(((pChr->nParentIdx == nCntChr) || (pChr->nParentIdxOld == nCntChr)) && (pChildChr->actInfo.aAct[CHR_ENEMY_00_ACT_CHILD_DEPENDENCY]))))
 		{// 使用されていない or 親番号が一致していない or 子依存の親の時、
 			continue;	// 繰り返し処理を折り返す
 		}
@@ -1518,9 +1623,6 @@ void UpdateChr_enemy_00(void)
 			// 向きを制御
 			RotControl(&pChr->rot);
 			
-			// 部品(3D)のトランスフォームを取得
-			GetParts3DTransform(&pChr->partsInfo, &pType->partsSet);
-
 			// モーションの更新処理
 			if (UpdateMotion3D(
 				pChr->partsInfo.nMotion,
@@ -1538,6 +1640,9 @@ void UpdateChr_enemy_00(void)
 						pChr->nMotion);
 				}
 			}
+
+			// 部品(3D)のトランスフォームを取得
+			GetParts3DTransform(&pChr->partsInfo, &pType->partsSet);
 
 			if (pChr->fVibration >= CHR_ENEMY_00_VIBRATION_MIN)
 			{// 振動の強さが振動の強さの下限以上の時、
@@ -1571,6 +1676,20 @@ void UpdateChr_enemy_00(void)
 			if ((pChr->bBossDependency) && (!g_aChr_enemy_00[pChrCtl->nSetBossIdx].bUse)) 
 			{// ボス依存フラグが真 & ボスが使用されていない状態の時、
 				DestroyChr_enemy_00(pChr);	// 破壊処理
+			}
+
+			if ((pChr->nHP < pChr->nChangeActHP)
+				||
+				(pChr->nCount == pChr->nChangeActCount)) 
+			{// HPが行動パターンを変更するHP以下 or カウントが行動パターンを変更するカウントの時、
+				// 行動パターンを変更
+				pChr->actInfo.nActPtn = pChr->nChangeAct;
+				// カウンターを初期化
+				pChr->actInfo.nCounterAct = -1;
+				// 行動パターンを変更するHPを初期化
+				pChr->nChangeActHP = 0;
+				// 行動パターンを変更するカウントを初期化
+				pChr->nChangeActCount = -1;
 			}
 		}
 		else 
@@ -1711,7 +1830,8 @@ void SetChr_enemy_00(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nType)
 		pChr->rotOld = 			// 過去の向きを代入
 		pChr->moveRot = rot;	// 移動向きを代入
 		pChr->nType = nType;	// 種類を代入
-		pChr->nParentIdx = -1;	// 親の番号を-1に設定
+		pChr->nParentIdx = -1;		// 親の番号を-1に設定
+		pChr->nParentIdxOld = -1;	// 親の番号を-1に設定
 
 		// 設定時のパラメーター初期化処理
 		InitParameterSetChr_enemy_00(pChr);
@@ -1750,7 +1870,8 @@ void SetBossChr_enemy_00(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nType)
 		pChr->rotOld = 			// 過去の向きを代入
 		pChr->moveRot = rot;	// 移動向きを代入
 		pChr->nType = nType;	// 種類を代入
-		pChr->nParentIdx = -1;	// 親の番号を-1に設定
+		pChr->nParentIdx = -1;		// 親の番号を-1に設定
+		pChr->nParentIdxOld = -1;	// 親の番号を-1に設定
 
 		// 設定時のパラメーター初期化処理
 		InitParameterSetChr_enemy_00(pChr);

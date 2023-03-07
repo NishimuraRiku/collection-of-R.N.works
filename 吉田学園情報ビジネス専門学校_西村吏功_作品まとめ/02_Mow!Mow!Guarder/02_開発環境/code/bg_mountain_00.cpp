@@ -236,8 +236,8 @@ void DrawBg_mountain_00(void)
 		{// モードがMD:タイトル画面[00] の時、
 			setPos = GetObj_stage_00()->pos;	// 設定位置にOBJ:ステージ[00] の位置を代入
 		}
-		else if (GetMode() == MODE_GAME_00)
-		{// モードがMD:ゲーム画面[00] の時、
+		if ((GetMode() == MODE_GAME_00) || (GetMode() == MODE_TUTORIAL_00))
+		{// モードがMD:ゲーム画面orチュートリアル画面の時、
 			setPos = GetCamera3D()->posV;	// 設定位置にカメラ(3D)の視点の位置を代入
 			setPos.y = MD_GAME_00_BG_POS_Y;	// Y座標初期化
 		}

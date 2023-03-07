@@ -179,12 +179,14 @@
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="code\md_game_00.cpp" />
     <ClCompile Include="code\md_title_00.cpp" />
+    <ClCompile Include="code\md_tutorial_00.cpp" />
     <ClCompile Include="code\object.cpp" />
     <ClCompile Include="code\obj_block_00.cpp" />
     <ClCompile Include="code\obj_core_00.cpp" />
     <ClCompile Include="code\obj_discharger_00.cpp" />
     <ClCompile Include="code\obj_mirror_00.cpp" />
     <ClCompile Include="code\obj_pedestal_00.cpp" />
+    <ClCompile Include="code\obj_signboard_00.cpp" />
     <ClCompile Include="code\obj_stage_00.cpp" />
     <ClCompile Include="code\obj_switch_00.cpp" />
     <ClCompile Include="code\obj_target_00.cpp" />
@@ -202,6 +204,7 @@
     <ClCompile Include="code\ui_coin-frame_00.cpp" />
     <ClCompile Include="code\ui_damage_00.cpp" />
     <ClCompile Include="code\ui_dialog-box_00.cpp" />
+    <ClCompile Include="code\ui_frame_00.cpp" />
     <ClCompile Include="code\ui_hp-bar_00.cpp" />
     <ClCompile Include="code\ui_hp-bar_01.cpp" />
     <ClCompile Include="code\ui_input-guid_00.cpp" />
@@ -209,6 +212,7 @@
     <ClCompile Include="code\ui_item-guid_00.cpp" />
     <ClCompile Include="code\ui_item-icon_00.cpp" />
     <ClCompile Include="code\ui_map_00.cpp" />
+    <ClCompile Include="code\ui_menu-comment_00.cpp" />
     <ClCompile Include="code\ui_menu_00.cpp" />
     <ClCompile Include="code\ui_parameter_00.cpp" />
     <ClCompile Include="code\ui_ranking-frame_00.cpp" />
@@ -246,12 +250,14 @@
     <ClInclude Include="code\main.h" />
     <ClInclude Include="code\md_game_00.h" />
     <ClInclude Include="code\md_title_00.h" />
+    <ClInclude Include="code\md_tutorial_00.h" />
     <ClInclude Include="code\object.h" />
     <ClInclude Include="code\obj_block_00.h" />
     <ClInclude Include="code\obj_core_00.h" />
     <ClInclude Include="code\obj_discharger_00.h" />
     <ClInclude Include="code\obj_mirror_00.h" />
     <ClInclude Include="code\obj_pedestal_00.h" />
+    <ClInclude Include="code\obj_signboard_00.h" />
     <ClInclude Include="code\obj_stage_00.h" />
     <ClInclude Include="code\obj_switch_00.h" />
     <ClInclude Include="code\obj_target_00.h" />
@@ -270,6 +276,7 @@
     <ClInclude Include="code\ui_coin-frame_00.h" />
     <ClInclude Include="code\ui_damage_00.h" />
     <ClInclude Include="code\ui_dialog-box_00.h" />
+    <ClInclude Include="code\ui_frame_00.h" />
     <ClInclude Include="code\ui_hp-bar_00.h" />
     <ClInclude Include="code\ui_hp-bar_01.h" />
     <ClInclude Include="code\ui_input-guid_00.h" />
@@ -277,6 +284,7 @@
     <ClInclude Include="code\ui_item-guid_00.h" />
     <ClInclude Include="code\ui_item-icon_00.h" />
     <ClInclude Include="code\ui_map_00.h" />
+    <ClInclude Include="code\ui_menu-comment_00.h" />
     <ClInclude Include="code\ui_menu_00.h" />
     <ClInclude Include="code\ui_parameter_00.h" />
     <ClInclude Include="code\ui_ranking-frame_00.h" />

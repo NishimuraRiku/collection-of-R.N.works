@@ -19,16 +19,18 @@
 // マクロ定義
 //****************************************
 // OBJ:ステージ[00] のゲートの最大数
+#define OBJ_STAGE_00_GATE_MAX (4)
 // OBJ:ステージ[00] の台座の最大数
-#define OBJ_STAGE_00_GATE_MAX		(4)
-#define OBJ_STAGE_00_PEDESTAL_MAX	(8)
+#define OBJ_STAGE_00_PEDESTAL_MAX (8)
+// OBJ:ステージ[00] の看板の最大数
+#define OBJ_STAGE_00_SIGNBOARD_MAX (2)
 
 // OBJ:ステージ[00] のウェーブ情報の最大数
+#define OBJ_STAGE_00_WAVE_MAX (64)
 // OBJ:ステージ[00] の敵設定情報の最大数
+#define OBJ_STAGE_00_ENEMYSET_MAX (64)
 // OBJ:ステージ[00] の品揃え情報の最大数
-#define OBJ_STAGE_00_WAVE_MAX		(64)
-#define OBJ_STAGE_00_ENEMYSET_MAX	(64)
-#define OBJ_STAGE_00_ITEMS_MAX		(8)
+#define OBJ_STAGE_00_ITEMS_MAX (8)
 
 //****************************************
 // 列挙型の定義
@@ -97,6 +99,7 @@ typedef struct
 	Parts3DInfo	partsInfo;	// 部品管理
 }Obj_stage_00;
 
+//========== *** 設定情報 ***
 // OBJ:ステージ[00] のゲート情報
 typedef struct
 {
@@ -107,7 +110,6 @@ typedef struct
 	float		fWidth;		// 幅
 	float		fDepth;		// 奥行き
 }Obj_stage_00Gate;
-
 // OBJ:ステージ[00] のゲート設定情報
 typedef struct
 {
@@ -115,7 +117,6 @@ typedef struct
 	Obj_stage_00Gate	aGate		// ゲート情報
 						[OBJ_STAGE_00_GATE_MAX];
 }Obj_stage_00GateSet;
-
 // OBJ:ステージ[00] の注意マーク情報
 typedef struct
 {
@@ -123,14 +124,12 @@ typedef struct
 	D3DXVECTOR3 pos;	// 位置
 	D3DXVECTOR3 rot;	// 向き
 }Obj_stage_00AttentionMark;
-
 // OBJ:ステージ[00] の注意マーク設定情報
 typedef struct
 {
 	Obj_stage_00AttentionMark	aAttentionMark	// 注意マーク情報
 								[OBJ_STAGE_00_GATE_MAX];
 }Obj_stage_00AttentionMarkSet;
-
 // OBJ:ステージ[00] の台座情報
 typedef struct
 {
@@ -138,7 +137,6 @@ typedef struct
 	D3DXVECTOR3 pos;	// 位置
 	int			nType;	// 種類
 }Obj_stage_00Pedestal;
-
 // OBJ:ステージ[00] の台座設定情報
 typedef struct
 {
@@ -146,7 +144,21 @@ typedef struct
 	Obj_stage_00Pedestal	aPedestal		// 台座情報
 							[OBJ_STAGE_00_PEDESTAL_MAX];
 }Obj_stage_00PedestalSet;
-
+// OBJ:ステージ[00] の台座情報
+typedef struct
+{
+	// 位置関連
+	D3DXVECTOR3 pos;	// 位置
+	D3DXVECTOR3 rot;	// 向き
+	int			nType;	// 種類
+}Obj_stage_00Signboard;
+// OBJ:ステージ[00] の台座設定情報
+typedef struct
+{
+	int nSignboardNum;	// 台座数
+	// 台座情報
+	Obj_stage_00Signboard aSignboard[OBJ_STAGE_00_SIGNBOARD_MAX];
+}Obj_stage_00SignboardSet;
 // OBJ:ステージ[00] の敵設定情報
 typedef struct
 {
@@ -154,7 +166,6 @@ typedef struct
 	int	nGate;	// ゲート番号
 	int nType;	// 種類
 }Obj_stage_00EnemySet;
-
 // OBJ:ステージ[00] のウェーブ情報
 typedef struct
 {
@@ -171,7 +182,6 @@ typedef struct
 	bool					bWarningText;			// 注意テキストフラグ
 	bool					bMainCount;				// メインカウントフラグ
 }Obj_stage_00Wave;
-
 // OBJ:ステージ[00] のウェーブ設定情報
 typedef struct
 {
@@ -180,14 +190,12 @@ typedef struct
 	Obj_stage_00Wave	aWave		// ウェーブ情報
 						[OBJ_STAGE_00_WAVE_MAX];
 }Obj_stage_00WaveSet;
-
 // OBJ:ステージ[00] の品揃え情報
 typedef struct
 {
 	OBJ_PEDESTAL_00_ITEM	aItem	// 商品番号
 							[OBJ_STAGE_00_PEDESTAL_MAX];
 }Obj_stage_00Items;
-
 // OBJ:ステージ[00] の品揃え設定情報
 typedef struct
 {
@@ -201,9 +209,12 @@ typedef struct
 {
 	D3DXVECTOR3						coreSetPos;			// コア設定位置
 	D3DXVECTOR3						switchSetPos;		// スイッチ設定位置
+	D3DXVECTOR3						playerInitPos;		// プレイヤー初期位置
+	bool							bWaveLoop;			// ウェーブループフラグ
 	Obj_stage_00GateSet				gateSet;			// ゲート設定情報
 	Obj_stage_00AttentionMarkSet	attentionMarkSet;	// 注意マーク設定情報
 	Obj_stage_00PedestalSet			pedestalSet;		// 台座設定情報
+	Obj_stage_00SignboardSet		signboardSet;		// 看板設定情報
 	Obj_stage_00ItemsSet			itemsSet;			// 品揃え設定処理
 	Obj_stage_00WaveSet				waveSet;			// ウェーブ設定情報
 	HitTestSet						hitTestSet;			// 当たり判定設定情報
@@ -222,7 +233,7 @@ Obj_stage_00Type *GetObj_stage_00Type(void);
 // OBJ:ステージ[00] の終了処理
 // OBJ:ステージ[00] の更新処理
 // OBJ:ステージ[00] の描画処理
-void InitObj_stage_00(void);
+void InitObj_stage_00(int nType);
 void UninitObj_stage_00(void);
 void UpdateObj_stage_00(void);
 void DrawObj_stage_00(void);

@@ -81,27 +81,27 @@ typedef struct
 // プロトタイプ宣言
 //****************************************
 // UI:メニュー[00] の情報を取得
-// UI:メニュー[00] の全体管理の情報を取得
-// UI:メニュー[00] の現在の選択番号を取得
 Ui_menu_00 *GetUi_menu_00(void);
+// UI:メニュー[00] の全体管理の情報を取得
 Ui_menu_00Control *GetUi_menu_00Control(void);
+// UI:メニュー[00] の現在の選択番号を取得
 int *GetSelect(void);
 
 // UI:メニュー[00] の初期化処理
-// UI:メニュー[00] の終了処理
-// UI:メニュー[00] の更新処理
-// UI:メニュー[00] の描画処理
 void InitUi_menu_00(void);
+// UI:メニュー[00] の終了処理
 void UninitUi_menu_00(void);
+// UI:メニュー[00] の更新処理
 void UpdateUi_menu_00(void);
+// UI:メニュー[00] の描画処理
 void DrawUi_menu_00(void);
 
 // UI:メニュー[00] の入力処理
 int Ui_menu_00Input(UI_MENU_00_INPUT_MODE mode);
 
 // UI:メニュー[00] の中心座標を設定
-// UI:メニュー[00] の設定処理
 void SetUi_menu_00Pos(D3DXVECTOR3 pos);
+// UI:メニュー[00] の設定処理
 void SetUi_menu_00(Ui_menu_00Set *pSet, int nNum);
 
 #endif

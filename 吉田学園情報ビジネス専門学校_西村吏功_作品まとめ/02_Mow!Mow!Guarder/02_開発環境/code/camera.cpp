@@ -12,8 +12,9 @@
 #include "input.h"
 #include "physics.h"
 #include "polygon2D.h"
-#include "md_game_00.h"		// MD :ゲーム画面	[00]
-#include "obj_stage_00.h"	// OBJ:ステージ		[00]
+#include "md_game_00.h"		// MD :ゲーム画面			[00]
+#include "md_tutorial_00.h"	// MD :チュートリアル画面	[00]
+#include "obj_stage_00.h"	// OBJ:ステージ				[00]
 
 //****************************************
 // マクロ定義
@@ -71,29 +72,32 @@
 // プロトタイプ宣言
 //****************************************
 // カメラ(2D)のパラメーター初期化処理
-// カメラ(2D)の状態処理
 void InitParameterCamera2D(void);
+// カメラ(2D)の状態処理
 void StateProcessCamera2D(void);
 
 // カメラ(2D)の初期化処理
-// カメラ(2D)の終了処理
-// カメラ(2D)の更新処理
 void InitCamera2D(void);
+// カメラ(2D)の終了処理
 void UninitCamera2D(void);
+// カメラ(2D)の更新処理
 void UpdateCamera2D(void);
 
 // カメラ(3D)の初期化処理
-// カメラ(3D)の終了処理
-// カメラ(3D)の更新処理
 void InitCamera3D(void);
+// カメラ(3D)の終了処理
 void UninitCamera3D(void);
+// カメラ(3D)の更新処理
 void UpdateCamera3D(void);
 
+// カメラ(3D)の操作処理
+void ControlCamera3D(void);
+
 // カメラ(3D)の移動処理
-// カメラ(3D)の軸回転処理
-// カメラ(3D)の回転処理
 void MoveCamera3D(DIRECTION drct, float fMove);
+// カメラ(3D)の軸回転処理
 void AxisRotationCamera3D(DIRECTION drct, float fRot);
+// カメラ(3D)の回転処理
 void RotationCamera3D(DIRECTION drct, float fRot);
 
 //****************************************
@@ -221,73 +225,12 @@ void UpdateCamera3D(void)
 {
 	switch (GetMode())
 	{
-		//========== *** ゲーム画面[00] *** ==========
-	case MODE_GAME_00: {
+	case /*/ ゲーム画面[00] /*/MODE_GAME_00: {
 		switch (GetMd_game_00()->state)
 		{
 		case /*/ 通常 /*/MD_GAME_00_STATE_NORMAL:
-		case /*/ クリア /*/MD_GAME_00_STATE_CLEAR:
-		{
-			// カーソルの移動量に応じて回転
-			AxisRotationCamera3D(DIRECTION_UP   , GetCursorMove().y * CAMERA3D_ROT_FORCE_BY_CURSOR.x);
-			AxisRotationCamera3D(DIRECTION_RIGHT, GetCursorMove().x * CAMERA3D_ROT_FORCE_BY_CURSOR.y);
-
-			if (GetStick().aTplDiameter[STICK_TYPE_RIGHT] > 0.0f)
-			{// 右スティックが倒されている時、
-				// スティックの角度/傾きに応じて回転
-				AxisRotationCamera3D(DIRECTION_UP	, (cosf(GetStick().aAngle[STICK_TYPE_RIGHT]) * GetStick().aTplDiameter[STICK_TYPE_RIGHT]) * CAMERA3D_ROT_FORCE_BY_STICK.x);
-				AxisRotationCamera3D(DIRECTION_LEFT	, (sinf(GetStick().aAngle[STICK_TYPE_RIGHT]) * GetStick().aTplDiameter[STICK_TYPE_RIGHT]) * CAMERA3D_ROT_FORCE_BY_STICK.y);
-			}
-			else
-			{// いずれも該当しない時、
-				if (GetKeyboardPress(DIK_UP))	{ AxisRotationCamera3D(DIRECTION_UP		, CAMERA3D_ROT_FORCE.x); }	// 上軸回転
-				if (GetKeyboardPress(DIK_DOWN))	{ AxisRotationCamera3D(DIRECTION_DOWN	, CAMERA3D_ROT_FORCE.x); }	// 下軸回転
-				if (GetKeyboardPress(DIK_LEFT))	{ AxisRotationCamera3D(DIRECTION_LEFT	, CAMERA3D_ROT_FORCE.y); }	// 左軸回転
-				if (GetKeyboardPress(DIK_RIGHT)){ AxisRotationCamera3D(DIRECTION_RIGHT	, CAMERA3D_ROT_FORCE.y); }	// 右軸回転
-			}
-
-			// 減衰値
-			float fDamp = Prus(CAMERA3D_SPIN_DAMP - (fabsf(GetCursorMove().x) + fabsf(GetCursorMove().y)));
-
-			g_camera3D.rot += g_camera3D.spin;				// 向きを更新
-			g_camera3D.spin *= fDamp;						// 回転量を減衰
-			g_camera3D.fHeight += g_camera3D.fVerticalMove;	// 高さを更新
-			g_camera3D.fVerticalMove *= fDamp;				// 縦方向の移動量を減衰
-
-			// 向きを制御
-			RotControl(&g_camera3D.rot);
-
-			// 高さを制御
-			FloatControl(&g_camera3D.fHeight, CAMERA3D_INIT_HEIGHT_MAX, CAMERA3D_INIT_HEIGHT_MIN);
-
-			// 視点の位置を設定
-			g_camera3D.posV.x = g_camera3D.posR.x + (sinf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
-			g_camera3D.posV.y = g_camera3D.posR.y + (g_camera3D.fLength * g_camera3D.fHeight);
-			g_camera3D.posV.z = g_camera3D.posR.z + (cosf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
-
-			HitTest hitTest;
-			hitTest.nHitTestPartsNum = 1;
-			hitTest.aHitTestParts[0] = {};
-			hitTest.aHitTestParts[0].hitTestForm = HIT_TEST_FORM_POINT_NOSLIP;
-			hitTest.aHitTestParts[0].fWidth = 0.0f;
-			hitTest.aHitTestParts[0].fDepth = 0.0f;
-
-			// 衝突判定に必要な情報
-			CollisionInfo	myCollInfo =
-			{
-				&g_camera3D.posV,
-				g_camera3D.posR,
-				NULL,
-				NULL,
-				INITD3DXVECTOR3,
-				hitTest
-			};
-
-			Collision collision = {};
-
-			// 衝突判定
-			/*/ OBJ:ステージ	[00] /*/CollisionObj_stage_00(VECTOR_NONE, &collision, &collision, myCollInfo);
-
+		case /*/ クリア /*/MD_GAME_00_STATE_CLEAR: {
+			ControlCamera3D();	// カメラ操作処理
 			break;
 		}
 		case /*/ チュートリアル[00] /*/MD_GAME_00_STATE_TUTORIAL_00: {
@@ -343,6 +286,21 @@ void UpdateCamera3D(void)
 
 		break;
 	}
+	case /*/ チュートリアル画面[00] /*/MODE_TUTORIAL_00: {
+		switch (GetMd_tutorial_00()->state)
+		{
+		case /*/ 通常 /*/MD_TUTORIAL_00_STATE_NORMAL: {
+			ControlCamera3D();	// カメラ操作処理
+			break;
+		}
+		case /*/ チュートリアル[00] /*/MD_TUTORIAL_00_STATE_TUTORIAL_00: {
+			// 視点の位置を設定
+			g_camera3D.posV.x = g_camera3D.posR.x + (sinf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
+			g_camera3D.posV.y = g_camera3D.posR.y + (g_camera3D.fLength * g_camera3D.fHeight);
+			g_camera3D.posV.z = g_camera3D.posR.z + (cosf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
+		}
+		}
+	}
 	}
 
 	if (g_camera3D.fVibration >= CAMERA3D_VIBRATION_MIN)
@@ -360,6 +318,72 @@ void UpdateCamera3D(void)
 	{// 振動の強さが振動の強さの下限未満の時、振動位置を初期化
 		g_camera3D.vibrationPos = INITD3DXVECTOR3;
 	}
+}
+
+//========================================
+// ControlCamera3D関数 - カメラ(3D)の操作処理 -
+//========================================
+void ControlCamera3D(void) 
+{
+	// カーソルの移動量に応じて回転
+	AxisRotationCamera3D(DIRECTION_UP, GetCursorMove().y * CAMERA3D_ROT_FORCE_BY_CURSOR.x);
+	AxisRotationCamera3D(DIRECTION_RIGHT, GetCursorMove().x * CAMERA3D_ROT_FORCE_BY_CURSOR.y);
+
+	if (GetStick().aTplDiameter[STICK_TYPE_RIGHT] > 0.0f)
+	{// 右スティックが倒されている時、
+	 // スティックの角度/傾きに応じて回転
+		AxisRotationCamera3D(DIRECTION_UP, (cosf(GetStick().aAngle[STICK_TYPE_RIGHT]) * GetStick().aTplDiameter[STICK_TYPE_RIGHT]) * CAMERA3D_ROT_FORCE_BY_STICK.x);
+		AxisRotationCamera3D(DIRECTION_LEFT, (sinf(GetStick().aAngle[STICK_TYPE_RIGHT]) * GetStick().aTplDiameter[STICK_TYPE_RIGHT]) * CAMERA3D_ROT_FORCE_BY_STICK.y);
+	}
+	else
+	{// いずれも該当しない時、
+		if (GetKeyboardPress(DIK_UP))		{ AxisRotationCamera3D(DIRECTION_UP, CAMERA3D_ROT_FORCE.x); }	// 上軸回転
+		if (GetKeyboardPress(DIK_DOWN))		{ AxisRotationCamera3D(DIRECTION_DOWN, CAMERA3D_ROT_FORCE.x); }	// 下軸回転
+		if (GetKeyboardPress(DIK_LEFT))		{ AxisRotationCamera3D(DIRECTION_LEFT, CAMERA3D_ROT_FORCE.y); }	// 左軸回転
+		if (GetKeyboardPress(DIK_RIGHT))	{ AxisRotationCamera3D(DIRECTION_RIGHT, CAMERA3D_ROT_FORCE.y); }	// 右軸回転
+	}
+
+	// 減衰値
+	float fDamp = Prus(CAMERA3D_SPIN_DAMP - (fabsf(GetCursorMove().x) + fabsf(GetCursorMove().y)));
+
+	g_camera3D.rot += g_camera3D.spin;				// 向きを更新
+	g_camera3D.spin *= fDamp;						// 回転量を減衰
+	g_camera3D.fHeight += g_camera3D.fVerticalMove;	// 高さを更新
+	g_camera3D.fVerticalMove *= fDamp;				// 縦方向の移動量を減衰
+
+	// 向きを制御
+	RotControl(&g_camera3D.rot);
+
+	// 高さを制御
+	FloatControl(&g_camera3D.fHeight, CAMERA3D_INIT_HEIGHT_MAX, CAMERA3D_INIT_HEIGHT_MIN);
+
+	// 視点の位置を設定
+	g_camera3D.posV.x = g_camera3D.posR.x + (sinf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
+	g_camera3D.posV.y = g_camera3D.posR.y + (g_camera3D.fLength * g_camera3D.fHeight);
+	g_camera3D.posV.z = g_camera3D.posR.z + (cosf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
+
+	HitTest hitTest;
+	hitTest.nHitTestPartsNum = 1;
+	hitTest.aHitTestParts[0] = {};
+	hitTest.aHitTestParts[0].hitTestForm = HIT_TEST_FORM_POINT_NOSLIP;
+	hitTest.aHitTestParts[0].fWidth = 0.0f;
+	hitTest.aHitTestParts[0].fDepth = 0.0f;
+
+	// 衝突判定に必要な情報
+	CollisionInfo	myCollInfo =
+	{
+		&g_camera3D.posV,
+		g_camera3D.posR,
+		NULL,
+		NULL,
+		INITD3DXVECTOR3,
+		hitTest
+	};
+
+	Collision collision = {};
+
+	// 衝突判定
+	/*/ OBJ:ステージ	[00] /*/CollisionObj_stage_00(VECTOR_NONE, &collision, &collision, myCollInfo);
 }
 
 //========================================
@@ -517,7 +541,7 @@ void SetCamera3D(void)
 	D3DXMatrixIdentity(&g_camera3D.mtxProjection);
 
 	// プロジェクションマトリックスを作成
-	D3DXMatrixPerspectiveFovLH(&g_camera3D.mtxProjection, D3DXToRadian(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 10.0f, 4000.0f);
+	D3DXMatrixPerspectiveFovLH(&g_camera3D.mtxProjection, D3DXToRadian(45.0f), (float)BUFFER_WIDTH / (float)BUFFER_HEIGHT, 10.0f, 4000.0f);
 
 	// プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &g_camera3D.mtxProjection);
@@ -571,11 +595,6 @@ void SetCamera3DPosR(D3DXVECTOR3 pos)
 {
 	// 注視点の位置を代入
 	g_camera3D.posR = pos;
-
-	// 視点の位置を設定
-	g_camera3D.posV.x = g_camera3D.posR.x + (sinf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
-	g_camera3D.posV.y = g_camera3D.posR.y + (g_camera3D.fLength * g_camera3D.fHeight);
-	g_camera3D.posV.z = g_camera3D.posR.z + (cosf(g_camera3D.rot.y + D3DX_PI) * (g_camera3D.fLength * (1.0f - fabsf(g_camera3D.fHeight))));
 }
 
 //========================================

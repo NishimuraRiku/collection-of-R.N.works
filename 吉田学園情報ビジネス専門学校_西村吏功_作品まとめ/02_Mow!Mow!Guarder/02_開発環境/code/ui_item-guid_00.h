@@ -13,7 +13,7 @@
 // マクロ定義
 //****************************************
 // UI:商品ガイド[00] の到着にかかる時間
-#define UI_ITEMGUID_00_ARRIVAL_TIME	(10)
+#define UI_ITEMGUID_00_ARRIVAL_TIME	(5)
 
 // UI:商品ガイド[00] の非到着時の相対位置Y
 #define UI_ITEMGUID_00_NON_ARRIVAL_RELATIVE_POS_Y	(-10)

@@ -27,6 +27,6 @@ void DrawEff_light_00(void);
 void LoadEff_light_00(void);
 
 // EFF:Œõ[00] ‚Ìİ’èˆ—
-void SetEff_light_00(D3DXVECTOR3 pos, int nType);
+void SetEff_light_00(D3DXVECTOR3 pos, int nType, float fScale);
 
 #endif

@@ -12,21 +12,22 @@
 #include "physics.h"
 #include "polygon3D.h"
 #include "sound.h"
-#include "atk_bullet_00.h"		// ATK:弾			[00]
-#include "atk_sword_00.h"		// ATK:剣			[00]
-#include "chr_enemy_00.h"		// CHR:敵			[00]
-#include "chr_player_00.h"		// CHR:プレイヤー	[00]
-#include "eff_explosion_00.h"	// EFF:爆発			[00]
-#include "eff_light_00.h"		// EFF:光			[00]
-#include "eff_particle_00.h"	// EFF:パーティクル	[00]
-#include "eff_shadow_00.h"		// EFF:影			[00]
-#include "md_game_00.h"			// MD :ゲーム		[00]
-#include "obj_block_00.h"		// OBJ:ブロック		[00]
-#include "obj_core_00.h"		// OBJ:コア			[00]
-#include "obj_discharger_00.h"	// OBJ:放電装置		[00]
-#include "obj_mirror_00.h"		// OBJ:ミラー		[00]
-#include "obj_stage_00.h"		// OBJ:ステージ		[00]
-#include "obj_turret_00.h"		// OBJ:タレット		[00]
+#include "atk_bullet_00.h"		// ATK:弾				[00]
+#include "atk_sword_00.h"		// ATK:剣				[00]
+#include "chr_enemy_00.h"		// CHR:敵				[00]
+#include "chr_player_00.h"		// CHR:プレイヤー		[00]
+#include "eff_explosion_00.h"	// EFF:爆発				[00]
+#include "eff_light_00.h"		// EFF:光				[00]
+#include "eff_particle_00.h"	// EFF:パーティクル		[00]
+#include "eff_shadow_00.h"		// EFF:影				[00]
+#include "md_game_00.h"			// MD :ゲーム			[00]
+#include "md_tutorial_00.h"		// MD :チュートリアル	[00]
+#include "obj_block_00.h"		// OBJ:ブロック			[00]
+#include "obj_core_00.h"		// OBJ:コア				[00]
+#include "obj_discharger_00.h"	// OBJ:放電装置			[00]
+#include "obj_mirror_00.h"		// OBJ:ミラー			[00]
+#include "obj_stage_00.h"		// OBJ:ステージ			[00]
+#include "obj_turret_00.h"		// OBJ:タレット			[00]
 #include <stdio.h>
 
 //****************************************
@@ -47,6 +48,8 @@
 
 // ATK:弾[00] の反射SE
 #define ATK_BULLET_00_REFLECTION_SE	(SOUND_LABEL_SE_METAL_001)
+// 敵に反射された時に変化する種類
+#define ATK_BULLET_00_ENEMY_REFLECTION_TYPE (2)
 
 //****************************************
 // 列挙型の定義
@@ -71,6 +74,7 @@ typedef enum
 {
 	ATK_BULLET_00_ELEM_NONE,		// 無し
 	ATK_BULLET_00_ELEM_PARALYSIS,	// 麻痺
+	ATK_BULLET_00_ELEM_DAMPING,		// 減衰
 	ATK_BULLET_00_ELEM_MAX,
 }ATK_BULLET_00_ELEM;
 
@@ -235,8 +239,8 @@ void UpdatePosAtk_bullet_00(Atk_bullet_00 *pAtk)
 	// ATK:弾[00] の衝突情報に応じた処理
 	CollisionProcessAtk_bullet_00(pAtk);
 
-	SetEff_shadow_00(pAtk->pos, pType->fShadowRadius);	// EFF:影[00] の設定処理
-	SetEff_light_00(pAtk->pos, pType->nLightType);		// EFF:光[00] の設定処理
+	SetEff_shadow_00(pAtk->pos, pType->fShadowRadius);		// EFF:影[00] の設定処理
+	SetEff_light_00(pAtk->pos, pType->nLightType, 1.0f);	// EFF:光[00] の設定処理
 }
 
 //========================================
@@ -340,10 +344,22 @@ void CollisionProcessAtk_bullet_00(Atk_bullet_00 *pAtk)
 		switch (pAtk->attackObj)
 		{
 			case /*/ CHR:敵			[00] /*/ATK_BULLET_00_HITOBJ_CHR_ENEMY_00:
-				DamageChr_enemy_00(pAtk->nAttackIndex, pAtk->nDamage);
-				if (pType->elem == ATK_BULLET_00_ELEM_PARALYSIS) 
-				{// 属性が麻痺の時、麻痺を付与
-					GiveStateChr_enemy_00(pAtk->nAttackIndex, CHR_ENEMY_00_STATE_PARALYSIS);
+				if (!GetChr_enemy_00()[pAtk->nAttackIndex].bReflection)
+				{// 攻撃する敵の反射フラグが偽の時、
+					DamageChr_enemy_00(pAtk->nAttackIndex, pAtk->nDamage);
+					if (pType->elem == ATK_BULLET_00_ELEM_PARALYSIS)
+					{// 属性が麻痺の時、麻痺を付与
+						GiveStateChr_enemy_00(pAtk->nAttackIndex, CHR_ENEMY_00_STATE_PARALYSIS);
+					}
+				}
+				else 
+				{// 攻撃する敵の反射フラグが真の時、
+					bDestroy = false;	// 破壊フラグを偽にする
+					PlaySound(ATK_BULLET_00_REFLECTION_SE);	// 反射SEを再生
+					// 種類を変更
+					pAtk->nType = ATK_BULLET_00_ENEMY_REFLECTION_TYPE;
+					// 親の種類を敵にする
+					pAtk->parentType = ATK_BULLET_00_PARENTTYPE_ENEMY;
 				}
 				
 				break;
@@ -546,12 +562,21 @@ void UpdateAtk_bullet_00(void)
 			continue;					// 処理を折り返す
 		}
 
+		// ATK:弾[00] の種類毎の情報
+		Atk_bullet_00Type *pType = &g_aAtk_bullet_00Type[pAtk->nType];
+
 		// 現在の位置を過去の位置として保存
 		pAtk->posOld = pAtk->pos;
 
 		// 移動量を向きと移動力に応じて設定
 		pAtk->move.x = sinf(pAtk->rot.y) * g_aAtk_bullet_00Type[pAtk->nType].fMoveForce;
 		pAtk->move.z = cosf(pAtk->rot.y) * g_aAtk_bullet_00Type[pAtk->nType].fMoveForce;
+
+		if (pType->elem == ATK_BULLET_00_ELEM_DAMPING) 
+		{// 属性が減衰の時、
+			// 移動量に寿命の割合を乗算
+			pAtk->move *= (float)pAtk->nLife / (float)pType->nLife;
+		}
 
 		// 位置更新処理
 		UpdatePosAtk_bullet_00(pAtk);
@@ -649,8 +674,12 @@ void DrawAtk_bullet_00(void)
 //========================================
 void SetAtk_bullet_00(D3DXVECTOR3 pos,D3DXVECTOR3 rot, int nType, ATK_BULLET_00_PARENTTYPE parentType)
 {
-	if (GetMd_game_00()->state != MD_GAME_00_STATE_NORMAL) 
-	{// MD:ゲーム画面[00] の状態が通常でない時、
+	if ((((GetMode() == MODE_GAME_00) &&
+		(GetMd_game_00()->state != MD_GAME_00_STATE_NORMAL)))
+		||
+		((GetMode() == MODE_TUTORIAL_00) &&
+		(GetMd_tutorial_00()->state != MD_TUTORIAL_00_STATE_NORMAL)))
+	{// (MD:ゲーム画面[00] の状態が通常でない)or(チュートリアル画面の状態が通常でない)の時、
 		return;	// 処理を終了する
 	}
 

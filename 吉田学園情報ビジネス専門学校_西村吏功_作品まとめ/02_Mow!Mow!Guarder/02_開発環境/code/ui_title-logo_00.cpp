@@ -16,7 +16,7 @@
 //****************************************
 // UI:タイトルロゴ[00] の位置
 // UI:タイトルロゴ[00] のテキストの相対位置
-#define UI_TITLELOGO_00_POS					(D3DXVECTOR3((SCREEN_WIDTH*0.5f)+PIXEL*64,(SCREEN_HEIGHT*0.5f)+PIXEL*-64,0.0f))
+#define UI_TITLELOGO_00_POS					(D3DXVECTOR3((BUFFER_WIDTH*0.5f)+PIXEL*64,(BUFFER_HEIGHT*0.5f)+PIXEL*-64,0.0f))
 #define UI_TITLELOGO_00_TEXT_RELATIVE_POS	(D3DXVECTOR3(0,PIXEL*-13,0.0f))
 
 //****************************************

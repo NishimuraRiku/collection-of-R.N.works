@@ -62,6 +62,11 @@
 #define UI_RANKINGFRAME_00_DOWN_ARROW_DISPLAY			"_"
 #define UI_RANKINGFRAME_00_DOWN_ARROW_RERATIVE_POS_Y	(PIXEL*8)
 
+// UI:ランキングフレーム[00] の選択SE
+// UI:ランキングフレーム[00] の決定SE
+#define UI_RANKINGFRAME_00_SELECT_SE		(SOUND_LABEL_SE_SELECT_000)
+#define UI_RANKINGFRAME_00_DETERMINATION_SE	(SOUND_LABEL_SE_DETERMINATION_001)
+
 //****************************************
 // プロトタイプ宣言
 //****************************************
@@ -132,6 +137,8 @@ void NameEntryUi_rankingFrame_00(void)
 		(GetButtonRepeat(BUTTON_DOWN)))
 	{// 下に入力された時、
 		pUi->nCountChar--;	// 文字カウントを減算
+		// 選択SEを再生
+		PlaySound(UI_RANKINGFRAME_00_SELECT_SE);
 	}
 	else if (
 		(GetKeyboardRepeat(DIK_UP))
@@ -143,6 +150,8 @@ void NameEntryUi_rankingFrame_00(void)
 		(GetButtonRepeat(BUTTON_UP)))
 	{// 上に入力された時、
 		pUi->nCountChar++;	// 文字カウントを加算
+		// 選択SEを再生
+		PlaySound(UI_RANKINGFRAME_00_SELECT_SE);
 	}
 
 	// 文字カウントをループ制御
@@ -165,6 +174,9 @@ void NameEntryUi_rankingFrame_00(void)
 	}
 	else if ((GetKeyboardTrigger(DIK_RETURN)) || (GetButtonTrigger(BUTTON_A) || (GetMouseTrigger(MOUSE_LEFT))))
 	{// ENTERキー or Aボタン or マウス左ボタンが入力された時、
+		// 決定SEを再生
+		PlaySound(UI_RANKINGFRAME_00_DETERMINATION_SE);
+
 		if (++pUi->nCountName >= RANKING_NAME_NUM) 
 		{// 名前入力のカウントを加算した結果、ランキング名の文字数に達した時、
 			pUi->bNameEntry = false;	// 名前入力フラグを偽にする

@@ -33,34 +33,38 @@
 // マクロ定義
 //****************************************
 // ウインドウクラス
-// ウインドウの幅
-// ウインドウの高さ
-// 頂点フォーマット(2D)
-// 頂点フォーマット(3D)
-// 文字列の最大数(汎用)
-// デバッグコメント使用フラグ
 #define CLASS_NAME		"WindowClass"
-#define SCREEN_WIDTH	(1280)	// NORMAL=1280 4:3=960
-#define SCREEN_HEIGHT	(720)
-#define FVF_VERTEX_2D	(D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
-#define FVF_VERTEX_3D	(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX1)
-#define TXT_MAX			(256)
-#define _DEBUG_COMMENT	(false)
+// スクリーンの幅
+#define SCREEN_WIDTH (1280) // NORMAL=1280 4:3=960
+// スクリーンの高さ
+#define SCREEN_HEIGHT (720)
+// バッファ(解像度)の幅
+#define BUFFER_WIDTH (1280*2)
+// バッファ(解像度)の高さ
+#define BUFFER_HEIGHT (720*2)
+// 頂点フォーマット(2D)
+#define FVF_VERTEX_2D (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
+// 頂点フォーマット(3D)
+#define FVF_VERTEX_3D (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX1)
+// 文字列の最大数(汎用)
+#define TXT_MAX (256)
+// デバッグコメント使用フラグ
+#define _DEBUG_COMMENT (false)
 
 // 1ピクセルの大きさ
 // 1ピクセルの大きさ(3D)
-#define PIXEL	(3.0f)
+#define PIXEL	(6.0f)
 #define PIXEL3D	(0.4f)
 
 // ウインドウの中心座標X
 // ウインドウの中心座標Y
-#define SCREEN_CENTER_X	(SCREEN_WIDTH*0.5f)
-#define SCREEN_CENTER_Y	(SCREEN_HEIGHT*0.5f)
+#define SCREEN_CENTER_X	(BUFFER_WIDTH*0.5f)
+#define SCREEN_CENTER_Y	(BUFFER_HEIGHT*0.5f)
 
 // 内側スクリーンの左端
 // 内側スクリーンの右端
-#define INSIDE_SCREEN_LEFTMOST	(160)
-#define INSIDE_SCREEN_RIGHTMOST	(1120)
+#define INSIDE_SCREEN_LEFTMOST	(160*2)
+#define INSIDE_SCREEN_RIGHTMOST	(1120*2)
 
 // D3DXVECTOR3の初期化値
 // Colorの初期化値
@@ -73,9 +77,10 @@
 // 画面(モード)の種類
 typedef enum
 {
-	MODE_NONE,		// 無し
-	MODE_GAME_00,	// ゲーム画面	[00]
-	MODE_TITLE_00,	// タイトル画面	[00]
+	MODE_NONE,			// 無し
+	MODE_GAME_00,		// ゲーム画面			[00]
+	MODE_TITLE_00,		// タイトル画面			[00]
+	MODE_TUTORIAL_00,	// チュートリアル画面	[00]
 	MODE_MAX
 }MODE;
 
@@ -147,14 +152,14 @@ typedef struct
 // プロトタイプ宣言
 //****************************************
 // メイン処理の情報の取得
-// デバイスを取得
-// ウインドウハンドルを取得
-// ウインドウの位置を取得
-// モードの取得
 Main *GetMain(void);
+// デバイスを取得
 LPDIRECT3DDEVICE9 GetDevice(void);
+// ウインドウハンドルを取得
 HWND *GetWindowHandle(void);
+// ウインドウの位置を取得
 D3DXVECTOR3 GetWindowPos(void);
+// モードの取得
 MODE GetMode(void);
 
 // モードの設定

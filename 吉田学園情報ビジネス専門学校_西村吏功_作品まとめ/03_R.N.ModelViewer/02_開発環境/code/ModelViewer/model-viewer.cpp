@@ -147,13 +147,6 @@ void InputModelViewer(ModelViewer *pEdtr)
 		LoadModelDataModelViewer(pEdtr);
 	}
 
-	if (GetKeyboardTrigger(DIK_F5))
-	{// テキストファイルを開く
-		char command[TXT_MAX];
-		sprintf(command, "start /B %s", pEdtr->aNowFile);
-		system(command);
-	}
-
 	// カメラ操作
 	{
 		if (GetMousePress(MOUSEBUTTON_RIGHT))

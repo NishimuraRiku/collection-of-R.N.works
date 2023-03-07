@@ -12,7 +12,8 @@
 #include "physics.h"
 #include "polygon3D.h"
 #include "sound.h"
-#include "eff_explosion_00.h"	// EFF:爆発	[00]
+#include "eff_explosion_00.h"	// EFF:爆発
+#include "eff_particle_00.h"	// EFF:パーティクル
 #include <stdio.h>
 
 //****************************************
@@ -22,14 +23,14 @@
 #define EFF_EXPLOSION_00_TYPE_DATA_FILE_PATH	"data\\GAMEDATA\\EFFECT\\EFF_EXPLOSION_00_TYPE_DATA.txt"
 
 // EFF:爆発[00] の最大数
+#define EFF_EXPLOSION_00_MAX (128)
 // EFF:爆発[00] の種類の数
-#define EFF_EXPLOSION_00_MAX		(128)
-#define EFF_EXPLOSION_00_TYPE_NUM	(3)
+#define EFF_EXPLOSION_00_TYPE_NUM (5)
 
 // EFF:爆発[00] の法線ベクトル
+#define EFF_EXPLOSION_00_NOR (D3DXVECTOR3(0.0f, 1.0f, 0.0f))
 // EFF:爆発[00] の相対位置
-#define EFF_EXPLOSION_00_NOR			(D3DXVECTOR3(0.0f, 1.0f, 0.0f))
-#define EFF_EXPLOSION_00_RELATIVE_POS	(D3DXVECTOR3(0.0f, 4.0f, 0.0f))
+#define EFF_EXPLOSION_00_RELATIVE_POS (D3DXVECTOR3(0.0f, 4.0f, 0.0f))
 
 //****************************************
 // 構造体の定義
@@ -64,6 +65,7 @@ typedef struct
 	int			nPtnMax;		// パターン上限
 	int			nAnimTime;		// アニメーションにかかる時間
 	int			nLife;			// 寿命
+	int			nParticleType;	// パーティクルの種類
 	float		fVibration;		// 振動の強さ
 	SOUND_LABEL	setSE;			// 設定SE
 }Eff_explosion_00Type;
@@ -164,6 +166,7 @@ void LoadEff_explosion_00(void)
 				else if (!strcmp(aDataSearch, "PTN_MAX:"))		{ fscanf(pFile, "%d", &pEffType->nPtnMax); }		// パターン上限
 				else if (!strcmp(aDataSearch, "ANIM_TIME:"))	{ fscanf(pFile, "%d", &pEffType->nAnimTime); }		// アニメーションにかかる時間
 				else if (!strcmp(aDataSearch, "LIFE:"))			{ fscanf(pFile, "%d", &pEffType->nLife); }			// 寿命
+				else if (!strcmp(aDataSearch, "PARTICLE_TYPE:")){ fscanf(pFile, "%d", &pEffType->nParticleType); }	// パーティクルの種類
 				else if (!strcmp(aDataSearch, "VIBRATION:"))	{ fscanf(pFile, "%f", &pEffType->fVibration); }		// 振動の強さ
 				else if (!strcmp(aDataSearch, "SET_SE:"))		{ fscanf(pFile, "%d", &pEffType->setSE); }			// 設定SE
 			}
@@ -406,6 +409,9 @@ void SetEff_explosion_00(D3DXVECTOR3 pos,int nType)
 
 		SetCamera3DVibration(pType->fVibration);	// カメラ(3D)の振動を設定
 		PlaySound(pType->setSE);					// 設定SEを再生
+
+		// パーティクルを設定
+		SetEff_particle_00(pos, pType->nParticleType);
 
 		// 繰り返し処理を抜ける
 		break;

@@ -18,7 +18,7 @@
 // マクロ定義
 //****************************************
 // UI:パラメーター[00] の位置
-#define UI_PARAMETER_00_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*32),SCREEN_HEIGHT-(PIXEL*30),0.0f)
+#define UI_PARAMETER_00_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*32),BUFFER_HEIGHT-(PIXEL*30),0.0f)
 
 // UI:パラメーター[00] のLVテキストの相対位置
 // UI:パラメーター[00] のLVテキストの間隔Y

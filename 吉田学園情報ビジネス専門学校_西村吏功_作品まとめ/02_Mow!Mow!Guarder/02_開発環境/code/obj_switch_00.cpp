@@ -16,12 +16,13 @@
 #include "specific.h"
 #include "sound.h"
 #include "text.h"
-#include "chr_enemy_00.h"		// CHR:敵			[00]
-#include "eff_explosion_00.h"	// EFF:爆発			[00]
-#include "md_game_00.h"			// MD :ゲーム画面	[00]
-#include "obj_switch_00.h"		// OBJ:スイッチ		[00]
-#include "obj_stage_00.h"		// OBJ:ステージ		[00]
-#include "ui_damage_00.h"		// UI :ダメージ		[00]
+#include "chr_enemy_00.h"		// CHR:敵					[00]
+#include "eff_explosion_00.h"	// EFF:爆発					[00]
+#include "md_game_00.h"			// MD :ゲーム画面			[00]
+#include "md_tutorial_00.h"		// MD :チュートリアル画面	[00]
+#include "obj_switch_00.h"		// OBJ:スイッチ				[00]
+#include "obj_stage_00.h"		// OBJ:ステージ				[00]
+#include "ui_damage_00.h"		// UI :ダメージ				[00]
 #include <stdio.h>
 
 //****************************************
@@ -291,9 +292,12 @@ void UpdateObj_switch_00(void)
 	Obj_switch_00Control	*pObjCtl	// OBJ:台座[00] の管理情報のポインタ
 							= &g_obj_switch_00Control;
 
-	if ((GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL) ||
-		(GetMd_game_00()->state == MD_GAME_00_STATE_TIPS_WAIT))
-	{// MD:ゲーム画面[00] の状態が通常orTIPS待ちの時、
+	if (((GetMode() == MODE_GAME_00) &&
+		(GetMd_game_00()->state == MD_GAME_00_STATE_NORMAL))
+		||
+		(GetMode() == MODE_TUTORIAL_00) &&
+		(GetMd_tutorial_00()->state == MD_TUTORIAL_00_STATE_NORMAL))
+	{// (MD:ゲーム画面[00] の状態が通常orTIPS待ち)or(チュートリアル画面の状態が通常)の時、
 		if (GetObj_stage_00()->state == OBJ_STAGE_00_STATE_INTERVAL)
 		{// OBJ:ステージ[00] の状態がインターバルの時、
 			pObjCtl->nCounterArrival++;	// 到着カウンターを加算

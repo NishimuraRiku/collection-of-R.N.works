@@ -209,12 +209,14 @@ void UpdateEff_particle_00(void)
 			continue;			// 繰り返し処理を折り返す
 		}
 
- 		pEff->pos.x += (pEff->move.x * ((float)pEff->nLife / (float)pEff->nLifeTemp));
-		pEff->pos.y += (pEff->move.y * ((float)pEff->nLife / (float)pEff->nLifeTemp));
-		pEff->pos.z += (pEff->move.z * ((float)pEff->nLife / (float)pEff->nLifeTemp));
+		float fRate = (float)pEff->nLife / (float)pEff->nLifeTemp;
+
+ 		pEff->pos.x += (pEff->move.x * fRate);
+		pEff->pos.y += (pEff->move.y * fRate);
+		pEff->pos.z += (pEff->move.z * fRate);
 
 		// EFF:光[00] の設定処理
-		SetEff_light_00(pEff->pos, pEff->nType);
+		SetEff_light_00(pEff->pos, pEff->nType, 0.5f + (fRate * 0.5f));
 	}
 }
 
@@ -223,6 +225,11 @@ void UpdateEff_particle_00(void)
 //========================================
 void SetEff_particle_00(D3DXVECTOR3 pos, int nType)
 {
+	if (nType == -1) 
+	{
+		return;
+	}
+
 	Eff_particle_00		*pEff	// EFF:パーティクル[00] の情報のポインタ
 						= g_aEff_particle_00;
 	Eff_particle_00Type	*pType	// EFF:パーティクル[00] の種類毎の情報のポインタ

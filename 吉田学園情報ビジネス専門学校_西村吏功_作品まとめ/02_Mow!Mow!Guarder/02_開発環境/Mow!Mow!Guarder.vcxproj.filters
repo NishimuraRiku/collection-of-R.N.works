@@ -150,9 +150,6 @@
     <ClCompile Include="code\light.cpp">
       <Filter>ソース ファイル\Other</Filter>
     </ClCompile>
-    <ClCompile Include="code\object.cpp">
-      <Filter>ソース ファイル\Other</Filter>
-    </ClCompile>
     <ClCompile Include="code\physics.cpp">
       <Filter>ソース ファイル\Other</Filter>
     </ClCompile>
@@ -269,6 +266,21 @@
     </ClCompile>
     <ClCompile Include="code\sys_ranking_00.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="code\md_tutorial_00.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="code\obj_signboard_00.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="code\object.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="code\ui_frame_00.cpp">
+      <Filter>ソース ファイル\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="code\ui_menu-comment_00.cpp">
+      <Filter>ソース ファイル\UserInterface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +481,18 @@
     </ClInclude>
     <ClInclude Include="code\resource.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="code\md_tutorial_00.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="code\obj_signboard_00.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ui_frame_00.h">
+      <Filter>ヘッダー ファイル\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ui_menu-comment_00.h">
+      <Filter>ヘッダー ファイル\UserInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

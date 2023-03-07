@@ -220,7 +220,14 @@ void UpdateUi_coinFrame_00(void)
 
 	{// スコアテキストの設定
 		char aString[TXT_MAX];	// 文字列
-		sprintf(aString, "%11d", GetChr_player_00()->nScore);
+		if (GetMode() == MODE_TUTORIAL_00)
+		{// 現在のモードがチュートリアルの時、
+			sprintf(aString, "      ?????");
+		}
+		else
+		{// 現在のモードがチュートリアルでない時、
+			sprintf(aString, "%11d", GetChr_player_00()->nScore);
+		}
 		SetText2D(aString, FONT_000, DISPLAY_LEFT, UI_COINFRAME_00_POS + UI_COINFRAME_00_SCORE_TEXT_RELATIVE_POS, { 255,255,255,255 }, 1.0f, 1.0f);
 	}
 }

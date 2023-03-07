@@ -17,7 +17,7 @@
 #define EFF_SHOCKWAVE_00_DIVISION	(16)	// EFF:衝撃波[00] の分割数
 
 // EFF:衝撃波[00] の法線ベクトル
-#define EFF_SHOCKWAVE_00_NOR	D3DXVECTOR3(0.0f,1.0f,0.0f)
+#define EFF_SHOCKWAVE_00_NOR	D3DXVECTOR3(0.0f,0.0f,1.0f)
 
 //****************************************
 // 構造体の定義
@@ -203,7 +203,7 @@ void DrawEff_shockWave_00(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();		// デバイス取得
 	D3DXMATRIX		  mtxRot, mtxTrans;				// 計算用マトリックス
 	Eff_shockWave_00  *pEff = g_aEff_shockWave_00;	// EFF:衝撃波[00] の情報構造体
-		
+	
 	// 頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0, g_pVtxBuffEff_shockWave_00, 0, sizeof(VERTEX_3D));
 
@@ -212,6 +212,9 @@ void DrawEff_shockWave_00(void)
 
 	// テクスチャの設定
 	pDevice->SetTexture(0, NULL);
+
+	// ライティングを無効にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	for (int nCntEff = 0; nCntEff < EFF_SHOCKWAVE_00_MAX; nCntEff++, pEff++)
 	{
@@ -237,6 +240,9 @@ void DrawEff_shockWave_00(void)
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, ((EFF_SHOCKWAVE_00_DIVISION + 1) * 2) * nCntEff, (EFF_SHOCKWAVE_00_DIVISION * 2));
 	}
+
+	// ライティングを有効にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 //========================================

@@ -19,6 +19,7 @@
 #include "md_title_00.h"			// MD :タイトル画面			[00]
 #include "obj_stage_00.h"			// OBJ:ステージ				[00]
 #include "ui_menu_00.h"				// UI :メニュー				[00]
+#include "ui_menu-comment_00.h"		// UI :メニューコメント		[00]
 #include "ui_ranking-frame_00.h"	// UI :ランキングフレーム	[00]
 #include "ui_title-logo_00.h"		// UI :タイトルロゴ			[00]
 #include "ui_user-guid_00.h"		// UI :ユーザーガイド		[00]
@@ -33,35 +34,27 @@
 // タイトル画面[00] のランキングメニューの位置
 // タイトル画面[00] のランキングの位置
 // タイトル画面[00] の設定メニューの位置
-#define MD_TITLE_00_MAIN_MENU_POS		D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT-PIXEL*64,0.0f)
-#define MD_TITLE_00_USERGUID_MENU_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT-PIXEL*32,0.0f)
-#define MD_TITLE_00_USERGUID_POS		D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT*0.5f,0.0f)
-#define MD_TITLE_00_RANKING_MENU_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT-PIXEL*32,0.0f)
-#define MD_TITLE_00_RANKING_POS			D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT*0.5f,0.0f)
-#define MD_TITLE_00_SETTING_MENU_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT-PIXEL*64,0.0f)
+#define MD_TITLE_00_MAIN_MENU_POS		D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT-PIXEL*64,0.0f)
+#define MD_TITLE_00_USERGUID_MENU_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT-PIXEL*32,0.0f)
+#define MD_TITLE_00_USERGUID_POS		D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT*0.5f,0.0f)
+#define MD_TITLE_00_RANKING_MENU_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT-PIXEL*32,0.0f)
+#define MD_TITLE_00_RANKING_POS			D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT*0.5f,0.0f)
+#define MD_TITLE_00_SETTING_MENU_POS	D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT-PIXEL*64,0.0f)
 
 // タイトル画面[00] の著作権の位置
 // タイトル画面[00] の著作権の表示にかかる時間
-#define MD_TITLE_00_COPYRIGHT_POS		D3DXVECTOR3(SCREEN_CENTER_X,SCREEN_HEIGHT-PIXEL*8,0.0f)
+#define MD_TITLE_00_COPYRIGHT_POS		D3DXVECTOR3(SCREEN_CENTER_X,BUFFER_HEIGHT-PIXEL*8,0.0f)
 #define MD_TITLE_00_COPYRIGHT_SHOW_TIME	(10)
 
 // タイトル画面[00] の決定SE
 #define MD_TITLE_00_DETERMINATION_SE	(SOUND_LABEL_SE_DETERMINATION_000)
 
+// タイトル画面[00] のステージの種類
+#define MD_TITLE_00_STAGE_TYPE	(0)
+
 //****************************************
 // 列挙型の定義
 //****************************************
-// タイトル画面[00] のメインメニュー
-typedef enum
-{
-	MD_TITLE_00_MAIN_MENU_START,	// 開始
-	MD_TITLE_00_MAIN_MENU_USERGUID,	// ユーザーガイド
-	MD_TITLE_00_MAIN_MENU_RANKING,	// ランキング
-	MD_TITLE_00_MAIN_MENU_SETTINGS,	// 設定
-	MD_TITLE_00_MAIN_MENU_EXIT,		// 終了
-	MD_TITLE_00_MAIN_MENU_MAX,
-}MD_TITLE_00_MAIN_MENU;
-
 // タイトル画面[00] のユーザーガイドメニュー
 typedef enum
 {
@@ -97,9 +90,10 @@ Md_title_00	g_md_title_00;	// MD:タイトル画面[00] の情報
 Ui_menu_00Set g_aMd_title_00MainMenuSet[MD_TITLE_00_MAIN_MENU_MAX] =
 {
 	{ UI_MENU_00_TYPE_NORMAL,"START"    ,false },
-	{ UI_MENU_00_TYPE_NORMAL,"USER GUID",true  },
+	{ UI_MENU_00_TYPE_NORMAL,"TUTORIAL" ,false },
+	{ UI_MENU_00_TYPE_NORMAL,"CONTROLS" ,true  },
 	{ UI_MENU_00_TYPE_NORMAL,"RANKING"  ,true  },
-	{ UI_MENU_00_TYPE_NORMAL,"SETTINGS" ,true },
+	{ UI_MENU_00_TYPE_NORMAL,"SETTINGS" ,true  },
 	{ UI_MENU_00_TYPE_NORMAL,"QUIT"     ,false },
 };
 
@@ -116,7 +110,7 @@ Ui_menu_00Set g_aMd_title_00RankingMenuSet[MD_TITLE_00_RANKING_MENU_MAX] =
 };
 
 //========== *** MD:タイトル画面[00] の情報を取得 ***
-Md_title_00 *GetMd_title_00(void) 
+Md_title_00 *GetMd_title_00(void)
 {
 	return &g_md_title_00;
 }
@@ -232,6 +226,17 @@ void UpdateMd_title_00State(void)
 		case /*/ 開始 /*/MD_TITLE_00_MAIN_MENU_START: {
 			// 画面をゲーム画面[00] に設定
 			SetFade(MODE_GAME_00);
+
+			// 決定SEを再生
+			PlaySound(MD_TITLE_00_DETERMINATION_SE);
+
+			// 著作権表示フラグを偽にする
+			pMd->bShowCopyRight = false;
+			break;
+		}
+		case /*/ チュートリアル /*/MD_TITLE_00_MAIN_MENU_TUTORIAL: {
+			// 画面をチュートリアル画面[00] に設定
+			SetFade(MODE_TUTORIAL_00);
 
 			// 決定SEを再生
 			PlaySound(MD_TITLE_00_DETERMINATION_SE);
@@ -357,8 +362,9 @@ void InitMd_title_00(void)
 	InitParameterCamera3D();	// カメラ(3D)のパラメーター
 	InitBg_mountain_00();		// BG :山					[00]
 	InitBg_space_00();			// BG :宇宙					[00]
-	InitObj_stage_00();			// OBJ:ステージ				[00]
+	InitObj_stage_00(MD_TITLE_00_STAGE_TYPE);	// OBJ:ステージ				[00]
 	InitUi_menu_00();			// UI :メニュー				[00]
+	InitUi_menuComment_00();	// UI :メニューコメント		[00]
 	InitUi_rankingFrame_00();	// UI :ランキングフレーム	[00]
 	InitUi_titleLogo_00();		// UI :タイトルロゴ			[00]
 	InitUi_userGuid_00();		// UI :ユーザーガイド		[00]
@@ -389,6 +395,7 @@ void UninitMd_title_00(void)
 	UninitBg_space_00();		// BG :宇宙					[00]
 	UninitObj_stage_00();		// OBJ:ステージ				[00]
 	UninitUi_menu_00();			// UI :メニュー				[00]
+	UninitUi_menuComment_00();	// UI :メニューコメント		[00]
 	UninitUi_rankingFrame_00();	// UI :ランキングフレーム	[00]
 	UninitUi_titleLogo_00();	// UI :タイトルロゴ			[00]
 	UninitUi_userGuid_00();		// UI :ユーザーガイド		[00]
@@ -410,6 +417,7 @@ void UpdateMd_title_00(void)
 	UpdateBg_space_00();		// BG :宇宙					[00]
 	UpdateObj_stage_00();		// OBJ:ステージ				[00]
 	UpdateUi_menu_00();			// UI :メニュー				[00]
+	UpdateUi_menuComment_00();	// UI :メニューコメント		[00]
 	UpdateUi_rankingFrame_00();	// UI :ランキングフレーム	[00]
 	UpdateUi_titleLogo_00();	// UI :タイトルロゴ			[00]
 	UpdateUi_userGuid_00();		// UI :ユーザーガイド		[00]
@@ -447,6 +455,7 @@ void DrawMd_title_00(void)
 	DrawBg_mountain_00();		// BG :山					[00]
 	DrawBg_space_00();			// BG :宇宙					[00]
 	DrawObj_stage_00();			// OBJ:ステージ				[00]
+	DrawUi_menuComment_00();	// UI :メニューコメント		[00]
 	DrawUi_menu_00();			// UI :メニュー				[00]
 	DrawUi_rankingFrame_00();	// UI :ランキングフレーム	[00]
 	DrawUi_titleLogo_00();		// UI :タイトルロゴ			[00]

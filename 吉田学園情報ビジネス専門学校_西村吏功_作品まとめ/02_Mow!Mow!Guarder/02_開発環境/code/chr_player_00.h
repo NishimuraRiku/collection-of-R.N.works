@@ -17,19 +17,24 @@
 // マクロ定義
 //****************************************
 // CHR:プレイヤー[00] の斬撃の内角
+#define CHR_PLAYER_00_SLASH_INSIDE (D3DX_PI * 1.5f)
 // CHR:プレイヤー[00] の斬撃にかかる時間
-#define CHR_PLAYER_00_SLASH_INSIDE	(D3DX_PI * 1.5f)
-#define CHR_PLAYER_00_SLASH_TIME	(15)
+#define CHR_PLAYER_00_SLASH_TIME (15)
 
 // OBJ:プレイヤー[00] の剣の攻撃力アップカウント毎の上昇値
+#define CHR_PLAYER_00_SWORD_ATK_ADDRATE (0.1f)
 // OBJ:プレイヤー[00] の弾の攻撃力アップカウント毎の上昇値
-#define CHR_PLAYER_00_SWORD_ATK_ADDRATE		(0.25f)
-#define CHR_PLAYER_00_BULLET_ATK_ADDRATE	(0.1f)
+#define CHR_PLAYER_00_BULLET_ATK_ADDRATE (0.1f)
 
 // CHR;プレイヤー[00] のHP割合表示距離
+#define CHR_PLAYER_00_HPRATE_DISPLAY_DISTANCE (80.0f)
 // CHR;プレイヤー[00] のHP割合テキストの拡大倍率
-#define CHR_PLAYER_00_HPRATE_DISPLAY_DISTANCE	(80.0f)
-#define CHR_PLAYER_00_HPRATE_TEXT_SCALE			(0.5f)
+#define CHR_PLAYER_00_HPRATE_TEXT_SCALE (0.5f)
+
+// CHR:プレイヤー[00] の看板との判定距離
+#define CHR_PLAYER_00_SIGNBOARD_DISTANCE (8.0f)
+// CHR:プレイヤー[00] の看板との判定の看板からの距離
+#define CHR_PLAYER_00_SIGNBOARD_DECISION_DISTANCE (4.0f)
 
 //****************************************
 // 列挙型の定義
@@ -42,6 +47,7 @@ typedef enum
 	CHR_PLAYER_00_HITOBJ_OBJ_CORE_00,		// OBJ:コア		[00]
 	CHR_PLAYER_00_HITOBJ_OBJ_MIRROR_00,		// OBJ:ミラー	[00]
 	CHR_PLAYER_00_HITOBJ_OBJ_PEDESTAL_00,	// OBJ:台座		[00]
+	CHR_PLAYER_00_HITOBJ_OBJ_SIGNBOARD_00,	// OBJ:看板		[00]
 	CHR_PLAYER_00_HITOBJ_OBJ_STAGE_00,		// OBJ:ステージ	[00]
 	CHR_PLAYER_00_HITOBJ_OBJ_SWITCH_00,		// OBJ:スイッチ	[00]
 	CHR_PLAYER_00_HITOBJ_MAX,
@@ -136,6 +142,7 @@ typedef struct
 	int					aItemCount			// アイテムカウント
 						[CHR_PLAYER_00_ITEM_MAX];
 	int					nPedestalIndex;		// 台座の番号
+	int					nSignboardIndex;	// 看板の番号
 	int					nCoinIndex;			// コインの番号
 	int					nBulletAtkUpCount;	// 弾の攻撃力アップカウント
 	int					nSwordAtkUpCount;	// 剣の攻撃力アップカウント

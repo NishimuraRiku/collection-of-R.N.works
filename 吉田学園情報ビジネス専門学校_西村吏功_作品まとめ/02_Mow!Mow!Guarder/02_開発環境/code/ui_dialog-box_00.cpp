@@ -60,6 +60,9 @@ const char c_aTexturePathUi_dialogBox_00[UI_DIALOGBOX_00_TYPE_MAX][TXT_MAX] =
 	"data\\TEXTURE\\UserInterface\\ui_dialog-box_000\\02.png",
 	"data\\TEXTURE\\UserInterface\\ui_dialog-box_000\\03.png",
 	"data\\TEXTURE\\UserInterface\\ui_dialog-box_000\\04.png",
+	"data\\TEXTURE\\UserInterface\\ui_dialog-box_000\\05.png",
+	"data\\TEXTURE\\UserInterface\\ui_dialog-box_000\\06.png",
+	"data\\TEXTURE\\UserInterface\\ui_dialog-box_000\\07.png",
 };
 
 //========== *** UI:ダイアログボックス[00] の情報を取得 ***

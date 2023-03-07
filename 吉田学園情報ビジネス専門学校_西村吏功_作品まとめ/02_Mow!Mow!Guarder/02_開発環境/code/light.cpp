@@ -88,9 +88,9 @@ const Light3DSettingInfo g_aLight3DSettingInfo[LIGHT3D_MAX]=
 	{ D3DXVECTOR3( 0.5f , -0.5f , 0.5f),0.5f  },	// 右前下
 	{ D3DXVECTOR3(-0.9f , -0.9f , 0.0f),0.75f },	// 左
 	{ D3DXVECTOR3( 0.9f , -0.9f , 0.0f),0.75f },	// 右
-	{ D3DXVECTOR3(-0.5f , -0.5f ,-0.5f),0.25f },	// 左後下
-	{ D3DXVECTOR3( 0.5f , -0.5f ,-0.5f),0.25f },	// 右後下
-	{ D3DXVECTOR3( 0.0f , -0.5f ,-0.5f),0.25f },	// 後下
+	{ D3DXVECTOR3(-0.5f , -0.5f ,-0.5f),0.5f  },	// 左後下
+	{ D3DXVECTOR3( 0.5f , -0.5f ,-0.5f),0.5f  },	// 右後下
+	{ D3DXVECTOR3( 0.0f , -0.5f ,-0.5f),0.5f  },	// 後下
 };
 
 //========== *** 光(2D)の情報を取得 ***

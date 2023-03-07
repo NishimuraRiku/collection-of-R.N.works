@@ -18,8 +18,8 @@
 // UI:スクリーン[00] の幅
 // UI:スクリーン[00] の高さ
 #define UI_SCREEN_00_TEXTURE_PATH	"data\\TEXTURE\\UserInterface\\ui_screen_000.png"
-#define UI_SCREEN_00_WIDTH			(1280)
-#define UI_SCREEN_00_HEIGHT			(720)
+#define UI_SCREEN_00_WIDTH			(BUFFER_WIDTH)
+#define UI_SCREEN_00_HEIGHT			(BUFFER_HEIGHT)
 
 //****************************************
 // グローバル宣言
@@ -63,7 +63,7 @@ void InitUi_screen_00(void)
 
 	// 頂点座標を設定
 	SetVertexPos2D(pVtx,
-		D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f),
+		D3DXVECTOR3(BUFFER_WIDTH * 0.5f, BUFFER_HEIGHT * 0.5f, 0.0f),
 		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 		false,
 		UI_SCREEN_00_WIDTH,

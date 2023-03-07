@@ -210,8 +210,6 @@ void StateProcessUi_menu_00(void)
 			for (int nCntUi = 0; nCntUi < UI_MENU_00_MAX; nCntUi++) {
 				g_aUi_menu_00[nCntUi].bUse = false;
 			}
-
-			break;
 		}
 
 		float	fRate	// Š„‡ 

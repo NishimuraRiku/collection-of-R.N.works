@@ -26,10 +26,12 @@
 #include "obj_core_00.h"		// OBJ:コア			[00]
 #include "obj_discharger_00.h"	// OBJ:放電装置		[00]
 #include "obj_mirror_00.h"		// OBJ:ミラー		[00]
+#include "obj_signboard_00.h"	// OBJ:看板			[00]
 #include "obj_stage_00.h"		// OBJ:ステージ		[00]
 #include "obj_switch_00.h"		// OBJ:スイッチ		[00]
 #include "obj_turret_00.h"		// OBJ:タレット		[00]
 #include "ui_damage_00.h"		// UI :ダメージ		[00]
+#include "ui_tips_00.h"			// UI :TIPS			[00]
 #include <stdio.h>
 
 //****************************************
@@ -100,7 +102,7 @@
 #define CHR_PLAYER_00_INIT_RESPAWN_TIME		(60*5)
 #define CHR_PLAYER_00_ADD_RESPAWN_TIME		(60*0)
 #define CHR_PLAYER_00_RESPAWN_HP_RATE		(0.25f)
-#define CHR_PLAYER_00_RESPAWN_TEXT_POS		D3DXVECTOR3(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT*0.5f,0.0f)
+#define CHR_PLAYER_00_RESPAWN_TEXT_POS		D3DXVECTOR3(BUFFER_WIDTH*0.5f,BUFFER_HEIGHT*0.5f,0.0f)
 #define CHR_PLAYER_00_RESPAWN_TEXT_COLOR	Color{ 219,43,0,255 }
 
 //****************************************
@@ -244,6 +246,7 @@ void InitParameterChr_player_00(void)
 	pChr->nCounterInvincible	= 0;								// 無敵カウンター
 	pChr->nCounterDamage		= 0;								// ダメージカウンター
 	pChr->nPedestalIndex		= -1;								// 台座の番号
+	pChr->nSignboardIndex		= -1;								// 看板の番号
 	pChr->nCoinIndex			= -1;								// コインの番号
 	for (int nCntItem = 0; nCntItem < CHR_PLAYER_00_ITEM_MAX; nCntItem++)
 	{
@@ -386,7 +389,7 @@ void KeyInputChr_player_00(void)
 	else 
 	{// 移動入力が無かった時、
 		pChr->bWalk		= false;	// 歩行フラグを偽にする
-		pChr->bRotation = false;	// 方向転換フラグを真にする
+		pChr->bRotation = false;	// 方向転換フラグを偽にする
 	}
 
 	if		((GetKeyboardTrigger(DIK_Q)) || (GetButtonTrigger(BUTTON_LEFT_SHOULDER))) { 
@@ -418,6 +421,11 @@ void KeyInputChr_player_00(void)
 			{// 購入出来た時、
 				PlaySound(CHR_PLAYER_00_BUY_SE);	// 購入SEを再生
 			}
+		}
+		else if (pChr->nSignboardIndex != -1)
+		{// 看板との距離が判定距離内の時、
+			// UI:TIPSを設定
+			SetUi_tips_00(GetObj_signboard_00()[pChr->nSignboardIndex].nType);
 		}
 		else if (pChr->aObjCollision[CHR_PLAYER_00_HITOBJ_OBJ_SWITCH_00].bHit)
 		{// OBJ:スイッチ[00] の当たりフラグが真の時、
@@ -633,7 +641,7 @@ void UpdatePosChr_player_00(void)
 		pChr->bRotation = true;					// 方向転換フラグを真にする
 	}
 	else 
-	{// 選択しているアイテムの狙いフラグが偽の時、
+	{// 選択しているアイテムの狙いフラグが偽の時、.
 		pChr->targetRot = pChr->moveRot;		// 目標向きに移動向きを代入
 	}
 }
@@ -729,6 +737,9 @@ void CheckCollisionChr_player_00(VECTOR vector)
 	};
 
 	/*/ OBJ:ミラー	[00] /*/CollisionObj_mirror_00(vector, &pChr->aObjCollision[CHR_PLAYER_00_HITOBJ_OBJ_MIRROR_00], &pChr->cmnCollision, myCollInfo);
+	
+	// 衝突判定(看板)
+	pChr->nSignboardIndex = CollisionObj_signboard_00(vector, &pChr->aObjCollision[CHR_PLAYER_00_HITOBJ_OBJ_SIGNBOARD_00], &pChr->cmnCollision, myCollInfo);
 }
 
 //========================================
@@ -995,8 +1006,11 @@ void UpdateChr_player_00(void)
 			pChr->rot.y += (AngleDifference(pChr->rot.y, pChr->targetRot.y) * CHR_PLAYER_00_ROT_DIAMETER) * pChr->bRotation * (pChr->bSlash ^ 1);
 		}
 
-		// カメラ(3D)の注視点設定処理
-		SetCamera3DPosRChr_player_00();
+		if (pChrCtl->state != CHR_PLAYER_00_CONTROL_STATE_INPUT_STOP)
+		{// 管理状態が入力停止でない時、
+			// カメラ(3D)の注視点設定処理
+			SetCamera3DPosRChr_player_00();
+		}
 
 		// 部品(3D)のトランスフォームを取得
 		GetParts3DTransform(&pChr->partsInfo, &pType->partsSet);
@@ -1190,7 +1204,7 @@ int CollisionChr_player_00(VECTOR vector, Collision *pChrCollision, Collision *p
 //========================================
 void DamageChr_player_00(int nDamage)
 {
-	if (GetObj_stage_00()->state == OBJ_STAGE_00_STATE_INTERVAL) 
+	if ((GetObj_stage_00()->state == OBJ_STAGE_00_STATE_INTERVAL) || (nDamage == 0))
 	{// OBJ:ステージ[00] の状態がインターバルの時、
 		return;	// 処理を終了する
 	}

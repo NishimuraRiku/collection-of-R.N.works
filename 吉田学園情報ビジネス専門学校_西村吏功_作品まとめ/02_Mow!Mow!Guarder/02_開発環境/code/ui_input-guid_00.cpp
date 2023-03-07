@@ -14,6 +14,7 @@
 #include "text.h"
 #include "chr_player_00.h"		// CHR:プレイヤー			[00]
 #include "ui_dialog-box_00.h"	// UI :ダイアログボックス	[00]
+#include "ui_frame_00.h"		// UI :フレーム				[00]
 #include "ui_input-guid_00.h"	// UI :入力ガイド			[00]
 #include "ui_item-guid_00.h"	// UI :商品ガイド			[00]
 
@@ -21,20 +22,20 @@
 // マクロ定義
 //****************************************
 // UI:入力ガイド[00] の位置(購入時)
+#define UI_INPUTGUID_00_POS_BUY (D3DXVECTOR3(INSIDE_SCREEN_RIGHTMOST-(PIXEL*33)+(PIXEL*6*3),(BUFFER_HEIGHT*0.5f)-(PIXEL*14)+(PIXEL*8*4),0.0f))
 // UI:入力ガイド[00] の位置(スキップ時)
+#define UI_INPUTGUID_00_POS_SKIP (D3DXVECTOR3((BUFFER_WIDTH*0.5f)+PIXEL*56,BUFFER_HEIGHT*0.5f,0.0f))
 // UI:入力ガイド[00] のテキストの相対位置(購入時)
+#define UI_INPUTGUID_00_TEXT_RELATIVE_POS_BUY (D3DXVECTOR3(PIXEL*-24,0.0f,0.0f))
 // UI:入力ガイド[00] のテキストの相対位置(スキップ時)
+#define UI_INPUTGUID_00_TEXT_RELATIVE_POS_SKIP (D3DXVECTOR3(PIXEL*-56,0.0f,0.0f))
 // UI:入力ガイド[00] のダイアログボックスとの相対位置
-#define UI_INPUTGUID_00_POS_BUY						(D3DXVECTOR3(INSIDE_SCREEN_RIGHTMOST-(PIXEL*33)+(PIXEL*6*3),(SCREEN_HEIGHT*0.5f)-(PIXEL*14)+(PIXEL*8*4),0.0f))
-#define UI_INPUTGUID_00_POS_SKIP					(D3DXVECTOR3((SCREEN_WIDTH*0.5f),(SCREEN_HEIGHT*0.5f)+(PIXEL*12),0.0f))
-#define UI_INPUTGUID_00_TEXT_RELATIVE_POS_BUY		(D3DXVECTOR3(PIXEL*-24,0.0f,0.0f))
-#define UI_INPUTGUID_00_TEXT_RELATIVE_POS_SKIP		(D3DXVECTOR3(0.0f,PIXEL*-16,0.0f))
-#define UI_INPUTGUID_00_RELATIVE_POS_WITH_DIALOGBOX	(D3DXVECTOR3(PIXEL*113,PIXEL*21,0.0f))
+#define UI_INPUTGUID_00_RELATIVE_POS_WITH_DIALOGBOX (D3DXVECTOR3(PIXEL*113,PIXEL*21,0.0f))
 
 // UI:入力ガイド[00] のアニメーションにかかる時間
+#define UI_INPUTGUID_00_ANIM_TIME (20)
 // UI:入力ガイド[00] のテキストの点滅カウンター
-#define UI_INPUTGUID_00_ANIM_TIME			(20)
-#define UI_INPUTGUID_00_TEXT_BRINK_COLOR	Color{243,189,63,255}
+#define UI_INPUTGUID_00_TEXT_BRINK_COLOR Color{243,189,63,255}
 
 //****************************************
 // 列挙型の定義
@@ -284,12 +285,34 @@ void UpdateUi_inputGuid_00(void)
 	{// CHR:プレイヤー[00] のOBJ:スイッチ[00] との当たりフラグが真の時、
 		fAlpha = 1.0f;	// 不透明度を設定
 
+		// UI:フレーム[00] の設定処理
+		SetUi_frame_00();
+		
 		// 設定位置をスキップ時のものに設定
 		pUiCtl->setPos = UI_INPUTGUID_00_POS_SKIP;
 
 		// テキストの設定
 		SetText2D(
 			"ARE YOU READY?",
+			FONT_002, DISPLAY_CENTER,
+			UI_INPUTGUID_00_POS_SKIP + UI_INPUTGUID_00_TEXT_RELATIVE_POS_SKIP,
+			!pUiCtl->nPattern ?
+			Color{ 255,255,255,(int)(255 * fAlpha) } :
+			ColorMix(UI_INPUTGUID_00_TEXT_BRINK_COLOR, { 255,255,255,(int)(255 * fAlpha) }), 1.0f, 1.0f);
+	}
+	else if (GetChr_player_00()->nSignboardIndex != -1) 
+	{// CHR:プレイヤー[00] の看板の番号が-1でない時、
+		fAlpha = 1.0f;	// 不透明度を設定
+
+		// UI:フレーム[00] の設定処理
+		SetUi_frame_00();
+
+		// 設定位置をスキップ時のものに設定
+		pUiCtl->setPos = UI_INPUTGUID_00_POS_SKIP;
+
+		// テキストの設定
+		SetText2D(
+			"READ THE SIGN?",
 			FONT_002, DISPLAY_CENTER,
 			UI_INPUTGUID_00_POS_SKIP + UI_INPUTGUID_00_TEXT_RELATIVE_POS_SKIP,
 			!pUiCtl->nPattern ?

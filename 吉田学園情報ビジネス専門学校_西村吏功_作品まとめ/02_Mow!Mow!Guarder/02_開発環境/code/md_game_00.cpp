@@ -44,6 +44,7 @@
 #include "ui_coin-frame_00.h"		// UI :コインフレーム		[00]
 #include "ui_damage_00.h"			// UI :ダメージ				[00]
 #include "ui_dialog-box_00.h"		// UI :ダイアログボックス	[00]
+#include "ui_frame_00.h"			// UI :フレーム				[00]
 #include "ui_hp-bar_00.h"			// UI :HPバー				[00]
 #include "ui_hp-bar_01.h"			// UI :HPバー				[01]
 #include "ui_inventory_00.h"		// UI :インベントリ			[00]
@@ -66,17 +67,13 @@
 // MD:ゲーム画面[00] のランキングの位置
 // MD:ゲーム画面[00] のユーザーガイドメニューの位置
 // MD:ゲーム画面[00] のユーザーガイドの位置
-// MD:ゲーム画面[00] のTIPSメニューの位置
-// MD:ゲーム画面[00] のTIPSの位置
 // MD:ゲーム画面[00] の設定メニューの位置
-#define MD_GAME_00_PAUSE_MENU_POS		D3DXVECTOR3(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT-PIXEL*64,0.0f)
-#define MD_GAME_00_RESULT_MENU_POS		D3DXVECTOR3(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT+(PIXEL*-32),0.0f)
-#define MD_GAME_00_RANKING_POS			D3DXVECTOR3(SCREEN_WIDTH*0.5f,(SCREEN_HEIGHT*0.5f)-PIXEL*8,0.0f)
-#define MD_GAME_00_USERGUID_MENU_POS	D3DXVECTOR3(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT-PIXEL*32,0.0f)
-#define MD_GAME_00_USERGUID_POS			D3DXVECTOR3(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT*0.5f,0.0f)
-#define MD_GAME_00_TIPS_MENU_POS		D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT-PIXEL*32,0.0f)
-#define MD_GAME_00_TIPS_POS				D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),SCREEN_HEIGHT*0.5f,0.0f)
-#define MD_GAME_00_SETTING_MENU_POS		D3DXVECTOR3(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT-PIXEL*64,0.0f)
+#define MD_GAME_00_PAUSE_MENU_POS		D3DXVECTOR3(BUFFER_WIDTH*0.5f,BUFFER_HEIGHT-PIXEL*64,0.0f)
+#define MD_GAME_00_RESULT_MENU_POS		D3DXVECTOR3(BUFFER_WIDTH*0.5f,BUFFER_HEIGHT+(PIXEL*-32),0.0f)
+#define MD_GAME_00_RANKING_POS			D3DXVECTOR3(BUFFER_WIDTH*0.5f,(BUFFER_HEIGHT*0.5f)-PIXEL*8,0.0f)
+#define MD_GAME_00_USERGUID_MENU_POS	D3DXVECTOR3(BUFFER_WIDTH*0.5f,BUFFER_HEIGHT-PIXEL*32,0.0f)
+#define MD_GAME_00_USERGUID_POS			D3DXVECTOR3(BUFFER_WIDTH*0.5f,BUFFER_HEIGHT*0.5f,0.0f)
+#define MD_GAME_00_SETTING_MENU_POS		D3DXVECTOR3(BUFFER_WIDTH*0.5f,BUFFER_HEIGHT-PIXEL*64,0.0f)
 
 // MD:ゲーム画面[00] のボス出現ムービー(視点移動)にかかる時間
 // MD:ゲーム画面[00] のボス出現ムービー(視点リセット)にかかる時間
@@ -125,6 +122,9 @@
 // MD:ゲーム画面[00] のTIPS待ちにかかる時間
 #define MD_GAME_00_TIPS_WAIT_TIME	(60)
 
+// MD;ゲーム画面[00] のステージの種類
+#define MD_GAME_00_STAGE_TYPE	(0)
+
 //****************************************
 // 列挙型の定義
 //****************************************
@@ -161,13 +161,6 @@ typedef enum
 	MD_GAME_00_USERGUID_MENU_MAX,
 }MD_GAME_00_USERGUID_MENU;
 
-// ゲーム画面[00] のTIPSメニュー
-typedef enum
-{
-	MD_GAME_00_TIPS_MENU_OK,	// OK
-	MD_GAME_00_TIPS_MENU_MAX,
-}MD_GAME_00_TIPS_MENU;
-
 //****************************************
 // プロトタイプ宣言
 //****************************************
@@ -197,19 +190,13 @@ Ui_menu_00Set g_aMd_game_00PauseMenuSet[MD_GAME_00_PAUSE_MENU_MAX] =
 {
 	{ UI_MENU_00_TYPE_NORMAL,"RESUME"       ,true  },
 	{ UI_MENU_00_TYPE_NORMAL,"RETRY"        ,false },
-	{ UI_MENU_00_TYPE_NORMAL,"USER GUID"    ,true  },
+	{ UI_MENU_00_TYPE_NORMAL,"CONTROLS"     ,true  },
 	{ UI_MENU_00_TYPE_NORMAL,"SETTINGS"     ,true  },
 	{ UI_MENU_00_TYPE_NORMAL,"BACK TO TITLE",true  },
 };
 
 // MD:ゲーム画面[00] のユーザーガイドメニュー設定情報
 Ui_menu_00Set g_aMd_game_00UserGuidSet[MD_GAME_00_USERGUID_MENU_MAX] =
-{
-	{ UI_MENU_00_TYPE_NORMAL,"OK",true },
-};
-
-// MD:ゲーム画面[00] のTIPSメニュー設定情報
-Ui_menu_00Set g_aMd_game_00TipsMenuSet[MD_GAME_00_TIPS_MENU_MAX] =
 {
 	{ UI_MENU_00_TYPE_NORMAL,"OK",true },
 };
@@ -309,15 +296,6 @@ void StartMd_game_00State(void)
 			g_aMd_game_00ResultMenuSet,
 			MD_GAME_00_RESULT_MENU_MAX);
 
-		break;
-	}
-	case /*/ TIPS待ち /*/MD_GAME_00_STATE_TIPS_WAIT: {
-		
-		break;
-	}
-	case /*/ TIPS[00] /*/MD_GAME_00_STATE_TIPS_00: {
-		// UI:TIPS[00] の設定処理
-		SetUi_tips_00(MD_GAME_00_TIPS_POS);
 		break;
 	}
 	case /*/ チュートリアル[00] /*/MD_GAME_00_STATE_TUTORIAL_00: {
@@ -439,20 +417,14 @@ void EndMd_game_00State(void)
 
 		break;
 	}
-	case /*/ TIPS待ち /*/MD_GAME_00_STATE_TIPS_WAIT: {
-
-		break;
-	}
-	case /*/ TIPS[00] /*/MD_GAME_00_STATE_TIPS_00: {
-		SetChr_player_00ControlState(	// CHR:プレイヤー[00] の状態を動的にする
-			CHR_PLAYER_00_CONTROL_STATE_DYNAMIC);
-		break;
-	}
 	case /*/ チュートリアル[00] /*/MD_GAME_00_STATE_TUTORIAL_00: {
 
 		break;
 	}
 	case /*/ チュートリアル[01] /*/MD_GAME_00_STATE_TUTORIAL_01: {
+		SetChr_player_00ControlState(	// CHR:プレイヤー[00] の管理状態を動的にする
+			CHR_PLAYER_00_CONTROL_STATE_DYNAMIC);
+
 		// カメラ(3D)のパラメーター初期化
 		InitParameterCamera3D();
 
@@ -672,44 +644,6 @@ void UpdateMd_game_00State(void)
 		}
 		break;
 	}
-	case /*/ TIPS待ち /*/MD_GAME_00_STATE_TIPS_WAIT: {
-		if (++pMd->nCounterState >= MD_GAME_00_TIPS_WAIT_TIME)
-		{// MD:状態カウンターがTIPS待ちにかかる時間に達した時、
-			SetMd_game_00State(MD_GAME_00_STATE_TIPS_00);	// 状態をTIPS[00] に設定
-		}
-
-		break;
-	}
-	case /*/ TIPS[00] /*/MD_GAME_00_STATE_TIPS_00: {
-		if (GetSwitchUi_tips_00()) 
-		{// UI:TIPS[00] の切替を取得した時、
-			// UI:メニュー[00] の中心座標を設定
-			SetUi_menu_00Pos(MD_GAME_00_TIPS_MENU_POS);
-
-			// UI:メニュー[00] の設定処理(ユーザーガイドメニュー)
-			SetUi_menu_00(
-				g_aMd_game_00TipsMenuSet,
-				MD_GAME_00_USERGUID_MENU_MAX);
-		}
-
-		if (GetUi_tips_00()->bStepViewAll)
-		{// ステップを全て閲覧したフラグが真の時、
-			// TIPSメニューの選択処理
-			switch (Ui_menu_00Input(UI_MENU_00_INPUT_MODE_UP_AND_DOWN))
-			{
-			case /*/ OK /*/MD_GAME_00_TIPS_MENU_OK:
-				// UI:TIPS[00] の状態を消え中にする
-				SetStateUi_tips_00(UI_TIPS_00_STATE_IN_CLEAR);
-				break;
-			}
-
-			if (GetUi_tips_00()->state == UI_TIPS_00_STATE_CLEAR)
-			{// UI:TIPS[00] の状態が消えている時、
-				SetMd_game_00State(MD_GAME_00_STATE_NORMAL);	// 状態を通常にする
-			}
-		}
-		break;
-	}
 	case /*/ チュートリアル[00] /*/MD_GAME_00_STATE_TUTORIAL_00: {
 		float	fRate	// カウンターの進行率
 				= (float)pMd->nCounterState / (float)MD_GAME_00_STATE_TUTORIAL_00_CAMERA3D_ZOOM_TIME;
@@ -776,8 +710,8 @@ void UpdateMd_game_00State(void)
 
 		if (GetFade() == FADE_IN) 
 		{// フェードイン状態の時、
-			// 状態をTIPS待ちに設定
-			SetMd_game_00State(MD_GAME_00_STATE_TIPS_WAIT);
+			// 状態を通常に設定
+			SetMd_game_00State(MD_GAME_00_STATE_NORMAL);
 
 			// カメラ(3D)の向きを設定
 			GetCamera3D()->rot = MD_GAME_00_CAMERA3D_INIT_ROT;
@@ -895,12 +829,13 @@ void InitMd_game_00(void)
 	InitUi_attentionMark_00();	// UI :注意マーク			[00]
 	InitObj_turret_00();		// OBJ:タレット				[00]
 	InitObj_switch_00();		// OBJ:スイッチ				[00]
-	InitObj_stage_00();			// OBJ:ステージ				[00]
+	InitObj_stage_00(MD_GAME_00_STAGE_TYPE);	// OBJ:ステージ				[00]
 	InitObj_target_00();		// OBJ:ターゲット			[00]
 	InitUi_inputGuid_00();		// UI :入力ガイド			[00]
 	InitUi_coinFrame_00();		// UI :コインフレーム		[00]
 	InitUi_damage_00();			// UI :ダメージ				[00]
 	InitUi_dialogBox_00();		// UI :ダイアログボックス	[00]
+	InitUi_frame_00();			// UI :フレーム				[00]
 	InitUi_hpBar_00();			// UI :HPバー				[00]
 	InitUi_hpBar_01();			// UI :HPバー				[01]
 	InitUi_inventory_00();		// UI :インベントリ			[00]
@@ -954,6 +889,7 @@ void UninitMd_game_00(void)
 	UninitUi_coinFrame_00();		// UI :コインフレーム		[00]
 	UninitUi_damage_00();			// UI :ダメージ				[00]
 	UninitUi_dialogBox_00();		// UI :ダイアログボックス	[00]
+	UninitUi_frame_00();			// UI :フレーム				[00]
 	UninitUi_hpBar_00();			// UI :HPバー				[00]
 	UninitUi_hpBar_01();			// UI :HPバー				[01]
 	UninitUi_inventory_00();		// UI :インベントリ			[00]
@@ -973,13 +909,13 @@ void UninitMd_game_00(void)
 //========================================
 void UpdateMd_game_00(void)
 {
+	UpdateUi_frame_00();				// UI :フレーム				[00]
 	UpdateUi_menu_00();					// UI :メニュー				[00]
 	if ((g_md_game_00.state != MD_GAME_00_STATE_PAUSE) &&
 		(g_md_game_00.state != MD_GAME_00_STATE_USERGUID) && 
 		(g_md_game_00.state != MD_GAME_00_STATE_SETTING) &&
 		(g_md_game_00.state != MD_GAME_00_STATE_RANKING) &&
-		(g_md_game_00.state != MD_GAME_00_STATE_RESULT) &&
-		(g_md_game_00.state != MD_GAME_00_STATE_TIPS_00))
+		(g_md_game_00.state != MD_GAME_00_STATE_RESULT))
 	{// 状態がポーズ/ユーザーガイド/設定/ランキング/リザルトで無い時、
 		// 更新処理
 		UpdateBg_mountain_00();			// BG :山					[00]
@@ -1083,6 +1019,7 @@ void DrawMd_game_00(void)
 		DrawUi_warningText_00();	// UI :注意テキスト			[00]
 		DrawUi_itemGuid_00();		// UI :商品説明				[00]
 	}
+	DrawUi_frame_00();				// UI :フレーム				[00]
 	if ((g_md_game_00.state != MD_GAME_00_STATE_PAUSE) &&
 		(g_md_game_00.state != MD_GAME_00_STATE_USERGUID) &&
 		(g_md_game_00.state != MD_GAME_00_STATE_SETTING) &&

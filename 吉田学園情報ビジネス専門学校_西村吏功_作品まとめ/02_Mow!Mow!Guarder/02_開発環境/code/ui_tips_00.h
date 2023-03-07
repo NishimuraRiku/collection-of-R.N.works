@@ -32,14 +32,14 @@ typedef enum
 // UI:TIPS[00] の情報構造体
 typedef struct
 {
-	int					nStep;				// ステップ
-	bool				bStepViewAll;		// ステップを全て閲覧したフラグ
-	bool				bStepViewAllOld;	// ステップを全て閲覧したフラグ(過去)
-	UI_TIPS_00_STATE	state;				// 状態
-	int					nCounterState;		// 状態カウンター
-	float				fAlpha;				// 全体の透明度
-	Scale				scale;				// 拡大倍率
-	D3DXVECTOR3			pos;				// 位置
+	int nType;				// 種類
+	int nStep;				// ステップ
+	bool bStepViewAll;		// ステップを全て閲覧したフラグ
+	bool bStepViewAllOld;	// ステップを全て閲覧したフラグ(過去)
+	UI_TIPS_00_STATE state;	// 状態
+	int nCounterState;		// 状態カウンター
+	float fAlpha;			// 全体の透明度
+	Scale scale;			// 拡大倍率
 }Ui_tips_00;
 
 //****************************************
@@ -62,6 +62,6 @@ void DrawUi_tips_00(void);
 // UI:TIPS[00] の状態設定処理
 void SetStateUi_tips_00(UI_TIPS_00_STATE state);
 // UI:TIPS[00] の設定処理
-void SetUi_tips_00(D3DXVECTOR3 pos);
+void SetUi_tips_00(int nType);
 
 #endif

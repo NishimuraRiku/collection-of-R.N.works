@@ -14,33 +14,55 @@
 #include "text.h"
 #include "ui_tips_00.h"	// UI :TIPS	[00]
 
+#include "obj_stage_00.h"
+#include "obj_turret_00.h"
+#include "obj_discharger_00.h"
+#include "chr_enemy_00.h"
+#include "chr_player_00.h"
+
+#include "ui_menu_00.h"
+
+#include "md_tutorial_00.h"
+
 //****************************************
 // マクロ定義
 //****************************************
+// UI:TIPS[00] の種類の最大数
+#define UI_TIPS_00_TYPE_MAX (2)
 // UI:TIPS[00] の幅
+#define UI_TIPS_00_WIDTH (PIXEL*256)
 // UI:TIPS[00] の高さ
-#define UI_TIPS_00_WIDTH	(PIXEL*256)
-#define UI_TIPS_00_HEIGHT	(PIXEL*256)
-
+#define UI_TIPS_00_HEIGHT (PIXEL*256)
 // UI:TIPS[00] の出現にかかる時間
+#define UI_TIPS_00_IN_POP_TIME (10)
 // UI:TIPS[00] の消えるのにかかる時間
+#define UI_TIPS_00_IN_CLEAR_TIME (10)
 // UI:TIPS[00] の切り替えにかかる時間
-#define UI_TIPS_00_IN_POP_TIME		(10)
-#define UI_TIPS_00_IN_CLEAR_TIME	(10)
-#define UI_TIPS_00_SWITCH_TIME		(5)
-
+#define UI_TIPS_00_SWITCH_TIME (5)
 // UI:TIPS[00] の切り替え時の高さの下限
+#define UI_TIPS_00_SWITCH_HEIGHT_MIN (0.95f)
 // UI:TIPS[00] の切り替え時の高さの上限
-#define UI_TIPS_00_SWITCH_HEIGHT_MIN	(0.95f)
-#define UI_TIPS_00_SWITCH_HEIGHT_MAX	(1.0f)
-
+#define UI_TIPS_00_SWITCH_HEIGHT_MAX (1.0f)
 // UI:TIPS[00] の切り替えSE
+#define UI_TIPS_00_SWITCH_SE (SOUND_LABEL_SE_SWITCH_000)
 // UI:TIPS[00] の設定SE
-#define UI_TIPS_00_SWITCH_SE	(SOUND_LABEL_SE_SWITCH_000)
-#define UI_TIPS_00_SET_SE		(SOUND_LABEL_SE_DETERMINATION_001)
-
+#define UI_TIPS_00_SET_SE (SOUND_LABEL_SE_DETERMINATION_001)
 // UI:TIPS[00] のステップ最大数
-#define UI_TIPS_00_STEP_MAX	(3)
+#define UI_TIPS_00_STEP_MAX (2)
+// UI:TIPS[00] の位置
+#define UI_TIPS_00_POS D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT*0.5f,0.0f)
+// TIPSメニューの位置
+#define TIPS_MENU_POS D3DXVECTOR3(INSIDE_SCREEN_LEFTMOST+(PIXEL*80),BUFFER_HEIGHT-PIXEL*32,0.0f)
+
+//****************************************
+// 構造体の定義
+//****************************************
+// TIPSメニュー
+typedef enum
+{
+	TIPS_MENU_OK,	// OK
+	TIPS_MENU_MAX,
+}TIPS_MENU;
 
 //****************************************
 // プロトタイプ宣言
@@ -55,18 +77,35 @@ void KeyInputUi_tips_00(void);
 //****************************************
 // グローバル宣言
 //****************************************
-LPDIRECT3DTEXTURE9		g_aTextureUi_tips_00	// テクスチャへのポインタ
-						[UI_TIPS_00_STEP_MAX] = {};
-LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffUi_tips_00	// 頂点バッファへのポインタ
-						= NULL;
-Ui_tips_00				g_ui_tips_00;			// UI:TIPS[00] の情報
+// 頂点バッファへのポインタ
+LPDIRECT3DTEXTURE9 g_aTextureUi_tips_00[UI_TIPS_00_TYPE_MAX][UI_TIPS_00_STEP_MAX] = {};
+// 頂点バッファへのポインタ
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffUi_tips_00 = NULL;
+Ui_tips_00 g_ui_tips_00;	// UI:TIPS[00] の情報
+
+// UI:TIPS[00] の種類毎のステップ数
+const int g_aStepNumUi_tips_00[UI_TIPS_00_TYPE_MAX] = {
+	2,
+	1,
+};
 
 // UI:TIPS[00] のステップ毎のテクスチャの相対パス
-const char c_aTexturePathUi_tips_00[UI_TIPS_00_STEP_MAX][TXT_MAX] =
+const char g_aTexturePathUi_tips_00[UI_TIPS_00_TYPE_MAX][UI_TIPS_00_STEP_MAX][TXT_MAX] =
 {
-	"data\\TEXTURE\\UserInterface\\ui_tips_000\\00.png",
-	"data\\TEXTURE\\UserInterface\\ui_tips_000\\01.png",
-	"data\\TEXTURE\\UserInterface\\ui_tips_000\\02.png",
+	{
+		"data\\TEXTURE\\UserInterface\\ui_tips_000\\00.png",
+		"data\\TEXTURE\\UserInterface\\ui_tips_000\\01.png",
+	},
+	{
+		"data\\TEXTURE\\UserInterface\\ui_tips_000\\02.png",
+	}
+};
+
+
+// TIPSメニュー設定情報
+Ui_menu_00Set g_aTipsMenuSet[TIPS_MENU_MAX] =
+{
+	{ UI_MENU_00_TYPE_NORMAL,"OK",true },
 };
 
 //========== *** UI:TIPS[00] の情報を取得 ***
@@ -95,6 +134,7 @@ void InitParameterUi_tips_00(void)
 	Ui_tips_00	*pUi	// UI:TIPS[00] の情報のポインタ 
 				= &g_ui_tips_00;
 
+	pUi->nType				= 0;						// 種類
 	pUi->nStep				= (ACTIVE_INPUT_TYPE)0;		// ステップ
 	pUi->bStepViewAll		= false;					// ステップを全て閲覧したフラグ
 	pUi->bStepViewAllOld	= false;					// ステップを全て閲覧したフラグ(過去)
@@ -102,7 +142,6 @@ void InitParameterUi_tips_00(void)
 	pUi->nCounterState		= 0;						// 状態カウンター
 	pUi->fAlpha				= 0.0f;						// 全体の透明度
 	pUi->scale				= { 1.0f,0.0f,0.0f };		// 拡大倍率
-	pUi->pos				= INITD3DXVECTOR3;			// 位置
 }
 
 //========================================
@@ -208,7 +247,7 @@ void KeyInputUi_tips_00(void)
 			int nStep = pUi->nStep;
 			int nStepTemp = nStep;
 			nStep--;
-			IntControl(&nStep, UI_TIPS_00_STEP_MAX - 1, 0);
+			IntControl(&nStep, g_aStepNumUi_tips_00[pUi->nType] - 1, 0);
 			pUi->nStep	= (ACTIVE_INPUT_TYPE)nStep;
 			bStepSwitch = nStepTemp != nStep;	// ステップ切り替えフラグを設定する
 		}
@@ -221,12 +260,12 @@ void KeyInputUi_tips_00(void)
 			int nStep = pUi->nStep;
 			int nStepTemp = nStep;
 			nStep++;
-			IntControl(&nStep, UI_TIPS_00_STEP_MAX -1, 0);
+			IntControl(&nStep, g_aStepNumUi_tips_00[pUi->nType] -1, 0);
 			pUi->nStep	= (ACTIVE_INPUT_TYPE)nStep;
 			bStepSwitch = nStepTemp != nStep;	// ステップ切り替えフラグを設定する
 		}
 
-		if (pUi->nStep >= UI_TIPS_00_STEP_MAX - 1)
+		if (pUi->nStep >= g_aStepNumUi_tips_00[pUi->nType] - 1)
 		{// ステップがステップ数に達している時、
 			pUi->bStepViewAll = true;	// ステップを全て閲覧したフラグを真にする
 		}
@@ -274,9 +313,12 @@ void InitUi_tips_00(void)
 	g_pVtxBuffUi_tips_00->Lock(0, 0, (void**)&pVtx, 0);
 
 	// テクスチャの読み込み
-	for (int nCntStep = 0; nCntStep < UI_TIPS_00_STEP_MAX; nCntStep++)
+	for (int nCntType = 0; nCntType < UI_TIPS_00_TYPE_MAX; nCntType++)
 	{
-		D3DXCreateTextureFromFile(pDevice, c_aTexturePathUi_tips_00[nCntStep], &g_aTextureUi_tips_00[nCntStep]);
+		for (int nCntStep = 0; nCntStep < UI_TIPS_00_STEP_MAX; nCntStep++)
+		{
+			D3DXCreateTextureFromFile(pDevice, g_aTexturePathUi_tips_00[nCntType][nCntStep], &g_aTextureUi_tips_00[nCntType][nCntStep]);
+		}
 	}
 
 	// 頂点座標を設定
@@ -307,12 +349,15 @@ void InitUi_tips_00(void)
 void UninitUi_tips_00(void)
 {
 	// テクスチャの破棄
-	for (int nCntStep = 0; nCntStep < UI_TIPS_00_STEP_MAX; nCntStep++)
+	for (int nCntType = 0; nCntType < UI_TIPS_00_TYPE_MAX; nCntType++)
 	{
-		if (g_aTextureUi_tips_00[nCntStep] != NULL)
+		for (int nCntStep = 0; nCntStep < UI_TIPS_00_STEP_MAX; nCntStep++)
 		{
-			g_aTextureUi_tips_00[nCntStep]->Release();
-			g_aTextureUi_tips_00[nCntStep] = NULL;
+			if (g_aTextureUi_tips_00[nCntType][nCntStep] != NULL)
+			{
+				g_aTextureUi_tips_00[nCntType][nCntStep]->Release();
+				g_aTextureUi_tips_00[nCntType][nCntStep] = NULL;
+			}
 		}
 	}
 
@@ -335,7 +380,37 @@ void UpdateUi_tips_00(void)
 	g_pVtxBuffUi_tips_00->Lock(0, 0, (void**)&pVtx, 0);
 
 	Ui_tips_00	*pUi	// UI:TIPS[00] の情報のポインタ
-					= &g_ui_tips_00;
+				= &g_ui_tips_00;
+
+	if (!g_ui_tips_00.bStepViewAllOld && g_ui_tips_00.bStepViewAll)
+	{// 切替取得時、
+		// UI:メニュー[00] の中心座標を設定
+		SetUi_menu_00Pos(TIPS_MENU_POS);
+
+		// UI:メニュー[00] の設定処理(ユーザーガイドメニュー)
+		SetUi_menu_00(
+			g_aTipsMenuSet,
+			TIPS_MENU_MAX);
+	}
+
+	if (pUi->bStepViewAll)
+	{// ステップを全て閲覧したフラグが真の時、
+		// TIPSメニューの選択処理
+		switch (Ui_menu_00Input(UI_MENU_00_INPUT_MODE_UP_AND_DOWN))
+		{
+		case /*/ OK /*/TIPS_MENU_OK:
+			// UI:TIPS[00] の状態を消え中にする
+			SetStateUi_tips_00(UI_TIPS_00_STATE_IN_CLEAR);
+			break;
+		}
+
+		if (GetUi_tips_00()->state == UI_TIPS_00_STATE_CLEAR)
+		{// UI:TIPS[00] の状態が消えている時、
+			// チュートリアルの状態を通常にする
+			SetMd_tutorial_00State(MD_TUTORIAL_00_STATE_NORMAL);
+			pUi->bStepViewAll = false;	// ステップを全て閲覧したフラグを偽にする
+		}
+	}
 
 	// 状態処理
 	StateProcessUi_tips_00();
@@ -345,7 +420,7 @@ void UpdateUi_tips_00(void)
 
 	// 頂点座標を設定
 	SetVertexPos2D(pVtx,
-		pUi->pos,
+		UI_TIPS_00_POS,
 		INITD3DXVECTOR3,
 		false,
 		UI_TIPS_00_WIDTH
@@ -384,7 +459,7 @@ void DrawUi_tips_00(void)
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
 	// テクスチャの設定
-	pDevice->SetTexture(0, g_aTextureUi_tips_00[pUi->nStep]);
+	pDevice->SetTexture(0, g_aTextureUi_tips_00[pUi->nType][pUi->nStep]);
 
 	// UI:TIPS[00] の描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
@@ -408,10 +483,10 @@ void SetStateUi_tips_00(UI_TIPS_00_STATE state)
 //========================================
 // SetUi_tips_00関数 - UI:TIPS[00] の設定処理 -
 //========================================
-void SetUi_tips_00(D3DXVECTOR3 pos)
+void SetUi_tips_00(int nType)
 {
-	Ui_tips_00	*pUi	// UI:TIPS[00] の情報のポインタ 
-				= &g_ui_tips_00;
+	// UI:TIPS[00] の情報のポインタ 
+	Ui_tips_00 *pUi = &g_ui_tips_00;
 
 	if (pUi->state != UI_TIPS_00_STATE_CLEAR)
 	{// 消えている状態でない時、
@@ -423,9 +498,12 @@ void SetUi_tips_00(D3DXVECTOR3 pos)
 	PlaySound(UI_TIPS_00_SET_SE);
 
 	pUi->nStep = 0;				// ステップを初期化
-	pUi->pos = pos;				// 位置を代入
+	pUi->nType = nType;			// 種類を代入
 	pUi->bStepViewAll = false;	// ステップを全て閲覧したフラグを偽にする
 
 	// 出現中の状態にする
 	SetStateUi_tips_00(UI_TIPS_00_STATE_IN_POP);
+
+	// チュートリアルの状態をTIPSにする
+	SetMd_tutorial_00State(MD_TUTORIAL_00_STATE_TIPS);
 }

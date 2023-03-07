@@ -84,6 +84,32 @@ TYPE
 TYPE_END
 #========================================
 #||||||||||||||||||||||||||||||||||||||||
+#=======================================#03
+TYPE
+	LIFE:		5
+	DAMAGE:		10
+	KNOCK_BACK:	3.0
+	ELEM:		0
+	SET_SE:		34
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			2
+				WIDTH:			16
+				HEIGHT:			0
+				DEPTH:			16
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
 #========================================
 
 END

@@ -80,11 +80,11 @@ void InitFade(MODE modeNext)
 
 	// í∏ì_ç¿ïWÇê›íË
 	SetVertexPos2D(pVtx,
-		D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f),
+		D3DXVECTOR3(BUFFER_WIDTH * 0.5f, BUFFER_HEIGHT * 0.5f, 0.0f),
 		D3DXVECTOR3(0, 0, 0),
 		false,
-		SCREEN_WIDTH,
-		SCREEN_HEIGHT,
+		BUFFER_WIDTH,
+		BUFFER_HEIGHT,
 		ANGLE_TYPE_FIXED);
 
 	// rhwÇÃê›íË

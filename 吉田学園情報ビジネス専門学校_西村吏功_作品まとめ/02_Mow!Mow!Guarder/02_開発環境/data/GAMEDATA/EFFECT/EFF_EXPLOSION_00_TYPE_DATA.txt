@@ -16,6 +16,7 @@ TYPE
 	PTN_MAX:		3
 	ANIM_TIME:		5
 	LIFE:			20
+	PARTICLE_TYPE:	-1
 	VIBRATION:		0.0
 	SET_SE:			8
 TYPE_END
@@ -31,6 +32,7 @@ TYPE
 	PTN_MAX:		7
 	ANIM_TIME:		4
 	LIFE:			32
+	PARTICLE_TYPE:	3
 	VIBRATION:		2.0
 	SET_SE:			7
 TYPE_END
@@ -46,8 +48,41 @@ TYPE
 	PTN_MAX:		7
 	ANIM_TIME:		4
 	LIFE:			32
+	PARTICLE_TYPE:	3
 	VIBRATION:		32.0
 	SET_SE:			13
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#03
+TYPE
+	WIDTH:			32.0
+	HEIGHT:			32.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_explosion_003.png
+	PTN_WIDTH:		4
+	PTN_HEIGHT:		1
+	PTN_MAX:		3
+	ANIM_TIME:		4
+	LIFE:			16
+	PARTICLE_TYPE:	3
+	VIBRATION:		4.0
+	SET_SE:			43
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#04
+TYPE
+	WIDTH:			8.0
+	HEIGHT:			8.0
+	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_explosion_004.png
+	PTN_WIDTH:		4
+	PTN_HEIGHT:		1
+	PTN_MAX:		3
+	ANIM_TIME:		4
+	LIFE:			16
+	PARTICLE_TYPE:	4
+	VIBRATION:		2.0
+	SET_SE:			44
 TYPE_END
 #========================================
 #||||||||||||||||||||||||||||||||||||||||
