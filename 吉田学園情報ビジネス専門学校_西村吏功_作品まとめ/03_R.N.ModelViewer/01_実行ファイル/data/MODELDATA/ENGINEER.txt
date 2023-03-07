@@ -1,0 +1,205 @@
+TYPE	#00
+	
+	PARTSSET	#部品設定情報
+		SCALE:	1.0
+		
+		PARTS	#00体
+			MODEL_PATH:			data\\MODEL\\Character\\engineer_000\\body_x0.1.x
+			PARENT:				-1
+			RELATIVE_POS:		0.0 1.0 0.0
+			RELATIVE_ROT:		0.0 0.0 0.0
+			ROT_RELATIVE_ROT:	0.0 0.0 0,0
+		PARTS_END
+		
+		PARTS	#01左足
+			MODEL_PATH:			data\\MODEL\\Character\\engineer_000\\left-foot_x0.1.x
+			PARENT:				0
+			RELATIVE_POS:		-1.25 0.0 0.0
+			RELATIVE_ROT:		0.0 0.0 0.0
+			ROT_RELATIVE_ROT:	0.0 0.0 0.0
+		PARTS_END
+		
+		PARTS	#02右足
+			MODEL_PATH:			data\\MODEL\\Character\\engineer_000\\right-foot_x0.1.x
+			PARENT:				0
+			RELATIVE_POS:		1.25 0.0 0.0
+			RELATIVE_ROT:		0.0 0.0 0.0
+			ROT_RELATIVE_ROT:	0.0 0.0 0.0
+		PARTS_END
+		
+		PARTS	#03左手
+			MODEL_PATH:			data\\MODEL\\Character\\engineer_000\\left-hand_x0.1.x
+			PARENT:				0
+			RELATIVE_POS:		-2.0 1.75 0.0
+			RELATIVE_ROT:		0.0 0.0 0.25
+			ROT_RELATIVE_ROT:	0.0 0.0 0.0
+		PARTS_END
+		
+		PARTS	#04右手
+			MODEL_PATH:			data\\MODEL\\Character\\engineer_000\\right-hand_x0.1.x
+			PARENT:				0
+			RELATIVE_POS:		2.0 1.75 0.0
+			RELATIVE_ROT:		0.0 0.0 -0.25
+			ROT_RELATIVE_ROT:	0.0 0.0 0.0
+		PARTS_END
+		
+	PARTSSET_END
+	
+	HITTESTSET	#当たり判定設定情報
+		
+		HITTEST	#00==========通常==========
+			
+			HITTEST_PARTS
+				FORM:			2
+				PARENT:			-1
+				WIDTH:			6.0
+				HEIGHT:			8.0
+				DEPTH:			6.0
+				RELATIVE_POS:	0.0 4.0 0.0
+				RELATIVE_ROT:	0.0 0.0 0.0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS
+				FORM:			1
+				PARENT:			3
+				WIDTH:			3.0
+				HEIGHT:			1.0
+				DEPTH:			3.0
+				RELATIVE_POS:	-1.0 0.0 0.0
+				RELATIVE_ROT:	0.0 0.0 0.0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+			HITTEST_PARTS
+				FORM:			1
+				PARENT:			4
+				WIDTH:			3.5
+				HEIGHT:			1.0
+				DEPTH:			3.0
+				RELATIVE_POS:	1.0 0.0 0.0
+				RELATIVE_ROT:	0.0 0.0 0.0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+			
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+	MOTIONSET	#モーション設定情報
+		
+		MOTION	#00==========待機==========
+			LOOP_TIME:	40
+			LOOP:		1
+			
+			PARTS	#00体
+				POSITION_ANIM
+					TIME 0	0.0 0.5 0.0 20
+					TIME 20	0.0 0.0 0.0 20
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0	0.0 0.0 0.0 20
+					TIME 20	0.02 0.0 0.0 20
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#01左足
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 0.05 -0.1 0.0 20
+					TIME 20 0.0 -0.1 0.0 20
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#02右足
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 0.05 0.1 0.0 20
+					TIME 20 0.0 0.1 0.0 20
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#03左手
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 0.0 0.0 0.1 20
+					TIME 20 0.0 0.0 0.0 20
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#04右手
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 0.0 0.0 -0.1 20
+					TIME 20 0.0 0.0 0.0 20
+				ROTATION_ANIM_END
+			PARTS_END
+			
+		MOTION_END
+		
+		MOTION	#01==========歩行==========
+			LOOP_TIME:	20
+			LOOP:		1
+			
+			PARTS	#00体
+				POSITION_ANIM
+					TIME 0	0.0 0.5 0.0 5
+					TIME 5	0.0 0.0 0.0 5
+					TIME 10	0.0 0.5 0.0 5
+					TIME 15	0.0 0.0 0.0 5
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 0.02 0 0 0
+					TIME 0 0.0 0 0 15
+					TIME 10 0.02 0 0 0
+					TIME 10 0.0 0 0 15
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#01左足
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 -0.1 0.0 0.0 10
+					TIME 10 0.1 0.0 0.0 10
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#02右足
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 0.1 0.0 0.0 10
+					TIME 10 -0.1 0.0 0.0 10
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#03左手
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 0.1 0.0 0.0 10
+					TIME 10 -0.1 0.0 0.0 10
+				ROTATION_ANIM_END
+			PARTS_END
+			
+			PARTS	#04右手
+				POSITION_ANIM
+				POSITION_ANIM_END
+				ROTATION_ANIM
+					TIME 0 -0.1 0.0 0.0 10
+					TIME 10 0.1 0.0 0.0 10
+				ROTATION_ANIM_END
+			PARTS_END
+			
+		MOTION_END
+		
+	MOTIONSET_END
+	
+TYPE_END
+
+END

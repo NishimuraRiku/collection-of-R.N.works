@@ -1,0 +1,55 @@
+#========================================
+#
+# OBJ:ä≈î¬[00] ÇÃéÌóﬁñàÇÃèÓïÒ
+#
+# Author: êºë∫ óôå˜
+#
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#00
+TYPE
+	MODEL_PATH:	data\\MODEL\\Object\\obj_signboard_000\\body_x0.1.x
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			1
+				WIDTH:			8
+				HEIGHT:			0
+				DEPTH:			1
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#=======================================#01
+TYPE
+	MODEL_PATH:	data\\MODEL\\Object\\obj_signboard_000\\body_x0.1.x
+	
+	HITTESTSET	#ìñÇΩÇËîªíËê›íËèÓïÒ
+		
+		HITTEST	#00 í èÌ
+			HITTEST_PARTS
+				TYPE:			1
+				WIDTH:			8
+				HEIGHT:			0
+				DEPTH:			1
+				RELATIVE_POS:	0 0 0
+				GHOST:			0 0 0 0 0 0
+			HITTEST_PARTS_END
+		HITTEST_END
+		
+	HITTESTSET_END
+	
+TYPE_END
+#========================================
+#||||||||||||||||||||||||||||||||||||||||
+#========================================
+
+END
