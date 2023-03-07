@@ -18,6 +18,8 @@
 #define HITTESTLINE_MAX (1024)
 // 当たり判定の色
 #define HITTEST_COLOR Color{255,0,0,255}
+// 当たり判定の円の分割数
+#define HITTEST_CIRCLE_DIVISION (8)
 
 //****************************************
 // 構造体の定義
@@ -33,6 +35,7 @@ typedef struct
 	D3DXVECTOR3 rot;				// 向き
 	bool aGhost[HITDIRECTION_MAX];	// すり抜け情報
 }HitTestDraw;
+
 // 物理関連処理の管理情報構造体
 typedef struct
 {
@@ -257,7 +260,7 @@ void LoadHitTestSet(FILE *pFile, HitTestSet *pHitTestSet)
 						if (!strcmp(aDataSearch, "HITTEST_PARTS_END")) 
 						{
 							pHitTestSet->aHitTest[pHitTestSet->nHitTestNum].nHitTestPartsNum++;	// 当たり判定の部品数を加算
-							break;																// 読み込みを終了
+							break;	// 読み込みを終了
 						}
 						else if (!strcmp(aDataSearch, "FORM:"))
 						{// 当たり判定の形 
@@ -411,34 +414,19 @@ void DrawHitTestSetUp(void)
 			// 当たり判定の部品情報のポインタ
 			HitTestParts *pParts = &pDrawHitTest->pHitTest->aHitTestParts[nCntMyParts];
 
-			// 描画する当たり判定情報
-			HitTestDraw hitTestDraw = {
-				pParts->hitTestForm,	// 当たり判定の形
-				pParts->fWidth,			// 幅
-				pParts->fHeight,		// 高さ
-				pParts->fDepth,			// 奥行き
-				INITD3DXVECTOR3,		// 位置
-				INITD3DXVECTOR3,		// 向き
-				NULL,					// すり抜け情報
-			};
-			
-			for (int nCntDir = 0; nCntDir < HITDIRECTION_MAX; nCntDir++) 
-			{
-				hitTestDraw.aGhost[nCntDir] = pParts->aGhost[nCntDir];
-			}
-
 			// 親パーツのマトリックス
 			D3DXMATRIX mtxParent =
 				pParts->nParent == -1 ?
-				ConvPosRotToMatrix(*pDrawHitTest->pPos, *pDrawHitTest->pRot) :
+				ConvPosRotToMatrix(*pDrawHitTest->pPos, *pDrawHitTest->pRot):
 				GetMatrixParts3D(pParts->nParent, *pDrawHitTest->pPos, *pDrawHitTest->pRot, pDrawHitTest->pPartsInfo, pDrawHitTest->pPartsSet);
 
 			// 当たり判定のマトリックス
 			D3DXMATRIX mtxHitTest = ConvPosRotToMatrix(pParts->fixedRelativePos, pParts->fixedRelativeRot);
 
-			// 位置と向きを親パーツのマトリックスを掛け合わせたマトリックスから分解して得る
-			hitTestDraw.pos = ConvMatrixToPos(MultiplyMatrix(mtxParent, mtxHitTest));
-			hitTestDraw.rot = ConvMatrixToRot(MultiplyMatrix(mtxParent, mtxHitTest));
+			if (pParts->nParent == -1) 
+			{
+				mtxHitTest *= pDrawHitTest->pPartsSet->fScale;
+			}
 
 			switch (pParts->hitTestForm)
 			{
@@ -460,15 +448,20 @@ void DrawHitTestSetUp(void)
 					D3DXVECTOR3( 1,-1,-1)
 				};
 
+				// 部品の幅/高さ/奥行きを反映
 				for (int nCntVtx = 0; nCntVtx < l_MAX; nCntVtx++)
 				{
 					aPos[nCntVtx] *= 0.5f;
 					aPos[nCntVtx].x *= pParts->fWidth;
 					aPos[nCntVtx].y *= pParts->fHeight;
 					aPos[nCntVtx].z *= pParts->fDepth;
-					aPos[nCntVtx] = ConvMatrixToPos(MultiplyMatrix(
-						MultiplyMatrix(mtxParent, mtxHitTest),
-						ConvPosRotToMatrix(aPos[nCntVtx], INITD3DXVECTOR3)));
+
+					// 位置を親のマトリックスを反映させた上で再設定
+					aPos[nCntVtx] =
+						ConvMatrixToPos(
+							MultiplyMatrix(
+								MultiplyMatrix(mtxParent, mtxHitTest),
+								ConvPosRotToMatrix(aPos[nCntVtx], INITD3DXVECTOR3)));
 				}
 
 				// 上の辺
@@ -487,7 +480,66 @@ void DrawHitTestSetUp(void)
 				SetHitTestLine(aPos[l_C1], aPos[l_C2]);
 				SetHitTestLine(aPos[l_D1], aPos[l_D2]);
 
-				break; }
+				break; 
+			}// HIT_TEST_FORM_SQUARE
+			case HIT_TEST_FORM_CYLINDER: {
+				enum { l_SIRCLE_UPPER, l_SIRCLE_BOTTOM, l_SIRCLE_MAX };
+				D3DXVECTOR3 aCirclePos[l_SIRCLE_MAX][HITTEST_CIRCLE_DIVISION];
+
+				for (int nCntCircle = 0; nCntCircle < l_SIRCLE_MAX; nCntCircle++)
+				{
+					for (int nCntDiv = 0; nCntDiv < HITTEST_CIRCLE_DIVISION; nCntDiv++)
+					{
+						// 円のカウントに応じたY座標を設定
+						switch (nCntCircle)
+						{
+						case l_SIRCLE_UPPER:
+							aCirclePos[nCntCircle][nCntDiv].y = 1;
+							break;
+						case l_SIRCLE_BOTTOM:
+							aCirclePos[nCntCircle][nCntDiv].y = -1;
+							break;
+						}
+
+						// 分割カウントに応じてXZ座標を設定
+						aCirclePos[nCntCircle][nCntDiv].x = sinf(nCntDiv * ((D3DX_PI * 2) / (float)HITTEST_CIRCLE_DIVISION));
+						aCirclePos[nCntCircle][nCntDiv].z = cosf(nCntDiv * ((D3DX_PI * 2) / (float)HITTEST_CIRCLE_DIVISION));
+
+						// 部品の幅/高さ/奥行きを反映
+						aCirclePos[nCntCircle][nCntDiv] *= 0.5f;
+						aCirclePos[nCntCircle][nCntDiv].x *= pParts->fWidth;
+						aCirclePos[nCntCircle][nCntDiv].y *= pParts->fHeight;
+						aCirclePos[nCntCircle][nCntDiv].z *= pParts->fDepth;
+
+						// 位置を親のマトリックスを反映させた上で再設定
+						aCirclePos[nCntCircle][nCntDiv] =
+							ConvMatrixToPos(
+								MultiplyMatrix(
+									MultiplyMatrix(mtxParent, mtxHitTest),
+									ConvPosRotToMatrix(aCirclePos[nCntCircle][nCntDiv], INITD3DXVECTOR3)));
+					}
+				}
+
+				for (int nCntDiv = 0; nCntDiv < HITTEST_CIRCLE_DIVISION; nCntDiv++)
+				{
+					// 縦の辺
+					SetHitTestLine(
+						aCirclePos[l_SIRCLE_UPPER][nCntDiv],
+						aCirclePos[l_SIRCLE_BOTTOM][nCntDiv]);
+
+					// 上の周囲辺
+					SetHitTestLine(
+						aCirclePos[l_SIRCLE_UPPER][nCntDiv],
+						aCirclePos[l_SIRCLE_UPPER][(nCntDiv + 1) % HITTEST_CIRCLE_DIVISION]);
+
+					// 下の周囲辺
+					SetHitTestLine(
+						aCirclePos[l_SIRCLE_BOTTOM][nCntDiv],
+						aCirclePos[l_SIRCLE_BOTTOM][(nCntDiv + 1) % HITTEST_CIRCLE_DIVISION]);
+				}
+
+				break;
+			}// HIT_TEST_FORM_CYLINDER
 			}
 		}
 	}
@@ -585,9 +637,10 @@ float FindDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)
 {
 	float x = pos1.x - pos2.x;	// 平方根のX辺
 	float y = pos1.y - pos2.y;	// 平方根のY辺
+	float z = pos1.z - pos2.z;	// 平方根のZ辺
 
 	// 2点の距離を返す
-	return sqrtf((x * x) + (y * y));
+	return sqrtf((x * x) + (y * y) + (z * z));
 }
 
 //========================================
@@ -641,23 +694,24 @@ float FindAngleLookDown(D3DXVECTOR3 pos, D3DXVECTOR3 targetPos)
 //========================================
 D3DXVECTOR3 FindIntersectionPointLookDown(D3DXVECTOR3 posA1, D3DXVECTOR3 posA2, D3DXVECTOR3 posB1, D3DXVECTOR3 posB2)
 {
-	float fVecA1 = FindDistanceLookDown(posA2, posA1);	// ベクトルa1
-	float fVecA2 = FindDistanceLookDown(posB1, posB2);	// ベクトルa2
-	float fVecB1 = FindDistanceLookDown(posA1, posB1);	// ベクトルb1
-	float fVecB2 = FindDistanceLookDown(posB2, posA1);	// ベクトルb2
+	D3DXVECTOR3 vB1B2 = posB2 - posB1;	// ベクトルB1⇒B2
+	D3DXVECTOR3 vA1A2 = posA2 - posA1;	// ベクトルA1⇒A2
+	D3DXVECTOR3 vA2B1 = posB1 - posA2;	// ベクトルA2⇒B1
+	D3DXVECTOR3 vB1A1 = posA1 - posB1;	// ベクトルB1⇒A1
 
-	float fAreaS1 = (	// 面積s1
-		((posA2.x - posA1.x) * (posB2.z - posA1.z)) -
-		((posA2.z - posA1.z) * (posB2.x - posA1.x))) * 0.5f;
-	float fAreaS2 = (	// 面積s2
-		((posA2.x - posA1.x) * (posA1.z - posB1.z)) -
-		((posA2.z - posA1.z) * (posA1.x - posB1.x))) * 0.5f;
+	// 面積S1
+	float fAreaS1 = ((vB1B2.x * vB1A1.z) - (vB1B2.z * vB1A1.x)) * 0.5f;
+	// 面積S2
+	float fAreaS2 = ((vB1B2.x * vA2B1.z) - (vB1B2.z * vA2B1.x)) * 0.5f;
+
+	// 面積S1の割合
+	float fRate = (fAreaS1 / (fAreaS1 + fAreaS2));
 
 	// 交点の座標を返す
 	return	D3DXVECTOR3(
-			posB2.x + (((posB1.x - posB2.x) * fAreaS1) / (fAreaS1 + fAreaS2)),
+			posA1.x + (vA1A2.x * fRate),
 			0.0f,
-			posB2.z + (((posB1.z - posB2.z) * fAreaS1) / (fAreaS1 + fAreaS2)));
+			posA1.z + (vA1A2.z * fRate));
 }
 
 //========================================

@@ -18,9 +18,6 @@
 //****************************************
 // マクロ定義
 //****************************************
-//========== *** 基本情報 ***
-// 初期のモデルの相対パス
-#define INITMODELDATA_PATH "data\\SAMPLE\\MODELDATA\\CHR_ENGINEER_000.txt"
 //========== *** 操作関連 ***
 //===== *** カメラ ***
 // カメラ(3D)のカーソルの回転力
@@ -150,6 +147,13 @@ void InputModelViewer(ModelViewer *pEdtr)
 		LoadModelDataModelViewer(pEdtr);
 	}
 
+	if (GetKeyboardTrigger(DIK_F5))
+	{// テキストファイルを開く
+		char command[TXT_MAX];
+		sprintf(command, "start /B %s", pEdtr->aNowFile);
+		system(command);
+	}
+
 	// カメラ操作
 	{
 		if (GetMousePress(MOUSEBUTTON_RIGHT))
@@ -205,13 +209,18 @@ void SetTextModelViewer(ModelViewer *pEdtr)
 			// 表示文字列設定
 			switch (nCntText)
 			{
-			case MODELVIEWER_TEXT_MODELTYPE:sprintf(aString, txt.aString,
-				pChr->nType, GetChr_modelControl()->nTypeNum - 1); break;
-			case MODELVIEWER_TEXT_MOTIONNUMBER:sprintf(aString, txt.aString,
-				pChr->nMotion, GetChr_modelType()[pChr->nType].motionSet.nMotionNum - 1); break;
-			case MODELVIEWER_TEXT_MOTIONFRAME:sprintf(aString,
-				txt.aString, pChr->partsInfo.nCounterMotion, GetChr_modelType()[pChr->nType].motionSet.aMotion[pChr->nMotion].nLoopTime); break;
-			default:sprintf(aString, txt.aString); break;
+			case MODELVIEWER_TEXT_MODELTYPE:
+				sprintf(aString, txt.aString, pChr->nType, GetChr_modelControl()->nTypeNum - 1);;
+				break;
+			case MODELVIEWER_TEXT_MOTIONNUMBER:
+				sprintf(aString, txt.aString,pChr->nMotion, GetChr_modelType()[pChr->nType].motionSet.nMotionNum - 1);
+				break;
+			case MODELVIEWER_TEXT_MOTIONFRAME:
+				sprintf(aString, txt.aString, pChr->partsInfo.nCounterMotion, GetChr_modelType()[pChr->nType].motionSet.aMotion[pChr->nMotion].nLoopTime);
+				break;
+			default:
+				sprintf(aString, txt.aString);
+				break;
 			}
 
 			SetText2D(aString, txt.nFont, txt.textDisp, txt.pos, INITCOLOR, txt.fScale, txt.fScale);
@@ -238,10 +247,6 @@ void LoadModelDataModelViewer(ModelViewer *pEdtr)
 		InitChr_model();
 		// 現在のファイル名を設定
 		sprintf(pEdtr->aNowFile, fileName);
-		// CHR:モデルのテキストファイルを開く
-		char command[TXT_MAX];
-		sprintf(command, "start /B %s", fileName);
-		system(command);
 	}
 }
 
@@ -307,28 +312,6 @@ void UpdateModelViewer(void)
 
 	// テキスト設定処理
 	SetTextModelViewer(pEdtr);
-}
-
-//============================================================
-//--------------------| *** 入出力 *** |----------------------
-//============================================================
-//========================================
-// InitLoadModelDataModelViewer関数 - モデルビューワのモデル情報の初期読み込み処理 -
-// Author:RIKU NISHIMURA
-//========================================
-void InitLoadModelDataModelViewer(void)
-{
-	// モデルビューワの情報のポインタ
-	ModelViewer *pEdtr = &g_modelViewer3D;
-
-	// CHR:モデルの読み込み処理
-	LoadChr_model(INITMODELDATA_PATH);
-	// 現在のファイル名を設定
-	sprintf(pEdtr->aNowFile, INITMODELDATA_PATH);
-	// CHR:モデルのテキストファイルを開く
-	char command[TXT_MAX];
-	sprintf(command, "start /B %s", INITMODELDATA_PATH);
-	system(command);
 }
 
 //============================================================

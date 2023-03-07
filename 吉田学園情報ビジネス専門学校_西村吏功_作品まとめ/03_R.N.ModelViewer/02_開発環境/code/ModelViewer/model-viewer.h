@@ -31,9 +31,6 @@ typedef struct
 void InitModelViewer(void);
 // モデルビューワの更新処理
 void UpdateModelViewer(void);
-//========== *** 入出力 ***
-// モデルビューワのモデル情報の初期読み込み処理
-void InitLoadModelDataModelViewer(void);
 //========== *** 取得 ***
 // モデルビューワのポインタを取得
 ModelViewer *GetModelViewer(void);

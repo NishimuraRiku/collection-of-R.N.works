@@ -132,9 +132,6 @@ void InitMd_main(void)
 
 	// ‰Šúó‘Ô‚ğİ’è
 	SetStateMd_main(INIT_STATE);
-
-	// ƒ‚ƒfƒ‹î•ñ‚Ì‰Šú“Ç‚İ‚İˆ—
-	InitLoadModelDataModelViewer();
 }
 
 //========================================

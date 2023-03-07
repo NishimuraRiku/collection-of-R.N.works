@@ -12,15 +12,15 @@
 #include <stdio.h>
 // _R.N.Lib
 #include "RNmain.h"
-#include "polygon3D.h"
+#include "model.h"
 
 //****************************************
 // マクロ定義
 //****************************************
 // 当たり判定の最大数
-#define HIT_TEST_MAX (16)
+#define HIT_TEST_MAX (4)
 // 当たり判定の部品の最大数
-#define HIT_TEST_PARTS_MAX (4)
+#define HIT_TEST_PARTS_MAX (16)
 
 //****************************************
 // 列挙型の定義
@@ -35,8 +35,9 @@ typedef enum
 // 当たり判定の形
 typedef enum
 {
-	HIT_TEST_FORM_CIRCLE,	// 円
+	HIT_TEST_FORM_SPHERE,	// 球
 	HIT_TEST_FORM_SQUARE,	// 四角
+	HIT_TEST_FORM_CYLINDER,	// 円筒
 	HIT_TEST_FORM_MAX,
 }HIT_TEST_FORM;
 //========== *** その他 ***

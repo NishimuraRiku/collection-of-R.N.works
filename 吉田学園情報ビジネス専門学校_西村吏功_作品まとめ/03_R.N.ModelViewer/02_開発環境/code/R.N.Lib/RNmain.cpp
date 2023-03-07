@@ -71,6 +71,7 @@ void RNInit(HINSTANCE hInstance)
 	InitLight();	// 光
 	InitObject3D();	// オブジェクト3D
 	InitPhysics();	// 物理関連
+	InitPolygon3D();// ポリゴン(3D)
 	InitSound(		// サウンド
 		*GetWindowHandle());
 	InitText();		// テキスト
@@ -104,6 +105,9 @@ void RNUpdate(void)
 	// 当たり判定の線の数を初期化
 	InitHitTestLineNum();
 
+	// 線(3D)の数を初期化
+	InitLine3DNum();
+
 	// モードに応じた更新処理
 	ModeUpdate(g_RNmain.mode);
 
@@ -124,13 +128,37 @@ void RNUpdate(void)
 //========================================
 void RNDraw(void)
 {
+	DrawObject3D();	// オブジェクト3D
+
 	// モードに応じた描画処理
 	ModeDraw(g_RNmain.mode);
 
-	DrawObject3D();	// オブジェクト3D
 	DrawHitTest();	// 当たり判定
 	DrawText_();	// テキスト
 	DrawFade();		// フェード
+	DrawPolygon3D();// ポリゴン(3D)
+}
+
+//========================================
+// RNWindowProc関数 - R.N.Libのウィンドウプロシージャの延長先 -
+// Author:RIKU NISHIMURA
+//========================================
+void RNWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_MOUSEWHEEL: // マウスホイールが回された時のメッセージ
+		if (HIWORD(wParam) == WHEEL_DELTA)
+		{// マウスホイールの回転状態を前回転に設定
+			GetInputInfo()->wheelSpin = WHEELSPIN_FRONT;
+		}
+		else
+		{// マウスホイールの回転状態を後回転に設定
+			GetInputInfo()->wheelSpin = WHEELSPIN_BACK;
+		}
+
+		break;
+	}
 }
 
 //============================================================
@@ -142,8 +170,8 @@ void RNDraw(void)
 //========================================
 void RNLoad(void)
 {
-	LoadFont();		// フォント
-	LoadObject3D();	// オブジェクト3D
+	LoadFont();			// フォント
+	LoadObject3DList();	// オブジェクト3Dリスト
 }
 
 //========================================

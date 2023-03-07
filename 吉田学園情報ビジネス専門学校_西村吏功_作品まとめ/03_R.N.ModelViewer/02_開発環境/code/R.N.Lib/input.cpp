@@ -12,56 +12,11 @@
 //****************************************
 // マクロ定義
 //****************************************
-//========== *** 基本情報 ***
-// キーの最大数
-#define NUM_KEY_MAX (256)
 //========== *** 調整パラメーター ***
 // リピートの間隔
 #define REPEATE_INTERVAL (160)
 // 振動の減算量
 #define VIBRATION_SUBTRACT (0.02f)
-
-//****************************************
-// 構造体の定義
-//****************************************
-// 入力情報構造体
-typedef struct 
-{
-	// キーボード関連
-	BYTE aKeyStatePress[NUM_KEY_MAX];		// キーボードのプレス情報
-	BYTE aKeyStateTrigger[NUM_KEY_MAX];		// キーボードのトリガー情報
-	BYTE aKeyStateRelease[NUM_KEY_MAX];		// キーボードのリリース情報
-	BYTE aKeyStateRepeat[NUM_KEY_MAX];		// キーボードのリピート情報
-	DWORD aKeyCurrentTime[NUM_KEY_MAX];		// キーボードの現在の時間
-	DWORD aKeyExecLastTime[NUM_KEY_MAX];	// キーボードの最後に真を返した時間
-	
-	// マウス関連
-	BYTE aMouseState[MOUSEBUTTON_MAX];			// マウスのプレス情報
-	BYTE aMouseStateTrigger[MOUSEBUTTON_MAX];	// マウスのトリガー情報
-	BYTE aMouseStateRelease[MOUSEBUTTON_MAX];	// マウスのリリース情報
-	BYTE aMouseStateRepeat[MOUSEBUTTON_MAX];	// マウスのリピート情報
-	DWORD aMouseCurrentTime[MOUSEBUTTON_MAX];	// マウスの現在の時間
-	DWORD aMouseExecLastTime[MOUSEBUTTON_MAX];	// マウスの最後に真を返した時間
-	D3DXVECTOR3 cursorPosTemp;					// カーソルの位置を保存
-	D3DXVECTOR3 cursorMove;						// カーソルの移動量
-
-	// コントローラー関連
-	bool aButtonPress[BUTTON_MAX];			// ボタンのプレス情報
-	bool aButtonTrigger[BUTTON_MAX];		// ボタンのトリガー情報
-	bool aButtonRelease[BUTTON_MAX];		// ボタンのリリース情報
-	bool aButtonRepeat[BUTTON_MAX];			// ボタンのリピート情報
-	DWORD aButtonCurrentTime[BUTTON_MAX];	// ボタンの現在の時間
-	DWORD aButtonExecLastTime[BUTTON_MAX];	// ボタンの最後に真を返した時間
-	StickInput stick;						// スティックの入力情報
-	// スティックの現在の時間
-	DWORD aStickCurrentTime[STICK_TYPE_MAX][STICK_ANGLE_MAX];
-	// スティックの最後に真を返した時間
-	DWORD aStickExecLastTime[STICK_TYPE_MAX][STICK_ANGLE_MAX];
-	int nCounterVibration;					// コントローラーの振動カウンター
-	int nCounterVibrationMax;				// コントローラーの振動カウンターの最大値を保存
-	float fVibration;						// 振動倍率
-	XINPUT_STATE xInputState;				// XInputの状態
-}InputInfo;
 
 //****************************************
 // プロトタイプ宣言
@@ -167,6 +122,7 @@ InputInfo InitParameterInputInfo(void)
 		{ 0 },						// マウスの最後に真を返した時間
 		GetCursorPosOnScreen(),		// カーソルの位置を保存
 		INITD3DXVECTOR3,			// カーソルの移動量
+		WHEELSPIN_NONE,				// マウスホイールの回転状態
 		{ false },					// ボタンのプレス情報
 		{ false },					// ボタンのトリガー情報
 		{ false },					// ボタンのリリース情報
@@ -595,11 +551,22 @@ void UpdateInput(void)
 	UpdateMouse();		// マウス
 	UpdateStick();		// スティック
 	UpdateVibration();	// コントローラーの振動
+
+	// マウスホイールの回転状態を無しに設定
+	g_inputInfo.wheelSpin = WHEELSPIN_NONE;
 }
 
 //============================================================
 //--------------------| *** 取得 *** |------------------------
 //============================================================
+//=======================================
+// GetInputInfo関数 - 入力情報を取得 -
+//=======================================
+InputInfo *GetInputInfo(void) 
+{
+	return &g_inputInfo;
+}
+
 //========================================
 // GetXInputState関数 - XInputの状態を取得 -
 // Author:RIKU NISHIMURA
@@ -732,6 +699,15 @@ bool GetMouseRepeat(int nMouse)
 bool GetMouseRelease(int nMouse)
 {
 	return g_inputInfo.aMouseStateRelease[nMouse];
+}
+
+//========================================
+// GetWheelSpin関数 - マウスホイールの回転状態を取得 -
+// Author:RIKU NISHIMURA
+//========================================
+WHEELSPIN GetWheelSpin(void) 
+{
+	return g_inputInfo.wheelSpin;
 }
 
 //============================================================

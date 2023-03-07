@@ -20,6 +20,7 @@
 #include "input.h"
 #include "light.h"
 #include "map-generator3D.h"
+#include "model.h"
 #include "object3D.h"
 #include "physics.h"
 #include "polygon2D.h"
@@ -49,6 +50,8 @@ void RNUninit(void);
 void RNUpdate(void);
 // 描画処理
 void RNDraw(void);
+// R.N.Libのウィンドウプロシージャの延長先
+void RNWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //========== *** 入出力 ***
 // 読み込み処理
 void RNLoad(void);

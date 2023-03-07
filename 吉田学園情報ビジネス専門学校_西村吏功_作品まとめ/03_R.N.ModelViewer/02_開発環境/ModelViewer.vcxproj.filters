@@ -73,11 +73,11 @@
     <Filter Include="ヘッダー ファイル\Item">
       <UniqueIdentifier>{8960ffa8-c8a8-4e3f-b3d0-c61af2427a77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\_R.N.Lib\Writable">
-      <UniqueIdentifier>{b9844ccd-98d8-45b8-84b7-49d0d17bc627}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\_R.N.Writable">
+      <UniqueIdentifier>{f0dbd6c5-412d-42ea-8be8-032e807771d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\_R.N.Lib\Writable">
-      <UniqueIdentifier>{b07a901b-462f-4edb-8494-84aaec2f5dc9}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\_R.N.Writable">
+      <UniqueIdentifier>{7ad5969e-0541-4a4d-9946-b72a414f26d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -144,9 +144,6 @@
     <ClCompile Include="code\ModelViewer\object.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="code\R.N.Writable\mode.cpp">
-      <Filter>ソース ファイル\_R.N.Lib\Writable</Filter>
-    </ClCompile>
     <ClCompile Include="code\ModelViewer\model-viewer.cpp">
       <Filter>ソース ファイル\Other</Filter>
     </ClCompile>
@@ -160,6 +157,12 @@
       <Filter>ソース ファイル\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="code\R.N.Lib\polygon2D.cpp">
+      <Filter>ソース ファイル\_R.N.Lib\Basis</Filter>
+    </ClCompile>
+    <ClCompile Include="code\R.N.Writable\mode.cpp">
+      <Filter>ソース ファイル\_R.N.Writable</Filter>
+    </ClCompile>
+    <ClCompile Include="code\R.N.Lib\model.cpp">
       <Filter>ソース ファイル\_R.N.Lib\Basis</Filter>
     </ClCompile>
   </ItemGroup>
@@ -224,14 +227,8 @@
     <ClInclude Include="code\ModelViewer\object.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="code\R.N.Writable\RNsetup.h">
-      <Filter>ヘッダー ファイル\_R.N.Lib\Writable</Filter>
-    </ClInclude>
     <ClInclude Include="code\R.N.Lib\RNmain.h">
       <Filter>ヘッダー ファイル\_R.N.Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="code\R.N.Writable\mode.h">
-      <Filter>ヘッダー ファイル\_R.N.Lib\Writable</Filter>
     </ClInclude>
     <ClInclude Include="code\ModelViewer\model-viewer.h">
       <Filter>ヘッダー ファイル\Other</Filter>
@@ -246,6 +243,15 @@
       <Filter>ヘッダー ファイル\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="code\R.N.Lib\polygon2D.h">
+      <Filter>ヘッダー ファイル\_R.N.Lib\Basis</Filter>
+    </ClInclude>
+    <ClInclude Include="code\R.N.Writable\mode.h">
+      <Filter>ヘッダー ファイル\_R.N.Writable</Filter>
+    </ClInclude>
+    <ClInclude Include="code\R.N.Writable\RNsetup.h">
+      <Filter>ヘッダー ファイル\_R.N.Writable</Filter>
+    </ClInclude>
+    <ClInclude Include="code\R.N.Lib\model.h">
       <Filter>ヘッダー ファイル\_R.N.Lib\Basis</Filter>
     </ClInclude>
   </ItemGroup>

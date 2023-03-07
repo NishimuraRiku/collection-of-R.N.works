@@ -170,6 +170,7 @@
     <ClCompile Include="code\R.N.Lib\input.cpp" />
     <ClCompile Include="code\R.N.Lib\light.cpp" />
     <ClCompile Include="code\R.N.Lib\map-generator3D.cpp" />
+    <ClCompile Include="code\R.N.Lib\model.cpp" />
     <ClCompile Include="code\R.N.Lib\object3D.cpp" />
     <ClCompile Include="code\R.N.Lib\physics.cpp" />
     <ClCompile Include="code\R.N.Lib\polygon2D.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="code\R.N.Lib\input.h" />
     <ClInclude Include="code\R.N.Lib\light.h" />
     <ClInclude Include="code\R.N.Lib\map-generator3D.h" />
+    <ClInclude Include="code\R.N.Lib\model.h" />
     <ClInclude Include="code\R.N.Lib\object3D.h" />
     <ClInclude Include="code\R.N.Lib\physics.h" />
     <ClInclude Include="code\R.N.Lib\polygon2D.h" />

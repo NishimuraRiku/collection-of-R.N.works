@@ -24,12 +24,13 @@ typedef struct
 	D3DXVECTOR3 rot;	// 向き
 	int nType;			// 種類
 }Obj3DSet;
+
 // マップ設定情報構造体
 typedef struct
 {
-	int nObj3DNum;		// オブジェクト3Dの設定数
-	Obj3DSet aObj3DSet	// オブジェクト3D設定情報
-			 [OBJECT3D_MAX];
+	// オブジェクト3D設定情報
+	Obj3DSet aObj3DSet[OBJECT3D_MAX];
+	int nObj3DNum;	// オブジェクト3Dの設定数
 }MapSet3D;
 
 //****************************************

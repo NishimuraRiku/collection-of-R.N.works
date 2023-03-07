@@ -45,6 +45,8 @@ bool Lottery(float fProb);
 float fRand(float fMax);
 // 整数型乱数を返す
 int Rand(int nMin, int nMax);
+// 値を間隔刻みで返す
+float Tick(float fData, float fSpace);
 // 与えられた値に応じて1か-1を返す
 int Sign(float fData);
 // 与えられた値が0以下の時は0を、0以上の時は値をそのまま返す

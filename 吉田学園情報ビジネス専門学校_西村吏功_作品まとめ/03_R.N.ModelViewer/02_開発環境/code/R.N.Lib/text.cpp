@@ -247,7 +247,7 @@ void DrawText2D(void)
 Text3D InitParameterText3D(void)
 {
 	return{
-		"",					// 文字列
+		{},					// 文字列
 		0,					// フォント
 		INITD3DXVECTOR3,	// 位置
 		false,				// Zテストフラグ

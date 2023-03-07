@@ -10,7 +10,7 @@
 TYPE
 	LIFE:			60
 	MOVE_FORCE:		4.0
-	DAMAGE:			10
+	DAMAGE:			9
 	ELEM:			0
 	WIDTH:			8.0
 	HEIGHT:			8.0
@@ -156,10 +156,10 @@ TYPE_END
 #||||||||||||||||||||||||||||||||||||||||
 #=======================================#04
 TYPE
-	LIFE:			300
-	MOVE_FORCE:		0.5
+	LIFE:			120
+	MOVE_FORCE:		1.0
 	DAMAGE:			15
-	ELEM:			0
+	ELEM:			2
 	WIDTH:			8.0
 	HEIGHT:			8.0
 	TEXTURE_PATH:	data\\TEXTURE\\Effect\\eff_shot_003.png

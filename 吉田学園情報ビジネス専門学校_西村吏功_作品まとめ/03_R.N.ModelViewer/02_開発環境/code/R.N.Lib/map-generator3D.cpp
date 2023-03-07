@@ -78,8 +78,8 @@ MapSet3D *GetMapSet(void)
 MapSet3D InitParameterMapSet3D(void)
 {
 	MapSet3D mapSet = {
-		0,	// オブジェクト3Dの設定数
 		{},	// オブジェクト3D設定情報
+		0,	// オブジェクト3Dの設定数
 	};
 
 	// オブジェクト3D設定情報初期化

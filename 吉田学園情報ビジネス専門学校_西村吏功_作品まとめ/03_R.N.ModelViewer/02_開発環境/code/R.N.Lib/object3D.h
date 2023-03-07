@@ -19,7 +19,9 @@
 // マクロ定義
 //****************************************
 // オブジェクト3Dの最大数
-#define OBJECT3D_MAX (128)
+#define OBJECT3D_MAX (1024)
+// オブジェクト3Dの種類の最大数
+#define OBJECT3D_TYPE_MAX (64)
 
 //****************************************
 // 構造体の定義
@@ -32,7 +34,8 @@ typedef struct
 	D3DXVECTOR3 rot;	// 向き
 
 	// 分類関連
-	int nType;	// 種類
+	int nType;		// 種類
+	int nSubType;	// 種類の中の種類
 
 	// 状態関連
 	bool bUse;	// 使用されているフラグ
@@ -41,15 +44,21 @@ typedef struct
 	Parts3DInfo partsInfo;	// 部品管理
 	int	 nMotion;			// モーション
 }Object3D;
+
 // オブジェクト3Dの管理情報構造体
 typedef struct
 {
-	int nTypeNum;	// 種類数
+	// オブジェクト3Dの種類毎の種類数
+	int nObj3DSubTypeNum[OBJECT3D_TYPE_MAX];
+	// オブジェクト3Dのパス
+	char aObj3DPath[OBJECT3D_TYPE_MAX][TXT_MAX];
 }Object3DControl;
+
 // オブジェクト3Dの種類毎の情報構造体
 typedef struct
 {
 	Parts3DSet partsSet;	// 部品設定情報(3D)
+	HitTestSet hitTestSet;	// 当たり判定設定情報
 	Motion3DSet motionSet;	// モーション設定情報
 }Object3DType;
 
@@ -66,11 +75,11 @@ void UpdateObject3D(void);
 // オブジェクト3Dの描画処理
 void DrawObject3D(void);
 //========== *** 描画 ***
-// オブジェクト3Dの例外描画処理
-void ExcDrawObject3D(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nType, Color col);
+// オブジェクト3Dの表示描画処理
+void RenderObject3D(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nType, int nSubType, Color col);
 //========== *** 入出力 ***
-// オブジェクト3Dの読み込み処理
-void LoadObject3D(void);
+// オブジェクト3Dリストの読み込み処理
+void LoadObject3DList(void);
 //========== *** 取得 ***
 // オブジェクト3Dの情報を取得
 Object3D *GetObject3D(void);

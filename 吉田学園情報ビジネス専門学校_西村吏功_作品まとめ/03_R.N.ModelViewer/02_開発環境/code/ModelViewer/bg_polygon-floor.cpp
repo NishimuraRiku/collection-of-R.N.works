@@ -17,7 +17,7 @@
 // マクロ定義
 //****************************************
 // BG:ポリゴン床のテクスチャの相対パス
-#define BG_POLYGONFLOOR_TEXTURE_PATH "data\\SAMPLE\\TEXTURE\\BackGround\\bg_plaid-tile_000.png"
+#define BG_POLYGONFLOOR_TEXTURE_PATH "data\\APPDATA\\TEXTURE\\BackGround\\bg_plaid-tile_000.png"
 // BG:ポリゴン床の幅
 #define BG_POLYGONFLOOR_WIDTH (100.0f)
 // BG:ポリゴン床の高さ

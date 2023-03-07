@@ -131,9 +131,14 @@ void LoadModelSetChr_model(void)
 			for (int nCntMat = 0; nCntMat < (int)g_aNumMatChr_model[nCntType][nCntParts]; nCntMat++)
 			{
 				if (pMat[nCntMat].pTextureFilename != NULL)
-				{
+				{// ファイル名がNULLでない時、
 					// テクスチャの読み込み
 					D3DXCreateTextureFromFile(pDevice, pMat[nCntMat].pTextureFilename, &g_aTextureChr_model[nCntType][nCntParts][nCntMat]);
+				}
+				else 
+				{// ファイル名がNULLの時、
+					// テクスチャをNULL指定
+					g_aTextureChr_model[nCntType][nCntParts][nCntMat] = NULL;
 				}
 			}
 		}
@@ -153,7 +158,7 @@ Chr_model InitParameterChr_model(void)
 		CHR_MODEL_INIT_ROT,			// 向き
 		0,							// 種類
 		InitParameterParts3DInfo(),	// 部品管理
-		0,							// モーション
+		g_chr_model.nMotion,		// モーション
 	};
 }
 
@@ -194,6 +199,7 @@ void InitChr_model(void)
 		*pChrCtl = InitParameterChr_modelControl();
 		pChrCtl->bLoadModel ^= bTemp;
 	}
+	
 	// パラメーターの初期化
 	*pChr = InitParameterChr_model();
 
@@ -333,6 +339,12 @@ void DrawChr_model(void)
 
 		// 部品のワールドマトリックスの初期化
 		D3DXMatrixIdentity(&g_aMtxWorldChr_model[nCntParts]);
+
+		if (pPartsType->nParent == -1)
+		{// 親番号が-1の時、
+			// モデルのサイズを変更
+			D3DXMatrixScaling(&g_aMtxWorldChr_model[nCntParts], pType->partsSet.fScale, pType->partsSet.fScale, pType->partsSet.fScale);
+		}
 
 		// 部品の向きを反映
 		D3DXMatrixRotationYawPitchRoll(&mtxRot, pParts->rotResult.y, pParts->rotResult.x, pParts->rotResult.z);
