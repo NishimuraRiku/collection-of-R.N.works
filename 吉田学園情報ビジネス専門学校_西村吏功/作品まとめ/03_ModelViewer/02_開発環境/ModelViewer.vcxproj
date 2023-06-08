@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A102D4E4-BC12-49D7-9455-77211B5C337F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ModelViewer</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)</OutDir>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName)</TargetName>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(SolutionDir)\$(ProjectName).pdb</ProgramDatabaseFile>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <StackReserveSize>
+      </StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(SolutionDir)\$(ProjectName).pdb</ProgramDatabaseFile>
+      <FullProgramDatabaseFile>
+      </FullProgramDatabaseFile>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\_R.N.Lib\Basis\2D\polygon2D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Body\human3D-base.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Body\model-setup3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Body\motion3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Body\parts3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Body\parts3D_class.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Camera\camera3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Camera\camera3D_control.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Character\character3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Character\character3D_manager.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Draw\draw3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Draw\line3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Draw\material.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Draw\model.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Draw\polygon3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Object\text3D.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Space\fog.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\3D\Space\light.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Calculation\easing.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Calculation\geometry.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Calculation\matrix.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Calculation\number.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Graphic\text.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Graphic\texture.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\color.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\file.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\input.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\memory.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\physics.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\print.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\setting.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\sound.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\Basis\Other\window.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_crt-wgt.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_main.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="..\..\_R.N.Lib\R.N.Lib.cpp" />
+    <ClCompile Include="code\GameEditor\main.cpp" />
+    <ClCompile Include="code\GameEditor\Mode\mode_game-editor.cpp" />
+    <ClCompile Include="code\GameEditor\process.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\_R.N.Lib\Basis\2D\polygon2D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Body\human3D-base.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Body\model-setup3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Body\motion3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Body\parts3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Body\parts3D_class.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Camera\camera3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Camera\camera3D_control.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Character\character3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Character\character3D_manager.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Draw\draw3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Draw\line3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Draw\material.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Draw\model.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Draw\polygon3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Object\text3D.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Space\fog.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\3D\Space\light.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Calculation\easing.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Calculation\geometry.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Calculation\matrix.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Calculation\number.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Graphic\text.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Graphic\texture.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\color.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\file.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\input.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\memory.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\physics.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\print.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\setting.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\sound.h" />
+    <ClInclude Include="..\..\_R.N.Lib\Basis\Other\window.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imconfig.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imgui.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imgui_crt-wgt.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imgui_impl_dx9.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imgui_internal.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imgui_main.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imstb_textedit.h" />
+    <ClInclude Include="..\..\_R.N.Lib\ImGui\imstb_truetype.h" />
+    <ClInclude Include="..\..\_R.N.Lib\R.N.Lib.h" />
+    <ClInclude Include="..\..\_R.N.Lib\RNmain.h" />
+    <ClInclude Include="code\GameEditor\main.h" />
+    <ClInclude Include="code\GameEditor\Mode\mode_game-editor.h" />
+    <ClInclude Include="code\GameEditor\process.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
