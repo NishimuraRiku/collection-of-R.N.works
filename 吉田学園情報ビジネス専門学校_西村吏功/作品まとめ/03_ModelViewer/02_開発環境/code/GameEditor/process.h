@@ -32,9 +32,10 @@
 class CProcess {
 public:
 	//========== *** 関数宣言 ***
-	/* コンストラクタ */CProcess();
-	/* デストラクタ   */~CProcess();
-	/* メインループ   */int MainLoop(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR IpCmdLine, int nCmdShow);
+	/* コンストラクタ           */CProcess();
+	/* デストラクタ             */~CProcess();
+	/* メインループ             */int MainLoop(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR IpCmdLine, int nCmdShow);
+	/* FPSのカウンターを取得    */static int GetCountFPS(void) { return m_nCountFPS; }
 
 private:
 	//========== *** 列挙型定義 ***
@@ -58,8 +59,10 @@ private:
 	/* モードの設定処理         */void SetMode(MODE newMode);
 
 	//========== *** 変数定義 ***
-	int m_nCountFPS;	// FPSのカウンター
-	MODE m_mode;		// モード
+	MODE m_mode;	// モード
+
+	//========== *** 静的変数定義 ***
+	static int m_nCountFPS;	// FPSのカウンター
 
 	//========== *** モードインスタンス ***
 	Mode_GameEditor mode_gameEditor;

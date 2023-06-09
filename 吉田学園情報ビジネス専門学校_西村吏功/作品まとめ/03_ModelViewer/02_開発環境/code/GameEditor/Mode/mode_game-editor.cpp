@@ -170,7 +170,7 @@ void Mode_GameEditor::ImGuiSetGameEditor(void) {
 		do {
 			{//==========モード1==========
 				int nSelect = m_mode;
-				char *items[] = { u8"モデルエディット",u8"キャラクタエディット" };
+				char *items[] = { u8"モデルエディット" };
 				m_mode = (MODE)ImGui_crtWgt_combo(u8"モード1", &nSelect, items, ARRAY_SIZE(items));
 			}
 
@@ -183,11 +183,24 @@ void Mode_GameEditor::ImGuiSetGameEditor(void) {
 
 	/* 名前 */sprintf(winSet.aName, u8"基本情報");
 	/* 幅   */winSet.fWidth  = 320.0f;
-	/* 高さ */winSet.fHeight = SCREEN_HEIGHT * 0.25f;
+	/* 高さ */winSet.fHeight = SCREEN_HEIGHT * 0.4f;
 	/* 位置 */winSet.pos     = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	// ImGuiのウィンドウ設定処理
 	if (ImGui_SetWindow(winSet)) {
 		do {
+			{//===========カウント==========
+				static int nSec = 0;	// 秒カウント
+				static int nF = 0;		// フレームカウント
+
+				// フレームが60に達した時、秒カウントを加算
+				if (++nF == 60) {
+					nF = 0;
+					nSec++;
+				}
+
+				ImGui_crtWgt_text(CreateText(u8"FPS:%d (SEC:%d F:%d)", CProcess::GetCountFPS(), nSec, nF));
+			}
+
 			//--------------------モデル--------------------
 			ImGui_crtWgt_separatorText(u8"モデル");
 			
@@ -229,7 +242,7 @@ void Mode_GameEditor::ImGuiSetGameEditor_MODE00_MODELEDIT(void) {
 
 	{//==========モード2==========
 		int nSelect = m_mode00;
-		char *items[] = { u8"モデルセットアップ", u8"当たり判定作成", u8"モーション作成", u8"ヒューマンベース作成" };
+		char *items[] = { u8"モデルセットアップ", u8"当たり判定作成", u8"モーション作成" };
 		m_mode00 = (MODE00)ImGui_crtWgt_combo(u8"モード2", &nSelect, items, ARRAY_SIZE(items));
 	}
 
