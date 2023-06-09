@@ -170,13 +170,13 @@ void Mode_GameEditor::ImGuiSetGameEditor(void) {
 		do {
 			{//==========モード1==========
 				int nSelect = m_mode;
-				char *items[] = { u8"モデルエディット" };
+				char *items[] = { u8"モデルエディット",u8"キャラクタエディット" };
 				m_mode = (MODE)ImGui_crtWgt_combo(u8"モード1", &nSelect, items, ARRAY_SIZE(items));
 			}
 
 			// モードに応じた処理
 			switch (m_mode) {
-			case MODE_00_MODELEDIT:ImGuiSetGameEditor_MODE00_MODELEDIT(); break;
+			case MODE_00_MODELEDIT:ImGuiSetGameEditor_MODE00_MODELEDIT(); break;			
 			}
 		} while (!ImGui_EndWindow());
 	}
@@ -194,10 +194,14 @@ void Mode_GameEditor::ImGuiSetGameEditor(void) {
 			//===========フレーム==========
 			ImGui_crtWgt_text(CreateText(u8"フレーム %d / %d", m_parts3D.GetMotionCounter(), m_parts3D.GetMotionInfo().nLoopTime));
 
-			{//==========モーション再生==========
-				static bool bPlay = true;
-				ImGui_crtWgt_checkBox(u8"モーション再生", &bPlay);
-				m_parts3D.SetMotionStop(!bPlay);
+			//==========モーション再生==========
+			static bool bPlay = true;
+			ImGui_crtWgt_checkBox(u8"モーション再生", &bPlay);
+			m_parts3D.SetMotionStop(!bPlay);
+			
+			//==========コマ送り==========
+			if (!bPlay) {
+				m_bFrameByFrame = ImGui_crtWgt_button(u8"コマ送り");
 			}
 
 			//--------------------表示--------------------
@@ -225,7 +229,7 @@ void Mode_GameEditor::ImGuiSetGameEditor_MODE00_MODELEDIT(void) {
 
 	{//==========モード2==========
 		int nSelect = m_mode00;
-		char *items[] = { u8"モデルセットアップ", u8"当たり判定作成", u8"モーション作成" };
+		char *items[] = { u8"モデルセットアップ", u8"当たり判定作成", u8"モーション作成", u8"ヒューマンベース作成" };
 		m_mode00 = (MODE00)ImGui_crtWgt_combo(u8"モード2", &nSelect, items, ARRAY_SIZE(items));
 	}
 
@@ -325,11 +329,9 @@ void Mode_GameEditor::ImGuiSetGameEditor_MODE00_MODELEDIT(void) {
 			static int nEditHitTest = 0;	// 編集する当たり判定の番号
 			static int nEditParts   = 0;	// 編集する当たり判定の部品番号
 
-			//==========モデル読み込み==========
-			if (ImGui_crtWgt_button(u8"モデル読み込み")) { LoadModelDataGameEditor(); }
-
-			//==========モデル書き出し==========
-			if (ImGui_crtWgt_button(u8"モデル書き出し")) { SaveModelDataGameEditor(); }
+			//==========モデル読み込み/書き出し==========
+			if (ImGui_crtWgt_button(u8"モデルセットアップ読み込み")) { LoadModelDataGameEditor(); }
+			if (ImGui_crtWgt_button(u8"モデルセットアップ書き出し")) { SaveModelDataGameEditor(); }
 
 			//--------------------部品管理情報--------------------
 			ImGui_crtWgt_separatorText(u8"部品管理情報");
@@ -524,7 +526,7 @@ void Mode_GameEditor::ImGuiSetGameEditor_MODE00_MODELEDIT(void) {
 									aEaseText[(int)cmd.pData[4]]);
 							break;
 						case MOTION3D_COMMAND_LABEL_STEP:
-							sprintf(ppItems[nCntCmd], u8"%02d_TIME %d 踏む %d %d",
+							sprintf(ppItems[nCntCmd], u8"%02d_TIME %d 踏む >%d %d %d>",
 									nCntCmd,
 									pPartsMotion->pCommand[nCntCmd].nTime,
 									(int)cmd.pData[0],
@@ -653,6 +655,12 @@ void Mode_GameEditor::ImGuiSetGameEditor_MODE00_MODELEDIT(void) {
 								int nData = (int)pCmd->pData[1];
 								ImGui_crtWgt_inputInt(u8"合計時間", &nData);
 								pCmd->pData[1] = nData;
+							}
+
+							{//==========戻る時間==========
+								int nData = (int)pCmd->pData[2];
+								ImGui_crtWgt_inputInt(u8"戻る時間", &nData);
+								pCmd->pData[2] = nData;
 							}
 
 							break;
@@ -830,6 +838,7 @@ void Mode_GameEditor::Init(void) {
 		// 共通
 		m_bShowPartsIdx = true;					// 部品の番号表示
 		m_bShowHitTest  = true;					// 当たり判定表示フラグ
+		m_bFrameByFrame = false;				// コマ送りフラグ
 		m_mode          = MODE_00_MODELEDIT;	// モード
 
 		// モデルエディット
@@ -883,8 +892,19 @@ void Mode_GameEditor::Update(void) {
 	// 当たり判定の表示状態切り替え
 	ShowHitTest(m_bShowHitTest);
 
+	// コマ送りフラグが真の時、モーション停止解除
+	if (m_bFrameByFrame) {
+		m_parts3D.SetMotionStop(false);
+	}
+
 	// モードがモデルエディットの時、部品(3D)の更新処理
 	if (m_mode == MODE_00_MODELEDIT) { m_parts3D.Update(); }
+
+	// コマ送りフラグが真の時、モーション停止
+	if (m_bFrameByFrame) { 
+		m_parts3D.SetMotionStop(true); 
+		m_bFrameByFrame = false;
+	}
 
 	// ウィンドウのフォーカス状態に応じて背景色設定
 	SetBGColor(ImGui_GetWindowFocused() ? Color{ 0, 0, 0, 255 } : DEFAULTBGCOLOR);

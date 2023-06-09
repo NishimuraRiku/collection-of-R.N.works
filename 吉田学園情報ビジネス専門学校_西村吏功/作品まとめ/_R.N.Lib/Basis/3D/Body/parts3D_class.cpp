@@ -93,6 +93,8 @@ void CParts3D::ModelSetParts3D(Parts3DSet *pPartsSet) {
 			}
 		}
 
+		float fStepRate = 0.0f;	// 踏む割合
+
 		{//========== *** 向き(結果)を更新 ***
 			if (pParts->bStep) 
 			{// 踏むフラグが真の時、
@@ -100,8 +102,11 @@ void CParts3D::ModelSetParts3D(Parts3DSet *pPartsSet) {
 				if (nCounter > pParts->nRotAnimTime) {
 					nCounter = pParts->nRotAnimTime;
 				}
-				float fRate = Easing(EASE_LINEAR, nCounter, pParts->nRotAnimTime);
-				pParts->rot = (pParts->rotOld * (1.0f - fRate)) + (INITD3DXVECTOR3 * fRate);
+				int nCountorReset = pParts->nCounterRotAnim - (pParts->nStepTime - pParts->nStepResetTime);
+				if (nCountorReset < 0) {
+					nCountorReset = 0;
+				}
+				fStepRate = Easing(EASE_LINEAR, nCounter, pParts->nRotAnimTime) * (1.0f - Easing(EASE_LINEAR, nCountorReset, pParts->nStepResetTime));
 			}
 			else if (pParts->bRotAnim)
 			{// 向きアニメーションフラグが真の時、カウンターの進行率に応じて向きを更新
@@ -122,11 +127,11 @@ void CParts3D::ModelSetParts3D(Parts3DSet *pPartsSet) {
 				D3DXMatrixScaling(&pMtxParts[nCntParts], pPartsSet->fScale, pPartsSet->fScale, pPartsSet->fScale);
 			}
 
+			D3DXMATRIX mtxOvl = pMtxParts[nCntParts];	// 現状マトリックスを保存
+
 			// 部品の向きを反映
-			if (!pParts->bStep) {
-				D3DXMatrixRotationYawPitchRoll(&mtxRot, rotResult.y, rotResult.x, rotResult.z);
-				D3DXMatrixMultiply(&pMtxParts[nCntParts], &pMtxParts[nCntParts], &mtxRot);
-			}
+			D3DXMatrixRotationYawPitchRoll(&mtxRot, rotResult.y, rotResult.x, rotResult.z);
+			D3DXMatrixMultiply(&pMtxParts[nCntParts], &pMtxParts[nCntParts], &mtxRot);
 
 			// 部品の位置を反映
 			D3DXMatrixTranslation(&mtxTrans, posResult.x, posResult.y, posResult.z);
@@ -146,13 +151,20 @@ void CParts3D::ModelSetParts3D(Parts3DSet *pPartsSet) {
 				&mtxParent);
 
 			if (pParts->bStep) {
-				D3DXVECTOR3 pos = ConvMatrixToPos(pMtxParts[nCntParts]);
-				D3DXVECTOR3 rot = rotResult;
-				D3DXMATRIX mtxOld = pMtxParts[nCntParts];
-				pMtxParts[nCntParts] = ConvPosRotToMatrix(pos, rot);
-				pMtxParts[nCntParts]._11 = mtxOld._11;
-				pMtxParts[nCntParts]._22 = mtxOld._22;
-				pMtxParts[nCntParts]._33 = mtxOld._33;
+				// サイズを変更
+				D3DXMatrixScaling(&mtxOvl, pPartsSet->fScale, pPartsSet->fScale, pPartsSet->fScale);
+
+				// 本体の向きを反映
+				D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+				D3DXMatrixMultiply(&mtxOvl, &mtxOvl, &mtxRot);
+
+				// 部品の位置を代入
+				mtxOvl._41 = pMtxParts[nCntParts]._41;
+				mtxOvl._42 = pMtxParts[nCntParts]._42;
+				mtxOvl._43 = pMtxParts[nCntParts]._43;
+
+				// 割合でマトリックスを求める
+				pMtxParts[nCntParts] = (pMtxParts[nCntParts] * (1.0f - fStepRate)) + (mtxOvl * fStepRate);
 			}
 		}
 
@@ -428,13 +440,12 @@ void CParts3D::LoadMotionAnim3D(Motion3D motion, Parts3DSet partsSet) {
 			}
 			break;
 			case MOTION3D_COMMAND_LABEL_STEP: {
-				D3DXMatrixScaling(&pParts->mtx, 1.0f, 1.0f, 1.0f);
-				pParts->rotOld          = ConvMatrixToRot(pParts->mtx);	// 向きと元の向きを設定
 				pParts->nRotAnimTime    = (int)cmd.pData[0];	// 向きアニメーションにかかる時間を代入
 				pParts->nCounterRotAnim = 0;					// 向きアニメーションカウンターを初期化
 				pParts->bRotAnim        = false;				// 向きアニメーションフラグを偽にする
 				pParts->bStep           = true;					// 踏むフラグ真
 				pParts->nStepTime       = (int)cmd.pData[1];	// 踏む時間
+				pParts->nStepResetTime  = (int)cmd.pData[2];	// 踏む戻る時間
 			}
 			break;
 			default:

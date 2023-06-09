@@ -58,6 +58,7 @@ private:
 	//========== *** 変数宣言 ***
 	bool m_bShowPartsIdx;	// 部品の番号表示
 	bool m_bShowHitTest;	// 当たり判定表示フラグ
+	bool m_bFrameByFrame;	// コマ送りフラグ
 	MODE m_mode;			// モード
 
 	// モデルエディット

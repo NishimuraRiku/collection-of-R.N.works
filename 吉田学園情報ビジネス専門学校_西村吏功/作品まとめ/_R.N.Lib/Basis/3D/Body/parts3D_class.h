@@ -47,6 +47,7 @@ public:
 		// 踏む
 		bool bStep            = false;				// 踏むフラグ(向きアニメーション変数使用)
 		int nStepTime         = 0;					// 踏む時間
+		int nStepResetTime    = 0;					// 踏む戻る時間
 	}Parts3D;
 
 	//========== *** 関数宣言 ***

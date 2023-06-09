@@ -32,7 +32,7 @@ static Motion3D *g_pMotion3D;
 const Motion3DCommandInfo g_aMotionCommandInfo[MOTION3D_COMMAND_LABEL_MAX] = {
 	{ "MOVE",5 },	// ˆÚ“®
 	{ "SPIN",5 },	// ‰ñ“]
-	{ "STEP",2 },	// “¥‚Þ
+	{ "STEP",3 },	// “¥‚Þ
 };
 
 //================================================================================
@@ -228,8 +228,7 @@ void SaveMotion3D(char *pPath, int nMotionIdx)
 				for (int nCntCmd = 0; nCntCmd < pPartsMotion->nCommandNum; nCntCmd++) {
 					Motion3DCommand cmd = pPartsMotion->pCommand[nCntCmd];
 					fprintf(pFile, "		TIME %d ", cmd.nTime);
-					switch (cmd.command)
-					{
+					switch (cmd.command) {
 					case MOTION3D_COMMAND_LABEL_MOVE:
 						fprintf(pFile, "MOVE %f %f %f %d %d\n", cmd.pData[0], cmd.pData[1], cmd.pData[2], (int)cmd.pData[3], (int)cmd.pData[4]);
 						break;
@@ -237,7 +236,7 @@ void SaveMotion3D(char *pPath, int nMotionIdx)
 						fprintf(pFile, "SPIN %f %f %f %d %d\n", cmd.pData[0], cmd.pData[1], cmd.pData[2], (int)cmd.pData[3], (int)cmd.pData[4]);
 						break;
 					case MOTION3D_COMMAND_LABEL_STEP:
-						fprintf(pFile, "STEP %d %d\n", (int)cmd.pData[0], (int)cmd.pData[1]);
+						fprintf(pFile, "STEP %d %d %d\n", (int)cmd.pData[0], (int)cmd.pData[1], (int)cmd.pData[2]);
 						break;
 					default:
 						assert(false);
